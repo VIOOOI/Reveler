@@ -1,0 +1,36 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx --fix ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@unocss/preset-mini": "^0.48.0",
+    "@unocss/transformer-directives": "^0.47.6",
+    "@unocss/transformer-variant-group": "^0.47.6",
+    "@unocss/vite": "^0.48.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-import": "^2.26.0",
+    "sass": "^1.56.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.3",
+    "vite-aliases": "^0.10.0",
+    "vite-plugin-solid": "^2.5.0"
+  },
+  "dependencies": {
+    "@solid-primitives/event-listener": "^2.2.4",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "effector": "^22.4.0",
+    "effector-solid": "^0.22.6",
+    "solid-js": "^1.6.6",
+    "vite-svg-loader": "^3.6.0"
+  }
+}
