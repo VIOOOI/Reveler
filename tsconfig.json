@@ -20,6 +20,9 @@
 			"@stores/*": [ "./src/stores/*" ],
 			"@app/*": [ "./src/app/*" ],
 			"@tests/*": [ "./src/tests/*" ],
+			"@utils/*": [ "./src/utils/*" ],
+			"@types/*": [ "./src/types/*" ],
+			"@public/*": [ "./src/public/*" ],
 		},
 	}
 }

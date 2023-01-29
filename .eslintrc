@@ -5,7 +5,8 @@
 	},
 	"extends": [
 		"eslint:recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:effector/recommended"
 	],
 	"overrides": [
 	],
@@ -15,6 +16,7 @@
 		"sourceType": "module"
 	},
 	"plugins": [
+		"effector",
 		"@typescript-eslint",
 		"import"
 	],

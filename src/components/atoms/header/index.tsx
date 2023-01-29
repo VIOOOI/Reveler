@@ -1,27 +1,34 @@
-import { ParentComponent } from "solid-js";
+import { modelView } from "@utils/effector-factory";
+import { useUnit } from "effector-solid";
 
-type HeaderPropsType = {
-	color?: string,
-	url: string,
-}
+import { headerFactory } from "./model";
 
-export const Header: ParentComponent<HeaderPropsType> = ({ children, color = "#171717", url }) => {
+
+export const Header = modelView(headerFactory, () => {
+	const model = headerFactory.useModel();
+	const [ size, incrementSize ] = useUnit([ model.$size, model.incrementSize ]);
 	return (
-		<a 
-			href={url} 
-			class="no-underline"
+		<div
+			onClick={incrementSize}
+			class="flex-center "
 		>
 			<h1
-				class="
-					font-[Roboto]
-					text-5xl underline decoration-8 underline-offset-8
-					cursor-pointer
-				"
+				class={`
+					font-[Roboto] font-extrabold z-2
+					cursor-pointer select-none
+				`}
 				style={{
-					color: color,
+					color: model.color,
+					"font-size": `${50 + size()}px`,
 				}}
-			>{ children }</h1>
-		</a>
+			>{ model.name }</h1>
+			<h2
+				class=" font-[Roboto] text-neutral-100 absolute "
+				style={{
+					"font-size": `${120 + ( size() * 2 )}px`,
+				}}
+			>{ size() }</h2>
+		</div>
 	);
-};
+});
 

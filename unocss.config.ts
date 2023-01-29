@@ -22,5 +22,22 @@ export default defineConfig({
 		[ /^fz-(\d+?\.?\d+)$/, ([ , d ]) => ({
 			"font-size": `calc(var(--index) * ${d})`,
 		}) ],
+		[ /^i(.*)-(\d+?\.?\d+)$/, ([ , d, x ]) => {
+			const style = {};
+			style[d] = `calc(var(--index) * ${x})`;
+			return style;
+		} ],
+		[ /^area-(.*)$/, ([ , d ]) => ({
+			"grid-area": d,
+		}) ],
+		[ /^icols-(\d+)-(\d+)$/, ([ , start, end ]) => ({
+			"grid-column-start": `${start}`,
+			"grid-column-end": `${end}`,
+		}) ],
+
+		[ /^irows-(\d+)-(\d+)$/, ([ , start, end ]) => ({
+			"grid-row-start": `${start}`,
+			"grid-row-end": `${end}`,
+		}) ],
 	],
 });
