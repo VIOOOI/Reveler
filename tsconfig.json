@@ -17,12 +17,12 @@
 			"@organisms/*": [ "./src/components/organisms/*" ],
 			"@templates/*": [ "./src/components/templates/*" ],
 			"@pages/*": [ "./src/components/pages/*" ],
-			"@stores/*": [ "./src/stores/*" ],
+			"@store/*": [ "./src/stores/*" ],
 			"@app/*": [ "./src/app/*" ],
 			"@tests/*": [ "./src/tests/*" ],
 			"@utils/*": [ "./src/utils/*" ],
 			"@types/*": [ "./src/types/*" ],
-			"@public/*": [ "./src/public/*" ],
-		},
+			"@public/*": [ "./src/public/*" ]
+		}
 	}
 }
