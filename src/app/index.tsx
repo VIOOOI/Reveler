@@ -6,6 +6,8 @@ import { App, appRoute } from "@pages/app";
 import { NotFound } from "@pages/notFound";
 import { RevelerViewer, revelerViewerRoute } from "@pages/revelerViewer";
 
+import "./style.scss";
+
 import { router } from "./routing";
 
 const RouterView = createRoutesView({

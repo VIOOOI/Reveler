@@ -1,3 +1,4 @@
+import { Slide } from "@molecules/slide";
 import { modelView } from "@utils/effector-factory";
 import { useUnit } from "effector-solid";
 import { For, onMount } from "solid-js";
@@ -13,11 +14,8 @@ export const Row = modelView( rowFactory, () => {
 	return ( 
 		<div class="h-screen flex" >
 
-			<For each={slide().slides} >{ () =>
-				<div class="min-w-screen h-screen flex-col-center" >
-					<h1 class="font-[Roboto] text-6xl m-0 text-white" >Hello Reveler</h1>
-					<h2 class="font-[Roboto] text-4xl text-white" >Hello Reveler</h2>
-				</div>
+			<For each={slide().slides} >{ sl =>
+				<Slide slide={sl} />
 			}</For>
 
 		</div>
