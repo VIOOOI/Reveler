@@ -11,20 +11,26 @@ const defaultReveler: Reveler = {
 };
 
 export const openReveler = createEvent<Reveler>();
+
 export const nextRow = createEvent();
 export const prevRow = createEvent();
+export const leftSlide = createEvent();
+export const rightSlide = createEvent();
+
 export const getWindowSize = createEvent();
 
 
 export const $reveler = createStore<Reveler>(mokaReveler);
 const $currentSlide = createStore(0);
+const $currentRowSlide = createStore(0);
 
-export const $transform = createStore(0);
-const $windowSize = createStore({ width: 0, height: 0 });
+export const $transform = createStore({ x: 0, y: 0 });
+export const $windowSize = createStore({ width: 0, height: 0 });
 export const $background = createStore("#171717");
 
-$currentSlide.watch(source => console.log(source));
-$transform.watch( source => console.log(source));
+// $currentSlide.watch(source => console.log(source));
+// $currentRowSlide.watch(source => console.log(source));
+// $transformY.watch( source => console.log(source));
 
 
 /**
@@ -43,17 +49,42 @@ sample({
 });
 
 /**
+ * Переход на следующий слайд в группе если он не последний
+ */
+sample({
+	clock: rightSlide,
+	source: {
+		current: $currentRowSlide,
+		row: $currentSlide,
+		slider: $reveler,
+	},
+	filter: ({ current, row, slider }) => {
+		return current < slider.rows[row].slides.length - 1;
+	},
+	fn: source => source.current + 1,
+	target: $currentRowSlide,
+});
+
+/**
 	* Переход на предыдущий слайн и проверка, что мы не уйдем в минус
 	*/
 sample({
 	clock: prevRow,
-	source: {
-		current: $currentSlide,
-		slider: $reveler,
-	},
-	filter: source => source.current > 0,
-	fn: source => source.current - 1,
+	source: $currentSlide,
+	filter: source => source > 0,
+	fn: source => source - 1,
 	target: $currentSlide,
+});
+
+/**
+ * Переход на предыдущий слайд в группе если он не первый
+ */
+sample({
+	clock: leftSlide,
+	source: $currentRowSlide,
+	filter: source => source > 0,
+	fn: source => source - 1,
+	target: $currentRowSlide,
 });
 
 /**
@@ -66,7 +97,34 @@ sample({
 		current: $currentSlide,
 		window: $windowSize,
 	},
-	fn: source => source.window.height * source.current * -1,
+	fn: source => ({
+		x: 0,
+		y: source.window.height * source.current * -1,
+	}),
+	target: $transform,
+});
+
+sample({
+	clock: $currentSlide,
+	fn: () => 0,
+	target: $currentRowSlide,
+});
+
+/**
+ * Перерасчет положения слайдера при изменении главного слайда
+ * или размера окна
+ */
+sample({
+	clock: [ $currentRowSlide, $windowSize ],
+	source: {
+		current: $currentSlide,
+		currentRow: $currentRowSlide,
+		window: $windowSize,
+	},
+	fn: source => ({
+		x: source.window.width * source.currentRow * -1,
+		y: source.window.height * source.current * -1,
+	}),
 	target: $transform,
 });
 
@@ -81,3 +139,5 @@ sample({
 	}),
 	target: $windowSize,
 });
+
+

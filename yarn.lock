@@ -512,17 +512,17 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@solid-primitives/event-listener@^2.2.4":
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/@solid-primitives/event-listener/-/event-listener-2.2.5.tgz#383018f2485c757206a4eb3435d6a384d54eb298"
-  integrity sha512-oso8DYLQbHxkSneQIB/vxjigV/1sb0qJA7BJecBljjVMwTB2n+sMcK6BSPojwfMGFgPR+F8ZvBEZFb31sW5ANg==
+"@solid-primitives/event-listener@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@solid-primitives/event-listener/-/event-listener-2.2.6.tgz#d5a3ff4fc63bff46586cd1f1ca4ab7798f656d77"
+  integrity sha512-Lb2q888Apv8wqgZ3WvPlt8ic2rEmHx6QT8d3pgi+JRSIRNwAysE6PZDmbwT6/hzzP1TIQG0IRZwh5tomfuqlaQ==
   dependencies:
-    "@solid-primitives/utils" "^4.0.1"
+    "@solid-primitives/utils" "^5.0.0"
 
-"@solid-primitives/utils@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@solid-primitives/utils/-/utils-4.0.1.tgz#3c164f289ee1da36698a6b9a6fb449c8787112c3"
-  integrity sha512-06fSyBair7ZxCquMjIqJes29aNg65X776TVw4EUN7PBtdWsGUeIZ9F/H4ek7yrDSxaSDaPHeye5knEYsYAq2gA==
+"@solid-primitives/utils@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@solid-primitives/utils/-/utils-5.0.0.tgz#a78f4c5e4bc941f2784461a527ecd0b0d19dc861"
+  integrity sha512-VTvsVYFuZlglLqaEnsY/QIjKAdWs8YKn3+bhiOHkogaE8CSosu2Sg7jybnCfcuw7fePVG75MkoGbQylyo+yovg==
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
