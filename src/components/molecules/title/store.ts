@@ -1,5 +1,4 @@
 import { headerFactory, OptionHeaderFactory } from "@atoms/header/model";
-import { Model } from "@utils/effector-factory";
 import { createEffect, createEvent, createStore, restore, sample } from "effector";
 
 type SkilsFactoryType = Array<ReturnType<typeof headerFactory.createModel>>;

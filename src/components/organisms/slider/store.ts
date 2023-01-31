@@ -1,14 +1,11 @@
 import { mokaReveler } from "@store/mokaReveler";
-import { createEffect, createEvent, createStore, sample } from "effector";
+import { createEvent, createStore, sample } from "effector";
 
-import { Model } from "../../../utils/effector-factory";
-import { OptionRowFactory, rowFactory } from "../../molecules/sliderRow/model";
-
-const defaultReveler: Reveler = {
-	id: "default",
-	creationData: "1674984584",
-	rows: [],
-};
+// const defaultReveler: Reveler = {
+// 	id: "default",
+// 	creationData: "1674984584",
+// 	rows: [],
+// };
 
 export const openReveler = createEvent<Reveler>();
 

@@ -1,13 +1,13 @@
-import { Component, JSX, splitProps } from "solid-js";
+import { JSX, splitProps, VoidComponent } from "solid-js";
 
 type PicturePropsType = {
 	color?: string,
 	url: string,
 } & JSX.HTMLAttributes<HTMLElement>
 
-export const Picture: Component<PicturePropsType> = (props) => {
+export const Picture: VoidComponent<PicturePropsType> = (props) => {
 	const [ local, other ] = splitProps(props, [
-		"class", "color", "children", "style", "url",
+		"class", "color", "style", "url",
 	]);
 	return (
 		<div

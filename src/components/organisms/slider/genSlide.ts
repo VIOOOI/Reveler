@@ -1,6 +1,6 @@
 import { rowFactory } from "@molecules/sliderRow/model";
 import { Model } from "@utils/effector-factory";
-import { createEffect, createEvent, createStore, restore, sample } from "effector";
+import { createEffect, createEvent, restore, sample } from "effector";
 
 import { $reveler } from "./store";
 

@@ -1,4 +1,4 @@
-import { Header } from "@atoms/elements";
+import { Block, Header, Paragraph, Picture, List } from "@atoms/elements";
 import { For, Match, onMount, Show, splitProps, Switch, VoidComponent } from "solid-js";
 
 type RenderElementProps = {
@@ -52,6 +52,66 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 						}</For>
 					</Show>
 				</Header.Three>
+			</Match>
+
+			<Match when={element.block == "paragraph"} >
+				<Paragraph
+					class={ element.class }
+					color={ textColor }
+				>
+					{ element.text } 
+					<Show when={element.children} fallback={<></>} >
+						<For each={element.children} >{ ch => 
+							<RenderElement element={ch} />
+						}</For>
+					</Show>
+				</Paragraph>
+			</Match>
+
+			<Match when={element.block == "block"} >
+				<Block
+					class={ element.class }
+				>
+					{ element.text } 
+					<Show when={element.children} fallback={<></>} >
+						<For each={element.children} >{ ch => 
+							<RenderElement element={ch} />
+						}</For>
+					</Show>
+				</Block>
+			</Match>
+
+			<Match when={element.block == "picture"} >
+				<Picture
+					class={ element.class }
+					url={element.text}
+				/>
+			</Match>
+
+			<Match when={element.block == "list"} >
+				<List
+					class={ element.class }
+				>
+					{ element.text } 
+					<Show when={element.children} fallback={<></>} >
+						<For each={element.children} >{ ch => 
+							<RenderElement element={ch} />
+						}</For>
+					</Show>
+				</List>
+			</Match>
+
+			<Match when={element.block == "list-item"} >
+				<List.Item
+					class={ element.class }
+				>
+					{ element.text } 
+					<Show when={element.children} fallback={<></>} >
+						<For each={element.children} >{ ch => 
+							<RenderElement element={ch} />
+						}</For>
+					</Show>
+				</List.Item>
 			</Match>
 
 		</Switch>
