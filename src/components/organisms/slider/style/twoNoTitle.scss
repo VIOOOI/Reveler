@@ -1,0 +1,16 @@
+
+#slider {
+	.a50-50 {
+		div { @apply flex-col-center w-50vw; }
+	}
+	.a30-70 {
+		div:nth-child(1) { @apply flex-col-center w-30vw; }
+		div:nth-child(2) { @apply flex-col-center w-70vw; }
+	}
+	.two-no-title {
+		@apply flex;
+		div { @apply flex-col-center w-50vw; }
+		p { @apply fz-i1 ; }
+		img { @apply h-50vh; }
+	}
+}

@@ -10,14 +10,14 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 	console.log(slide.content);
 	return ( 
 		<div
-			class="min-w-screen h-screen flex-col-center" 
+			class={`${slide.grid || ""} ${slide.class || ""} min-w-screen h-screen p-i1`} 
 			style={{
 				background: slide.bgColor || "rgb(23, 23, 23)",
 				color: slide.textColor || "#ffffff",
 			}}
 		>
 			<For each={slide.content}>{ elem => 
-				<RenderElement element={elem} textColor={slide.textColor} />
+				<RenderElement element={elem} textColor={slide.textColor || ""} />
 			}</For>
 		</div>
 	);

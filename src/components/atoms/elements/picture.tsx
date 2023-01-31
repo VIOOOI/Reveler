@@ -3,19 +3,18 @@ import { JSX, splitProps, VoidComponent } from "solid-js";
 type PicturePropsType = {
 	color?: string,
 	url: string,
-} & JSX.HTMLAttributes<HTMLElement>
+} & JSX.HTMLAttributes<HTMLImageElement>
 
 export const Picture: VoidComponent<PicturePropsType> = (props) => {
 	const [ local, other ] = splitProps(props, [
 		"class", "color", "style", "url",
 	]);
 	return (
-		<div
-			class={`${local.class} flex-center `}
+		<img 
+			src={local.url} 
+			class={local.class || ""}
+			alt=""
 			style={{ ...local.style as JSX.CSSProperties }}
-			{...other}
-		> 
-			<img src={local.url} alt="" />
-		</div>
+		/>
 	);
 };

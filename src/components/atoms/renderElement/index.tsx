@@ -14,13 +14,13 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "header1"} >
 				<Header.One
-					class={ element.class }
+					class={ element.class || "" }
 					color={ textColor }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</Header.One>
@@ -28,13 +28,13 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "header2"} >
 				<Header.Two
-					class={ element.class }
+					class={ element.class || "" }
 					color={ textColor }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</Header.Two>
@@ -42,13 +42,13 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "header3"} >
 				<Header.Three
-					class={ element.class }
+					class={ element.class || "" }
 					color={ textColor }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</Header.Three>
@@ -56,13 +56,13 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "paragraph"} >
 				<Paragraph
-					class={ element.class }
+					class={ element.class || "" }
 					color={ textColor }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</Paragraph>
@@ -70,12 +70,12 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "block"} >
 				<Block
-					class={ element.class }
+					class={ element.class || "" }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</Block>
@@ -83,19 +83,19 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "picture"} >
 				<Picture
-					class={ element.class }
+					class={ element.class || "" }
 					url={element.text}
 				/>
 			</Match>
 
 			<Match when={element.block == "list"} >
 				<List
-					class={ element.class }
+					class={ element.class || "" }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</List>
@@ -103,12 +103,12 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 
 			<Match when={element.block == "list-item"} >
 				<List.Item
-					class={ element.class }
+					class={ element.class || "" }
 				>
 					{ element.text } 
 					<Show when={element.children} fallback={<></>} >
 						<For each={element.children} >{ ch => 
-							<RenderElement element={ch} />
+							<RenderElement element={ch} textColor={textColor || ""} />
 						}</For>
 					</Show>
 				</List.Item>

@@ -11,8 +11,8 @@ export const HeaderOne: Component<HeaderOnePropsType> = (props) => {
 	return (
 		<h1
 			class={`${local.class} 
-				ifont-size-2.5 
-				imargin-y-0.45
+				fz-i2.5 
+				m-y-i0.45
 			`}
 			style={{
 				color: local.color || "#fff",

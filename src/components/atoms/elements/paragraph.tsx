@@ -11,8 +11,8 @@ export const Paragraph: Component<ParagraphPropsType> = (props) => {
 	return (
 		<p
 			class={`${local.class} 
-				ifont-size-1.0 
-				imargin-y-0.25
+				m-i1.0 
+				m-y-i0.25
 			`}
 			style={{
 				color: local.color || "#fff",

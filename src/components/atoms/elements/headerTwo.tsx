@@ -11,8 +11,8 @@ export const HeaderTwo: Component<HeaderTwoPropsType> = (props) => {
 	return (
 		<h2
 			class={`${local.class} 
-				ifont-size-1.75 
-				imargin-y-0.45
+				fz-i1.75 
+				m-y-i0.45
 			`}
 			style={{
 				color: local.color || "#fff",

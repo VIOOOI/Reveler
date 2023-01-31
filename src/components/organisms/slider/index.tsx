@@ -7,7 +7,7 @@ import { Row } from "@molecules/sliderRow";
 
 import { createEventListener } from "@solid-primitives/event-listener";
 
-import { Control } from "@molecules/control";
+import "./slider.scss";
 
 import {
 	$background,
@@ -60,6 +60,7 @@ export const Slider: Component = () => {
 		<div
 			class="wh-screen overflow-hidden box-border"
 			style={{ background: background() || "#171717" }}
+			id="slider"
 		>
 			<div
 				style={{

@@ -14,7 +14,7 @@ const cssRules = {
 	l: "left",
 	r: "right",
 	b: "bottom",
-	bz: "border-size",
+	bw: "border-width",
 	cg: "column-gap",
 	rg: "row-gap",
 	gap: "gap",
@@ -50,9 +50,10 @@ export default defineConfig({
 			return style;
 		} ],
 
-		[ /^([a-zA-Z]*)-?([lrtbxy])?-i([0-9]*?[.]?[0-9]*?)$/, ([ , rule, side, size ]) => {
+		[ /^([a-zA-Z]*)-?([xylrtb])?-i([0-9]*?[.]?[0-9]*?)$/, ([ , rule, side, size ]) => {
+			console.log(rule, side, size);
 			const style = {};
-			if( side == null ) {
+			if( side == undefined ) {
 				style[`${cssRules[rule]}`] = `calc(var(--index) * ${size})`;
 			} else {
 				switch (side) {
@@ -69,6 +70,7 @@ export default defineConfig({
 					break;
 				}
 			}
+			console.log(style);
 			return style;
 		} ],
 

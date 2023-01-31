@@ -11,7 +11,7 @@ export const Block: Component<BlockPropsType> = (props) => {
 	return (
 		<div
 			class={`${local.class} 
-				ipadding-y-0.55
+				p-y-i0.55
 			`}
 			style={{
 				...local.style as JSX.CSSProperties,

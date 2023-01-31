@@ -11,8 +11,8 @@ export const HeaderThree: Component<HeaderThreePropsType> = (props) => {
 	return (
 		<h3
 			class={`${local.class} 
-				ifont-size-1.25 
-				imargin-y-0.45
+				fz-i1.25 
+				m-y-i0.45
 			`}
 			style={{
 				color: local.color || "#fff",
