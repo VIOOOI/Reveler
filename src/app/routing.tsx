@@ -1,5 +1,6 @@
 
 import { appRoute } from "@pages/app";
+import { revelerConstructorRoute } from "@pages/constructor";
 import { notFoundRoute } from "@pages/notFound";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import { createHistoryRouter, RouteInstance } from "atomic-router";
@@ -14,6 +15,7 @@ type RouteType = Array<{
 export const routes: RouteType = [
 	{ path: "/", route: appRoute },
 	{ path: "/view", route: revelerViewerRoute },
+	{ path: "/new", route: revelerConstructorRoute },
 ];
 
 export const history = createBrowserHistory();

@@ -5,15 +5,18 @@ import { createRoutesView, RouterProvider } from "atomic-router-solid";
 import { App, appRoute } from "@pages/app";
 import { NotFound } from "@pages/notFound";
 import { RevelerViewer, revelerViewerRoute } from "@pages/revelerViewer";
+import { RevelerConstructor, revelerConstructorRoute } from "@pages/constructor";
 
 import "./style.scss";
 
 import { router } from "./routing";
 
+
 const RouterView = createRoutesView({
 	routes: [
 		{ route: appRoute, view: App },
 		{ route: revelerViewerRoute, view: RevelerViewer },
+		{ route: revelerConstructorRoute, view: RevelerConstructor },
 	],
 	otherwise: NotFound,
 });
