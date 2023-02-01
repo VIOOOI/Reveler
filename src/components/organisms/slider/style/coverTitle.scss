@@ -9,21 +9,21 @@
 		div:nth-child(1) {
 
 			@apply area-title;
-			h1 { @apply fz-i2 font-bold; }
-			h2 { @apply fz-i1.5 font-bold; }
-			h3 { @apply fz-i1.3 font-bold; }
+			h1 { @apply fz-i3 font-bold; }
+			h2 { @apply fz-i2.3 font-bold; }
+			h3 { @apply fz-i1.5 font-bold; }
 			p { @apply fz-i1 font-base; }
 			img { @apply hidden; }
 
 		}
 		div:nth-child(2) {
 
-			@apply area-text;
+			@apply area-text gap-3;
 			h1 { @apply fz-i1.5 font-bold; }
 			h2 { @apply fz-i1.3 font-bold; }
 			h3 { @apply fz-i1.1 font-bold; }
-			p { @apply fz-i1 font-200; }
-			img { @apply h-60vh rounded-lg; }
+			p { @apply fz-i1.5 font-400 w-70% leading-16; }
+			img { @apply h-50vh rounded-lg; }
 
 		}
 	}
