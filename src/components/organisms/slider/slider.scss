@@ -7,20 +7,20 @@
 	#{$property}: calc(var(--index) * $value);
 }
 
-ul {
-	@apply list-none;
-	li {
-		@apply fz-i1.4 relative;
-		&::before {
-			content: "";
-			@apply content-empty w-i0.7 h-i0.7 rounded-full;
-			@apply absolute t-50% l-i-1.5;
-			@apply bw-i0.15 border-#4E63E2;
-			transform: translateY(-50%);
-			background-color: rgb(239 246 255);
-		}
-	}
-}
+// ul {
+// 	@apply list-none;
+// 	li {
+// 		@apply fz-i1.4 relative;
+// 		&::before {
+// 			content: "";
+// 			@apply content-empty w-i0.7 h-i0.7 rounded-full;
+// 			@apply absolute t-50% l-i-1.5;
+// 			@apply bw-i0.15 border-#4E63E2;
+// 			transform: translateY(-50%);
+// 			background-color: rgb(239 246 255);
+// 		}
+// 	}
+// }
 
 @import "./style/textCenter";
 @import "./style/coverSheet";

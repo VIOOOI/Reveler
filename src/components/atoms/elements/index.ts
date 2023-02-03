@@ -4,6 +4,7 @@ import { HeaderThree } from "./headerThree";
 import { Paragraph } from "./paragraph";
 import { Block } from "./block";
 import { Picture } from "./picture";
+import { Reactive } from "./reactive";
 import List from "./list";
 
 const Header = {
@@ -17,5 +18,6 @@ export {
 	Paragraph,
 	Block,
 	Picture,
+	Reactive,
 	List,
 };

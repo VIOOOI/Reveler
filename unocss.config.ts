@@ -51,7 +51,6 @@ export default defineConfig({
 		} ],
 
 		[ /^([a-zA-Z]*)-?([xylrtb])?-i([0-9]*?[.]?[0-9]*?)$/, ([ , rule, side, size ]) => {
-			console.log(rule, side, size);
 			const style = {};
 			if( side == undefined ) {
 				style[`${cssRules[rule]}`] = `calc(var(--index) * ${size})`;

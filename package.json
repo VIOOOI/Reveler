@@ -28,8 +28,10 @@
   },
   "dependencies": {
     "@solid-primitives/event-listener": "^2.2.6",
+    "@types/alpinejs": "^3.7.1",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
+    "alpinejs": "^3.11.1",
     "atomic-router": "^0.8.0",
     "atomic-router-solid": "^0.8.0",
     "effector": "^22.4.0",
