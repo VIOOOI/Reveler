@@ -15,6 +15,8 @@ export const Reactive: Component<ReactivePropsType> = (props) => {
 		const rscript = /<script>((.|\n|\r\n)*?)<\/script>/;
 		if (rscript.test(local.children as string)) {
 			const code = rscript.exec(local.children as string)[1];
+			console.log(code);
+			// code.forEach( jscode => eval(jscode) );
 			eval(code);
 		}
 	}
