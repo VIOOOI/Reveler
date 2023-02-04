@@ -47,42 +47,18 @@ export default defineConfig({
 			return arr;
 		}),
 		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
+			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
 			const arr: string[] = [];
-			arr.push(`j-i${num}`);
-			arr.push(`m-t-i${num}`);
-			arr.push(`m-b-i${num}`);
-			arr.push(`m-l-i${num}`);
-			arr.push(`m-p-i${num}`);
-			arr.push(`m-x-i${num}`);
-			arr.push(`m-y-i${num}`);
-			[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
-				arr.push(`m-i${num + i}`);
-				arr.push(`m-t-i${num + i}`);
-				arr.push(`m-b-i${num + i}`);
-				arr.push(`m-l-i${num + i}`);
-				arr.push(`m-p-i${num + i}`);
-				arr.push(`m-x-i${num + i}`);
-				arr.push(`m-y-i${num + i}`);
+			[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
+				t.forEach( x => arr.push(`m${x}-i${num + i}`));
 			});
 			return arr;
 		}),
 		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
+			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
 			const arr: string[] = [];
-			arr.push(`p-i${num}`);
-			arr.push(`p-t-i${num}`);
-			arr.push(`p-b-i${num}`);
-			arr.push(`p-l-i${num}`);
-			arr.push(`p-p-i${num}`);
-			arr.push(`p-x-i${num}`);
-			arr.push(`p-y-i${num}`);
-			[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
-				arr.push(`p-i${num + i}`);
-				arr.push(`p-t-i${num + i}`);
-				arr.push(`p-b-i${num + i}`);
-				arr.push(`p-l-i${num + i}`);
-				arr.push(`p-p-i${num + i}`);
-				arr.push(`p-x-i${num + i}`);
-				arr.push(`p-y-i${num + i}`);
+			[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
+				t.forEach( x => arr.push(`m${x}-i${num + i}`));
 			});
 			return arr;
 		}),
