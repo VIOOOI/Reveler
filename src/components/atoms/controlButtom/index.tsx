@@ -1,6 +1,8 @@
 import { createSignal, Match, Switch, VoidComponent } from "solid-js";
-import Arrow from "@public/arrow.svg?raw";
-import { nextRow, leftSlide, rightSlide, prewRow } from "@organism/slider/store";
+
+import { nextRow, leftSlide, rightSlide, prevRow } from "../../organisms/slider/store";
+
+import Arrow from "../../../public/arrow.svg?raw";
 // import { $bcgCursor } from "@atoms/cursor/store";
 // import { useUnit } from "effector-solid";
 
@@ -9,7 +11,6 @@ type ControlButtonPropsType = {
 }
 
 export const ControlButton: VoidComponent<ControlButtonPropsType> = ({ direction }) => {
-	const bcg = createSignal("blue");
 
 	return (
 		<Switch fallback={<></>} >
@@ -18,7 +19,7 @@ export const ControlButton: VoidComponent<ControlButtonPropsType> = ({ direction
 					class={`area-${direction} flex-center cursor-pointer`}
 					onClick={() => prevRow()}
 					innerHTML={Arrow}
-					style={{ fill: `${bcg()}` }}
+					style={{ fill: "#2563eb" }}
 				> </div>
 			</Match>
 			<Match when={direction == "bottom"} > 
@@ -27,7 +28,7 @@ export const ControlButton: VoidComponent<ControlButtonPropsType> = ({ direction
 					onClick={() => nextRow()}
 					style={{ 
 						transform: "rotate(180deg)",
-						fill: `${bcg()}`,
+						fill: "#2563eb",
 					}}
 					innerHTML={Arrow} 
 				>
@@ -39,7 +40,7 @@ export const ControlButton: VoidComponent<ControlButtonPropsType> = ({ direction
 					onClick={() => leftSlide()}
 					style={{ 
 						transform: "rotate(-90deg)",
-						fill: `${bcg()}`,
+						fill: "#2563eb",
 					}}
 					innerHTML={Arrow} 
 				>
@@ -51,7 +52,7 @@ export const ControlButton: VoidComponent<ControlButtonPropsType> = ({ direction
 					onClick={() => rightSlide()}
 					style={{ 
 						transform: "rotate(90deg)",
-						fill: `${bcg()}`,
+						fill: "#2563eb",
 					}}
 					innerHTML={Arrow} 
 				>
