@@ -8,7 +8,7 @@ import Imac from "../../public/homePage/imac-icon.svg?raw";
 import Ipad from "../../public/homePage/ipad-icon.svg?raw";
 import Vptx from "../../public/homePage/vptx-icon.svg?raw";
 
-import { revelerViewerRoute } from "./revelerViewer";
+import { openRevelerRoute } from "./openReveler";
 
 import type { Component } from "solid-js";
 
@@ -93,7 +93,7 @@ export const App: Component = () => {
 				class=" xl:icols-1-4 xl:irows-5-6 md:icols-1-4 md:irows-8-9 "
 			> 
 				<Link
-					to={revelerViewerRoute}
+					to={openRevelerRoute}
 					class="text-black no-underline"
 				>
 					<h1 class="font-[Roboto] fz-i2">Открыть презентацию</h1>
