@@ -1,11 +1,11 @@
 import { mokaReveler } from "@store/mokaReveler";
 import { createEvent, createStore, sample } from "effector";
 
-// const defaultReveler: Reveler = {
-// 	id: "default",
-// 	creationData: "1674984584",
-// 	rows: [],
-// };
+const defaultReveler: Reveler = {
+	id: "default",
+	creationData: "1674984584",
+	rows: [],
+};
 
 export const openReveler = createEvent<Reveler>();
 
@@ -17,7 +17,7 @@ export const rightSlide = createEvent();
 export const getWindowSize = createEvent();
 
 
-export const $reveler = createStore<Reveler>(mokaReveler);
+export const $reveler = createStore<Reveler>(defaultReveler);
 const $currentSlide = createStore(0);
 const $currentRowSlide = createStore(0);
 
@@ -25,10 +25,15 @@ export const $transform = createStore({ x: 0, y: 0 });
 export const $windowSize = createStore({ width: 0, height: 0 });
 export const $background = createStore("#171717");
 
-// $currentSlide.watch(source => console.log(source));
+$reveler.watch(source => console.log(source));
 // $currentRowSlide.watch(source => console.log(source));
 // $transformY.watch( source => console.log(source));
 
+
+sample({
+	clock: openReveler,
+	target: $reveler,
+});
 
 /**
 	* Переход на следующий слайд и проверка, что он не будет бльше 
