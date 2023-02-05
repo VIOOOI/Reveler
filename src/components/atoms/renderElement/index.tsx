@@ -1,4 +1,4 @@
-import { Block, Header, Paragraph, Picture, List, Reactive } from "@atoms/elements";
+import { Block, Header, Paragraph, Picture, List, Reactive, Html } from "@atoms/elements";
 import { For, Match, onMount, Show, splitProps, Switch, VoidComponent } from "solid-js";
 
 type RenderElementProps = {
@@ -94,6 +94,14 @@ export const RenderElement: VoidComponent<RenderElementProps> = (props) => {
 				>
 					{ element.text }
 				</Reactive>
+			</Match>
+
+			<Match when={element.block == "html"} >
+				<Html
+					class={ element.class || "" + "flex-col-center w-full h-full" }
+				>
+					{ element.text }
+				</Html>
 			</Match>
 
 			<Match when={element.block == "list"} >

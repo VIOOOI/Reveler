@@ -47,5 +47,6 @@ type RBlock =
 	| "list"
 	| "block"
 	| "reactive"
+	| "html"
 	;
 

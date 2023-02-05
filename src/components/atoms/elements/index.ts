@@ -5,6 +5,7 @@ import { Paragraph } from "./paragraph";
 import { Block } from "./block";
 import { Picture } from "./picture";
 import { Reactive } from "./reactive";
+import { Html } from "./html";
 import List from "./list";
 
 const Header = {
@@ -19,5 +20,6 @@ export {
 	Block,
 	Picture,
 	Reactive,
+	Html,
 	List,
 };
