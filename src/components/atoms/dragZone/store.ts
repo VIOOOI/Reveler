@@ -3,7 +3,7 @@ import { appRoute } from "@pages/app";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import { redirect } from "atomic-router";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { condition } from "patronum";
+import { condition, delay } from "patronum";
 
 type DragType = DragEvent & {
 	currentTarget: HTMLHeadingElement,
@@ -17,17 +17,15 @@ export const dropHandler = createEvent<DragType>();
 const thisInvalid = createEvent();
 
 export const $drag = createStore(false);
-export const $isValid = createStore(false);
-$drag.watch(state => console.log(state));
+export const $isValid = createStore(true);
+// $drag.watch(state => console.log(state));
 
 
 const uploadFileFx = createEffect<File>(file => {
-	// console.log("File open");
 	console.log(file);
 	const reader = new FileReader();
 	reader.readAsText(file);
 	reader.onload = () => {
-		// console.log(reader.result);
 		const f = JSON.parse(reader.result as string);
 		openReveler(f);
 	};
@@ -85,13 +83,29 @@ sample({
 });
 
 sample({
+	clock: uploadFileFx,
+	fn: () => false,
+	target: $drag,
+});
+
+sample({
 	clock: dropHandler,
 	filter: event => {
 		const file = event.dataTransfer.files[0];
 		const type = file.name.split(".")[1];
 		return type != "vptx";
 	},
-	target: isInvalidFx,
+	target: [ isInvalidFx, thisInvalid ],
 });
 
+delay({
+	source: isInvalidFx,
+	timeout: 2000,
+	target: thisInvalid,
+});
 
+sample({
+	clock: isInvalidFx,
+	fn: () => false,
+	target: $drag,
+});
