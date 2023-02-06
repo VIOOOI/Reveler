@@ -2285,6 +2285,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+patronum@^1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.14.2.tgz#5c264657f801750c08edebb4365b9e3c1e3b5166"
+  integrity sha512-n8rfgTHbtv7bBba7W0QqJvSRVPsIFiAMTvj4uZ8UaDhw0amT/eOV6sPPz9LQf0jnqhEot/6Ja6ghQ0D+WPDo1g==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
