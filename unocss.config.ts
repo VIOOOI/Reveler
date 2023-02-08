@@ -111,5 +111,8 @@ export default defineConfig({
 			"grid-row-start": `${start}`,
 			"grid-row-end": `${end}`,
 		}) ],
+		[ /^box-size-(.*)$/, ([ , size ]) => ({
+			"transform": `scale(${size})`,
+		}) ],
 	],
 });
