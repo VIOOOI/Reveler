@@ -1,5 +1,6 @@
 import { Component, JSX, onMount, splitProps } from "solid-js";
 import Alpine from "alpinejs";
+import { createEventListener } from "@solid-primitives/event-listener";
 
 type ReactivePropsType = JSX.HTMLAttributes<HTMLElement>
 
@@ -8,18 +9,28 @@ export const Reactive: Component<ReactivePropsType> = (props) => {
 		"children", "style",
 	]);
 
-	if (!window["Alpine"]){
-		window["Alpine"] = Alpine;
-		console.log(window["Alpine"]);
-		Alpine.start();
-		const rscript = /<script>((.|\n|\r\n)*?)<\/script>/;
-		if (rscript.test(local.children as string)) {
-			const code = rscript.exec(local.children as string)[1];
-			console.log(code);
-			// code.forEach( jscode => eval(jscode) );
-			eval(code);
+	onMount(() => {
+		if (!window["Alpine"]){
+			window["Alpine"] = Alpine;
+			Alpine.start();
 		}
-	}
+	});
+
+	createEventListener( 
+		document, "alpine:init",
+		() => {
+			const rscript = /<script>((.|\n|\r\n)*?)<\/script>/;
+			if (rscript.test(local.children as string)) {
+				const str = local.children as string; 
+				const regstr = str.split(rscript);
+				regstr.forEach( jscode => {
+					if(/Alpine\.(data|store|bind)\(.*\)/.test(jscode)){
+						eval(jscode);
+					}
+				} );
+			}
+		},
+	);
 
 	return (
 		<div
