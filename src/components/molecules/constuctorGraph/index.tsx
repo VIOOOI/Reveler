@@ -20,7 +20,6 @@ export const ConstructorGraph: VoidComponent = () => {
 				transform: `translate(${position().x}px, ${position().y}px)`,
 			}}
 		>
-			<h2>{position().x} : {position().y}</h2>
 			<div 
 				class="w-50 h-30 rounded-lg flex-center m-3 bg-blue"
 			>Slide</div>

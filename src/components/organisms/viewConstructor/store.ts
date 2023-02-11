@@ -65,4 +65,4 @@ sample({ clock: setFirstPositionEvent, target: $firstCoordStore });
 forward({ from: setLastPositionEvent, to: mouseUpEvent });
 forward({ from: setFirstPositionEvent, to: mouseDownEvent });
 
-$transformStore.reset(resetTransformEvent);
+// $transformStore.reset(resetTransformEvent);

@@ -12,7 +12,6 @@ import type { VoidComponent } from "solid-js";
 export const ViewConstructor: VoidComponent = () => {
 	const position = useUnit($transformStore);
 	let viewRef: HTMLDivElement;
-	let graphRef: HTMLDivElement;
 
 	createEventListener( 
 		() => viewRef, "mousemove",
@@ -40,8 +39,7 @@ export const ViewConstructor: VoidComponent = () => {
 			id="view"
 			class="relative w-screen h-screen"
 		>
-			<h2>{position().x } : { position().y}</h2>
-			<ConstructorGraph ref={graphRef} />
+			<ConstructorGraph />
 		</div>
 	);
 };
