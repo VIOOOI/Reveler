@@ -1,10 +1,10 @@
-import { $position } from "@organisms/viewConstructor/store";
+import { $transformStore } from "@organisms/viewConstructor/store";
 import { createEventListener } from "@solid-primitives/event-listener";
 import { useUnit } from "effector-solid";
 import { VoidComponent } from "solid-js";
 
 export const ConstructorGraph: VoidComponent = () => {
-	const position = useUnit($position);
+	const position = useUnit($transformStore);
 	let graphRef: HTMLDivElement;
 
 	createEventListener( 

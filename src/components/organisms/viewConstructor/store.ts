@@ -1,73 +1,68 @@
-import { createEvent, createStore, sample } from "effector";
+import { createEvent, createStore, forward, sample } from "effector";
 
+type coordsType = {
+	x: number,
+	y: number,
+}
 
-export const setMouseMove = createEvent<MouseEvent>();
-export const isPossibleTrue = createEvent();
-export const isPossibleFalse = createEvent();
+export const setTransformEvent = createEvent<coordsType>();
+export const resetTransformEvent = createEvent();
 
-export const startMove = createEvent<MouseEvent>();
-export const stopMove = createEvent<MouseEvent>();
+export const setLastPositionEvent = createEvent();
+export const setFirstPositionEvent = createEvent<coordsType>();
 
-const $isPossibleMove = createStore(false);
-const $startPosition = createStore({ x: 0, y: 0 });
-const $startPosMouse = createStore({ x: 0, y: 0 });
-export const $lastPositin =  createStore({ x: 0, y: 0 });
-export const $position = createStore({ x: 0, y: 0 }); 
+const mouseDownEvent = createEvent();
+const mouseUpEvent = createEvent();
 
-// $position.watch( state => console.log("position -> ", state));
-$lastPositin.watch( state => console.log("stop -> ", state));
-$startPosition.watch( state => console.log("start -> ", state));
+export const toggleAllowedTransform = createEvent();
+
+export const $firstCoordStore = createStore<coordsType>({ x: 0, y: 0 });
+export const $transformStore = createStore<coordsType>({ x: 0, y: 0 });
+export const $lastCoordStore = createStore<coordsType>({ x: 0, y: 0 });
+
+export const $isAllowedTransform = createStore(true)
+	.on(toggleAllowedTransform, source => !source);
+
+const $mouseDown = createStore(false)
+	.on(mouseDownEvent, () => true)
+	.on(mouseUpEvent, () => false);
 
 sample({
-	clock: setMouseMove,
+	clock: setTransformEvent,
 	source: {
-		isPossible: $isPossibleMove,
-		start: $startPosMouse,
-		last: $lastPositin,
+		fc: $firstCoordStore,
+		lc: $lastCoordStore,
+		md: $mouseDown,
+		iat: $isAllowedTransform,
 	},
-	filter: source => source.isPossible,
-	fn: ( sdata, cdata ) => {
-		return ({
-			x: cdata.clientX - sdata.start.x - sdata.last.x,
-			y: cdata.clientY - sdata.start.y - sdata.last.y,
-		});
+	filter: source => source.md && source.iat,
+	fn: ( source, clock ) => {
+		return {
+			x: clock.x - source.fc.x + source.lc.x,
+			y: clock.y - source.fc.y + source.lc.x,
+		};
 	},
-	target: $position,
+	target: $transformStore,
 });
 
 sample({
-	clock: [ isPossibleTrue, isPossibleFalse ],
-	source: $isPossibleMove,
-	fn: source => !source,
-	target: $isPossibleMove,
-});
-
-sample({
-	clock: startMove,
-	fn: source => ({
-		x: source.clientX,
-		y: source.clientY,
-	}),
-	target: $startPosition,
-});
-
-sample({
-	clock: stopMove,
-	fn: () => {
-		const gs = document.querySelector("#graph-slide") as HTMLDivElement ;
-		const tSplit = gs.style.transform.split(new RegExp("[a-zA-Z_()]+"));
-		const tCoords: Array<number> = [ parseInt(tSplit[1]), parseInt(tSplit[2].slice(2)) ];
-		console.log(tSplit);
-		return { x: tCoords[0], y: tCoords[1] };
+	clock: setLastPositionEvent,
+	fn: ( ) => {
+		const element = document.querySelector("#graph-slide") as HTMLDivElement;
+		const transformDiv = element.style.transform;
+		const coordNum = transformDiv
+			.match(/(\d*)px/gm)
+			.map( item => parseInt(item.substring(0, item.length - 2)));
+		console.log(coordNum);
+		return { x: coordNum[0], y: coordNum[1] };
 	},
-	target: $lastPositin,
+	target: $lastCoordStore,
 });
 
-sample({ 
-	clock: startMove,
-	target: isPossibleTrue,
-});
-sample({ 
-	clock: stopMove,
-	target: isPossibleFalse,
-});
+sample({ clock: setLastPositionEvent, target: resetTransformEvent });
+sample({ clock: setFirstPositionEvent, target: $firstCoordStore });
+
+forward({ from: setLastPositionEvent, to: mouseUpEvent });
+forward({ from: setFirstPositionEvent, to: mouseDownEvent });
+
+$transformStore.reset(resetTransformEvent);
