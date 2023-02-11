@@ -35,18 +35,34 @@ export const Slider: Component = () => {
 
 	sample({
 		clock: [ hotkey("о"), hotkey("j"), hotkey("ArrowDown") ],
+		filter: () => {
+			if (document.activeElement.localName == "input") return false; 
+			else return true;
+		},
 		target: nextRow,
 	});
 	sample({
 		clock: [ hotkey("л"), hotkey("k"), hotkey("ArrowUp") ],
+		filter: () => {
+			if (document.activeElement.localName == "input") return false; 
+			else return true;
+		},
 		target: prevRow,
 	});
 	sample({
 		clock: [ hotkey("д"), hotkey("l"), hotkey("ArrowRight") ],
+		filter: () => {
+			if (document.activeElement.localName == "input") return false; 
+			else return true;
+		},
 		target: rightSlide,
 	});
 	sample({
 		clock: [ hotkey("р"), hotkey("h"), hotkey("ArrowLeft") ],
+		filter: () => {
+			if (document.activeElement.localName == "input") return false; 
+			else return true;
+		},
 		target: leftSlide,
 	});
 

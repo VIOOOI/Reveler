@@ -34,6 +34,7 @@ type GridSlide =
 	| "cube"
 	| "text-center"
 	| "two-and-one"
+	| "reactive"
 	;
 
 type RBlock = 
@@ -45,5 +46,7 @@ type RBlock =
 	| "list-item"
 	| "list"
 	| "block"
+	| "reactive"
+	| "html"
 	;
 

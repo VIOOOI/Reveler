@@ -1,7 +1,8 @@
 node_modules
 dist
 
-./src/stores/mokaReveler.ts
+/src/stores/mokaReveler.*
+
 *.vim
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,yarn,vim,macos,visualstudiocode

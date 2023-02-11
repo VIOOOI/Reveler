@@ -37,6 +37,32 @@ export default defineConfig({
 		transformerDirectives(),
 		transformerVariantGroup(),
 	],
+	safelist: [
+		...[ 0, 1, 2, 3, 4, 5 ].flatMap(num => {
+			const arr: string[] = [];
+			arr.push(`fz-i${num}`);
+			[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach( i => {
+				arr.push(`fz-i${num + i}`);
+			});
+			return arr;
+		}),
+		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
+			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
+			const arr: string[] = [];
+			[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
+				t.forEach( x => arr.push(`m${x}-i${num + i}`));
+			});
+			return arr;
+		}),
+		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
+			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
+			const arr: string[] = [];
+			[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
+				t.forEach( x => arr.push(`p${x}-i${num + i}`));
+			});
+			return arr;
+		}),
+	],
 	rules: [
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[ /^wh-(\d+)$/, ([ , size ]: [ a: any, size: number ]) => ({ 
@@ -51,7 +77,6 @@ export default defineConfig({
 		} ],
 
 		[ /^([a-zA-Z]*)-?([xylrtb])?-i([0-9]*?[.]?[0-9]*?)$/, ([ , rule, side, size ]) => {
-			console.log(rule, side, size);
 			const style = {};
 			if( side == undefined ) {
 				style[`${cssRules[rule]}`] = `calc(var(--index) * ${size})`;
@@ -70,7 +95,7 @@ export default defineConfig({
 					break;
 				}
 			}
-			console.log(style);
+			// console.log(style);
 			return style;
 		} ],
 
@@ -85,6 +110,9 @@ export default defineConfig({
 		[ /^irows-(\d+)-(\d+)$/, ([ , start, end ]) => ({
 			"grid-row-start": `${start}`,
 			"grid-row-end": `${end}`,
+		}) ],
+		[ /^box-size-(.*)$/, ([ , size ]) => ({
+			"transform": `scale(${size})`,
 		}) ],
 	],
 });
