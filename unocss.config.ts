@@ -114,5 +114,11 @@ export default defineConfig({
 		[ /^box-size-(.*)$/, ([ , size ]) => ({
 			"transform": `scale(${size})`,
 		}) ],
+		[ /^wh-i([0-9]*?[.]?[0-9]*?)-16x9$/, ([ , num ]) => {
+			return {
+				"width" : `calc(calc(var(--index) * ${num}) * ${16 / 10})`, 
+				"height" : `calc(calc(var(--index) * ${num}) * ${9 / 10})`, 
+			}; 
+		} ],
 	],
 });

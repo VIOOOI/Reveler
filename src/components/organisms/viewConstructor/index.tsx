@@ -4,6 +4,8 @@ import { useUnit } from "effector-solid";
 
 import { ConstructorGraph } from "@molecules/constuctorGraph";
 
+import { PrewSlide } from "@organisms/prewConstructorSlide";
+
 import { $transformStore, setFirstPositionEvent, setLastPositionEvent, setTransformEvent } from "./store";
 
 import type { VoidComponent } from "solid-js";
@@ -40,6 +42,7 @@ export const ViewConstructor: VoidComponent = () => {
 			class="relative w-screen h-screen"
 		>
 			<ConstructorGraph />
+			<PrewSlide />
 		</div>
 	);
 };
