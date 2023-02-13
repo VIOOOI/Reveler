@@ -1,5 +1,6 @@
-import { RenderElement } from "@atoms/renderElement ";
 import { splitProps, VoidComponent, For } from "solid-js";
+
+import { RenderElement } from "../../atoms/renderElement";
 
 type SlideProps = {
 	slide: RSlide,
