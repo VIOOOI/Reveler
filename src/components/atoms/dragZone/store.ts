@@ -1,9 +1,8 @@
 import { openReveler } from "@organisms/slider/store";
-import { appRoute } from "@pages/app";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import { redirect } from "atomic-router";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { condition, delay } from "patronum";
+import { delay } from "patronum";
 
 type DragType = DragEvent & {
 	currentTarget: HTMLHeadingElement,

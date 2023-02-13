@@ -1,5 +1,5 @@
 import { useUnit } from "effector-solid";
-import { Match, Show, Switch } from "solid-js";
+import { Match, Switch } from "solid-js";
 
 import { $drag, $isValid, dragLeave, dragOver, dropHandler } from "./store";
 

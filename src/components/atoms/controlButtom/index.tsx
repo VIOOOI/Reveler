@@ -1,4 +1,4 @@
-import { createSignal, Match, Switch, VoidComponent } from "solid-js";
+import {  Match, Switch, VoidComponent } from "solid-js";
 
 import { nextRow, leftSlide, rightSlide, prevRow } from "../../organisms/slider/store";
 

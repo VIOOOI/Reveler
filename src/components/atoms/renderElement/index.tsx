@@ -1,5 +1,5 @@
 import { Block, Header, Paragraph, Picture, List, Reactive, Html } from "@atoms/elements";
-import { For, Match, onMount, Show, splitProps, Switch, VoidComponent } from "solid-js";
+import { For, Match, Show, splitProps, Switch, VoidComponent } from "solid-js";
 
 type RenderElementProps = {
 	element: RElement,

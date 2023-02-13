@@ -1,4 +1,4 @@
-import { Component, JSX, onMount, splitProps } from "solid-js";
+import { Component, JSX, splitProps } from "solid-js";
 
 type HtmlPropsType = JSX.HTMLAttributes<HTMLElement>
 

@@ -6,7 +6,7 @@ type PicturePropsType = {
 } & JSX.HTMLAttributes<HTMLImageElement>
 
 export const Picture: VoidComponent<PicturePropsType> = (props) => {
-	const [ local, other ] = splitProps(props, [
+	const [ local ] = splitProps(props, [
 		"class", "color", "style", "url",
 	]);
 	return (

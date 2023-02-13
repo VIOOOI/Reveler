@@ -7,10 +7,11 @@ import { NotFound } from "@pages/notFound";
 import { RevelerViewer, revelerViewerRoute } from "@pages/revelerViewer";
 import { OpenReveler, openRevelerRoute } from "@pages/openReveler";
 
+import { RevelerLayout } from "@templates/revelerLayout";
+
 import "./style.scss";
 
 import { router } from "./routing";
-import { RevelerLayout } from "./layout/revelerLayout";
 
 const RouterView = createRoutesView({
 	routes: [
