@@ -4,10 +4,12 @@ use crate::Rule;
 use pest::iterators::Pair;
 use serde::{Deserialize, Serialize};
 
+use super::element::Element;
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Attrebute {
-  pub name: String,
-  pub value: String,
+  pub(super) name: String,
+  pub(super) value: String,
 }
 
 impl Attrebute {
@@ -37,7 +39,10 @@ impl Attrebute {
     }
     attib
   }
-  // fn
+	pub fn add_attribute(elem: &mut Element, name: String, value: String) {
+		let attr = Attrebute { name, value };
+		elem.attribute.push(attr);
+	}
 }
 impl fmt::Display for Attrebute {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -9,11 +9,9 @@ use serde::{Deserialize, Serialize};
 pub struct Element {
   name: String,
   is_one_tag: bool,
-  attribute: Vec<Attrebute>,
+  pub(super) attribute: Vec<Attrebute>,
   children: Vec<EC>,
 }
-
-pub struct Elements(Vec<Element>);
 
 #[derive(Debug, Serialize, Deserialize)]
 enum EC {
@@ -33,7 +31,6 @@ impl Element {
   pub fn create(element: &Pair<Rule>) -> Vec<Element> {
     let mut element_default = vec![];
     for tag in element.clone().into_inner() {
-      // print_pair(&tag);
       if let Rule::tag = tag.as_rule() {
         element_default.push(Self::generate_tag(&tag, false));
       }
@@ -45,11 +42,8 @@ impl Element {
   }
 
   fn generate_tag(tag: &Pair<Rule>, is_one: bool) -> Element {
-    // print_pair(tag);
     let mut elem = Element::default();
-    if is_one {
-      elem.is_one_tag = true;
-    }
+    if is_one { elem.is_one_tag = true; }
 
     for attr in tag.clone().into_inner() {
       match attr.as_rule() {
@@ -58,13 +52,22 @@ impl Element {
           .attribute
           .append(&mut Attrebute::generate_attributes(&attr)),
         Rule::children => Self::generate_children(&mut elem, &attr),
+        Rule::reactive => Self::reactive(&mut elem, &attr),
         _ => (),
       }
     }
-
-    // println!("{}", elem);
     elem
   }
+
+
+	fn reactive(parent: &mut Element, react: &Pair<Rule>) {
+		for reactiv in react.clone().into_inner() {
+			if let Rule::reactive_value = reactiv.as_rule() {
+				let text = format!("{{ {} }}", reactiv.as_str().to_string());
+				Attrebute::add_attribute(parent, "x-data".to_string(), text);
+			}
+		}
+	}
 
   fn generate_children(parent: &mut Element, children: &Pair<Rule>) {
     for ch in children.clone().into_inner() {
@@ -114,20 +117,3 @@ impl Display for EC {
     }
   }
 }
-impl Display for Elements {
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    self.0.iter().fold(Ok(()), |result, album| {
-      result.and_then(|_| writeln!(f, "{}", album))
-    })
-  }
-}
-// println!("{}", text);
-// let re = Regex::new(r"([ ]{2,}|\n|\t)").expect("Regexp Error");
-// new_tag.text = re.replace_all(&new_tag.text, "").to_string();
-// println!("{:#?}", new_tag);
-//
-//     format!("<{name}>{text}{children}</{name}>",
-// 				name = new_tag.name,
-// 				text = new_tag.text,
-// 				children = new_tag.children,
-// );

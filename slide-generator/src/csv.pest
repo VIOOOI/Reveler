@@ -1,5 +1,9 @@
-text = { ( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl )+ }
-text_symbol = _{(" "|"_"|"-"|"."|","|"/"|":"|";"|"("|")"|"["|"]"|"{"|"}"|"#"|"?"|"!"|"%"|"'")}
+text = { ( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | russ_symbol  )+ }
+text_symbol = _{(" "|"_"|"-"|"."|","|"/"|":"|";"|"("|")"|"["|"]"|"{"|"}"|"#"|"?"|"!"|"%")}
+russ_symbol = {(
+	"а"|"б"|"в"|"г"|"д"|"е"|"ё"|"ж"|"з"|"и"|"й"|"к"|"л"|"м"|"н"|"о"|"п"|"р"|"с"|"т"|"у"|"ф"|"ч"|"ц"|"ш"|"щ"|"ъ"|"ь"|"э"|"ю"|"я"|
+	"А"|"Б"|"В"|"Г"|"Д"|"Е"|"Ё"|"Ж"|"З"|"И"|"Й"|"К"|"Л"|"М"|"Н"|"О"|"П"|"Р"|"С"|"Т"|"У"|"Ф"|"Ч"|"Ц"|"Ш"|"Щ"|"Ъ"|"Ь"|"Э"|"Ю"|"Я"
+)}
 quote = _{("\"" | "\'")}
 
 
@@ -8,7 +12,7 @@ endl = _{(" " | "\n" | "\t")}
 // Html Atributes ------- start
 
 name_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol )+}
-value_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | "=")+}
+value_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | russ_symbol | endl )+}
 attr = {endl* ~ name_attr ~ "=" ~ quote ~ value_attr ~ quote ~ endl* }
 attributes = {attr*}
 
@@ -18,9 +22,15 @@ attributes = {attr*}
 name_tag = {ASCII_ALPHANUMERIC*}
 open_tag = _{endl* ~ "<" ~ name_tag ~ endl? ~ attributes? ~ ">" ~ endl*}
 close_tag = _{endl* ~ "</" ~ ASCII_ALPHANUMERIC* ~ ">" ~ endl*}
-tag = { open_tag ~ children? ~ close_tag }
+tag = { open_tag ~ reactive? ~ children? ~ close_tag }
 
-comment = {endl* ~ "{#" ~ ( ASCII_ALPHANUMERIC | NEWLINE | text_symbol )+ ~ "#}" ~ endl }
+reactive_value = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | quote | "=" )+}
+reactive = {
+  endl*
+  ~ "<reactive>" ~ endl*
+  ~ reactive_value*
+  ~ "</reactive>" ~ endl*
+}
 
 ones_tag = {
 	endl* ~ "<" 
@@ -28,7 +38,7 @@ ones_tag = {
       ~ attributes?
     ~ "/>" ~ endl*
 }
-children = {(text | tag | ones_tag | comment )*}
+children = {( text | tag | ones_tag )*}
 
 // Html Tags ------- end
 

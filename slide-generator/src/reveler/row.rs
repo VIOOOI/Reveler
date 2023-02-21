@@ -1,5 +1,4 @@
 use super::slide::Slide;
-use crate::debug_log;
 use crate::utils;
 use crate::Rule;
 use pest::iterators::Pair;
@@ -19,7 +18,6 @@ impl Row {
         row.slide.push(Slide::create(&slide));
       };
     }
-    // debug_log(&row);
     row
   }
 
