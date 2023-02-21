@@ -10,8 +10,8 @@ export const getSlideFactory = createEvent();
 
 const genFactoryFx = 
 	createEffect<RevelerRow[], SlideFactory[]>
-	((slides) => {
-		return slides.map( 
+	((rows) => {
+		return rows.map( 
 			item => rowFactory.createModel({ id: item.id }),
 		);
 

@@ -14,15 +14,17 @@ export const rowFactory = modelFactory((option: OptionRowFactory) => {
 
 	const $slide = createStore<RevelerRow>({
 		id: "",
-		slides: [],
+		slide: [],
 	});
 
 	sample({
 		clock: getSlide,
 		source: $reveler,
 		fn: source => {
-			const slides = source.rows; 
-			return slides.find(elem => elem.id === option.id);
+			const slide = source.rows; 
+			const findSlide = slide.find(elem => elem.id === option.id);
+			console.log(findSlide);
+			return findSlide;
 		},
 		target: $slide,
 	});

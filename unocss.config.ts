@@ -65,7 +65,7 @@ export default defineConfig({
 	],
 	rules: [
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[ /^wh-(\d+)$/, ([ , size ]: [ a: any, size: number ]) => ({ 
+		[ /^wh-(\d+)$/, ([ , size ]) => ({ 
 			"width": `${size / 4}rem`,
 			"height": `${size / 4}rem`,
 		}) ],

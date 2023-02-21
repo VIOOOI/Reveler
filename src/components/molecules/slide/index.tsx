@@ -1,6 +1,5 @@
-import { splitProps, VoidComponent, For } from "solid-js";
-
-import { RenderElement } from "../../atoms/renderElement";
+import { onMount, splitProps, VoidComponent } from "solid-js";
+import Alpine from "alpinejs";
 
 type SlideProps = {
 	slide: RSlide,
@@ -8,18 +7,32 @@ type SlideProps = {
 
 export const Slide: VoidComponent<SlideProps> = (props) => {
 	const [ { slide } ] = splitProps(props, [ "slide" ]);
-	console.log(slide.content);
+	onMount(() => {
+		if (slide.content.includes("x-data")) {
+			if (!window["Alpine"]){
+				window["Alpine"] = Alpine;
+				Alpine.start();
+			}
+		}
+	});
+
+	const findAttribute = (name: string): string => {
+		const result = slide.atributes.find(attr => {
+			if ( attr.name == name ) return attr;
+		});
+
+		return result ? result.value : null;
+	};
 	return ( 
 		<div
-			class={`${slide.grid || ""} ${slide.class || ""} min-w-screen h-screen p-i1`} 
+			class={`${findAttribute("class") || ""} min-w-screen h-screen p-0`} 
+			id="slide"
 			style={{
-				background: slide.bgColor || "rgb(23, 23, 23)",
-				color: slide.textColor || "#ffffff",
+				background: findAttribute("bg_color") || "rgb(23, 23, 23)",
+				color: findAttribute("text_color") || "#ffffff",
 			}}
+			innerHTML={slide.content}
 		>
-			<For each={slide.content}>{ elem => 
-				<RenderElement element={elem} textColor={slide.textColor || ""} />
-			}</For>
 		</div>
 	);
 };

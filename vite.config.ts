@@ -3,18 +3,19 @@ import path from "path";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import UnocssPlugin from "@unocss/vite";
+import wasmPack from "vite-plugin-wasm-pack";
 
 
 export default defineConfig({
 	plugins: [
 		solidPlugin(),
-		UnocssPlugin({
-			// your config or in uno.config.ts
-		}),
+		UnocssPlugin(),
+		wasmPack("./slide-generator"),
 	],
 	resolve: {
 		alias: {
 			"@": path.resolve(__dirname, "./src"),
+			"@root": path.resolve(__dirname, "./"),
 			"@atoms": path.resolve(__dirname, "./src/components/atoms"),
 			"@molecules": path.resolve(__dirname, "./src/components/molecules"),
 			"@organisms": path.resolve(__dirname, "./src/components/organisms"),
@@ -28,7 +29,7 @@ export default defineConfig({
 	},
 	server: {
 		port: 3000,
-		open: true,
+		// open: true,
 	},
 	build: {
 		target: "esnext",

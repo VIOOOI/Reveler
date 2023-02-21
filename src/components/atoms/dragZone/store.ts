@@ -1,7 +1,8 @@
-import { openReveler } from "@organisms/slider/store";
+import { $currentSlide, openReveler } from "@organisms/slider/store";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import { redirect } from "atomic-router";
 import { createEffect, createEvent, createStore, sample } from "effector";
+import { string } from "fp-ts";
 import { delay } from "patronum";
 
 type DragType = DragEvent & {
@@ -21,12 +22,13 @@ export const $isValid = createStore(true);
 
 
 const uploadFileFx = createEffect<File>(file => {
-	console.log(file);
+	// console.log(file);
 	const reader = new FileReader();
 	reader.readAsText(file);
 	reader.onload = () => {
-		const f = JSON.parse(reader.result as string);
-		openReveler(f);
+		// const f = JSON.parse(reader.result as string);
+		// console.log(reader.result);
+		openReveler(reader.result as string);
 	};
 });
 
@@ -71,7 +73,7 @@ sample({
 	filter: event => {
 		const file = event.dataTransfer.files[0];
 		const type = file.name.split(".")[1];
-		return type == "vptx";
+		return type == "vptx" || type == "html";
 	},
 	fn: event => {
 		event.preventDefault();
@@ -79,6 +81,12 @@ sample({
 		return file;
 	},
 	target: uploadFileFx,
+});
+
+sample({
+	clock: uploadFileFx,
+	fn: () => 0,
+	target: $currentSlide,
 });
 
 sample({
@@ -92,7 +100,9 @@ sample({
 	filter: event => {
 		const file = event.dataTransfer.files[0];
 		const type = file.name.split(".")[1];
-		return type != "vptx";
+		const ret = type != "vptx";
+		const retTwo = type != "vptx";
+		return ret || retTwo;
 	},
 	target: [ isInvalidFx, thisInvalid ],
 });

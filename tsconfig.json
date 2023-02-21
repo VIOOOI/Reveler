@@ -12,6 +12,7 @@
 		"isolatedModules": true,
 		"paths": {
 			"@/*": [ "./src" ],
+			"@root/*": [ "./" ],
 			"@atoms/*": [ "./src/components/atoms/*" ],
 			"@molecules/*": [ "./src/components/molecules/*" ],
 			"@organisms/*": [ "./src/components/organisms/*" ],

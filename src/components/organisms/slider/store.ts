@@ -1,5 +1,7 @@
 // import { mokaReveler } from "@store/mokaReveler";
-import { createEvent, createStore, sample } from "effector";
+import { createEffect, createEvent, createStore, sample } from "effector";
+
+import init, { gen_slider } from "@root/slide-generator/pkg/slide_generator";
 
 const defaultReveler: Reveler = {
 	id: "default",
@@ -7,7 +9,8 @@ const defaultReveler: Reveler = {
 	rows: [],
 };
 
-export const openReveler = createEvent<Reveler>();
+// export const openReveler = createEvent<Reveler>();
+export const openReveler = createEvent<string>();
 
 export const nextRow = createEvent();
 export const prevRow = createEvent();
@@ -16,22 +19,37 @@ export const rightSlide = createEvent();
 
 export const getWindowSize = createEvent();
 
-
 export const $reveler = createStore<Reveler>(defaultReveler);
-const $currentSlide = createStore(0);
+export const $currentSlide = createStore(0);
 const $currentRowSlide = createStore(0);
 
 export const $transform = createStore({ x: 0, y: 0 });
 export const $windowSize = createStore({ width: 0, height: 0 });
 export const $background = createStore("#171717");
 
-$reveler.watch(source => console.log(source));
+// $reveler.watch(source => console.log(source));
 // $currentRowSlide.watch(source => console.log(source));
 // $transformY.watch( source => console.log(source));
 
+const getSliderFx = createEffect(async (text: string) => {
+	await init();
+	const genSlider = gen_slider(text);
+	console.log(genSlider);
+	return genSlider;
+});
 
+
+// sample({
+// 	clock: openReveler,
+// 	target: $reveler,
+// });
 sample({
 	clock: openReveler,
+	target: getSliderFx,
+});
+
+sample({
+	clock: getSliderFx.doneData,
 	target: $reveler,
 });
 
@@ -61,7 +79,7 @@ sample({
 		slider: $reveler,
 	},
 	filter: ({ current, row, slider }) => {
-		return current < slider.rows[row].slides.length - 1;
+		return current < slider.rows[row].slide.length - 1;
 	},
 	fn: source => source.current + 1,
 	target: $currentRowSlide,

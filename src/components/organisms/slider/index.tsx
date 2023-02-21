@@ -1,7 +1,7 @@
 import { sample } from "effector";
 import { hotkey } from "effector-hotkey";
 import { useUnit } from "effector-solid";
-import { Component, For, onMount } from "solid-js";
+import { Component, createEffect, For, onMount } from "solid-js";
 
 import { Row } from "@molecules/sliderRow";
 
@@ -11,6 +11,7 @@ import "./slider.scss";
 
 import {
 	$background,
+	$reveler,
 	$transform,
 	getWindowSize,
 	leftSlide,
@@ -18,20 +19,23 @@ import {
 	prevRow,
 	rightSlide,
 } from "./store";
-import { $slidesFactory, getSlideFactory } from "./genSlide";
+// import { $slidesFactory, getSlideFactory } from "./genSlide";
 
 export const Slider: Component = () => {
 	const background = useUnit($background);
 	const transform = useUnit($transform);
-	// const reveler = useStoreMap<Reveler, RevelerRow>({
-	// 	store: $reveler,
-	// 	keys: [],
-	// 	fn: ( store ) => store.rows,
-	// });
-	const revelerFactory = useUnit($slidesFactory);
+	// const revelerFactory = useUnit($slidesFactory);
+	const reveler = useUnit($reveler);
 
 	onMount(() => getWindowSize());
-	onMount(() => getSlideFactory());
+	// onMount(() => getSlideFactory());
+	onMount(() => {
+		console.log("---------");
+	}); 
+
+	// createEffect(() => {
+	// 	console.log(revelerFactory());
+	// });
 
 	sample({
 		clock: [ hotkey("о"), hotkey("j"), hotkey("ArrowDown") ],
@@ -88,8 +92,8 @@ export const Slider: Component = () => {
 					background: background() || "#171717",
 				}}
 			>
-				<For each={revelerFactory()} >{ (model) => 
-					<Row model={model} />
+				<For each={reveler().rows} >{ (row) => 
+					<Row rows={row} />
 				}</For>
 			</div>
 		</div>

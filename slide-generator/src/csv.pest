@@ -1,0 +1,62 @@
+text = { ( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl )+ }
+text_symbol = _{(" "|"_"|"-"|"."|","|"/"|":"|";"|"("|")"|"["|"]"|"{"|"}"|"#"|"?"|"!"|"%"|"'")}
+quote = _{("\"" | "\'")}
+
+
+endl = _{(" " | "\n" | "\t")}
+
+// Html Atributes ------- start
+
+name_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol )+}
+value_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | "=")+}
+attr = {endl* ~ name_attr ~ "=" ~ quote ~ value_attr ~ quote ~ endl* }
+attributes = {attr*}
+
+// Html Atributes ------- end
+
+// Html Tags ------- start
+name_tag = {ASCII_ALPHANUMERIC*}
+open_tag = _{endl* ~ "<" ~ name_tag ~ endl? ~ attributes? ~ ">" ~ endl*}
+close_tag = _{endl* ~ "</" ~ ASCII_ALPHANUMERIC* ~ ">" ~ endl*}
+tag = { open_tag ~ children? ~ close_tag }
+
+comment = {endl* ~ "{#" ~ ( ASCII_ALPHANUMERIC | NEWLINE | text_symbol )+ ~ "#}" ~ endl }
+
+ones_tag = {
+	endl* ~ "<" 
+      ~ name_tag
+      ~ attributes?
+    ~ "/>" ~ endl*
+}
+children = {(text | tag | ones_tag | comment )*}
+
+// Html Tags ------- end
+
+
+// Slider Construction ------- start
+slider = { 
+  endl*? 
+  ~ "<slider" ~ attributes? ~ ">" ~ endl*
+  ~ row*
+  ~ "</slider>" ~ endl*
+}
+row = { 
+	"<row" ~ attributes? ~ ">" ~ endl*
+    ~ slide*
+    ~ "</row>" ~ endl*
+}
+
+bg_color = { "bg_color=" ~ quote ~ text ~ quote ~ endl* }
+text_color = { "text_color=" ~ quote ~ text ~ quote ~ endl* }
+
+slide_attr = {( bg_color | text_color | attributes )}
+
+slide = {
+  "<slide" 
+    ~ endl* ~ attributes ~ endl*
+  ~ ">" ~ endl*
+  ~ children
+  ~ "</slide>" ~ endl*
+}
+
+// Slider Construction ------- end
