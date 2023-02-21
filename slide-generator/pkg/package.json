@@ -1,0 +1,12 @@
+{
+  "name": "slide-generator",
+  "version": "0.1.0",
+  "files": [
+    "slide_generator_bg.wasm",
+    "slide_generator.js",
+    "slide_generator.d.ts"
+  ],
+  "module": "slide_generator.js",
+  "types": "slide_generator.d.ts",
+  "sideEffects": false
+}
