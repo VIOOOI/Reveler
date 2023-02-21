@@ -1,5 +1,6 @@
 
 import { appRoute } from "@pages/app";
+import { documentationRoute } from "@pages/documentation";
 import { notFoundRoute } from "@pages/notFound";
 import { openRevelerRoute } from "@pages/openReveler";
 import { revelerViewerRoute } from "@pages/revelerViewer";
@@ -16,6 +17,7 @@ export const routes: RouteType = [
 	{ path: "/", route: appRoute },
 	{ path: "/view", route: revelerViewerRoute },
 	{ path: "/open", route: openRevelerRoute },
+	{ path: "/docs", route: documentationRoute },
 ];
 
 export const history = createBrowserHistory();

@@ -10,6 +10,8 @@ import Vptx from "../../public/homePage/vptx-icon.svg?raw";
 
 import { openRevelerRoute } from "./openReveler";
 
+import { documentationRoute } from "./documentation";
+
 import type { Component } from "solid-js";
 
 export const appRoute = createRoute();
@@ -18,8 +20,8 @@ export const App: Component = () => {
 	return (
 		<div 
 			class="
-				wh-screen
-				flex flex-col
+				w-screen min-h-screen md:max-h-screen
+				overflow-auto flex flex-col
 				xl:(grid grid-cols-5 grid-rows-5)
 				md:(grid grid-cols-3 grid-rows-8)
 				p-5 gap-3 2xl:gap-5
@@ -31,7 +33,7 @@ export const App: Component = () => {
 				class="flex-col-center xl:icols-1-3 xl:irows-1-3 md:icols-1-3 md:irows-1-3 "
 			> 
 				<h1 class="m-0 font-[Roboto] fz-i6 xl:fz-i4">Reveler</h1>
-				<p class="fz-i1.2 xl:fz-i0.9 m-0 font-[Roboto]">бесплатные веб презентации</p>
+				<p class="fz-i1.2 xl:fz-i0.9 m-0 font-light font-[Roboto]">бесплатные веб презентации</p>
 			</InfoBlock>
 
 			<InfoBlock 
@@ -40,15 +42,25 @@ export const App: Component = () => {
 				innerHTML={Vptx}
 			> 
 				<p
-					class="fz-i1 xl:fz-i0.6 p-0 m-0 my-3 text-center font-[Roboto]"
-				>легче чем Powerpoint <br /> в пять раз</p>
+					class="fz-i1 xl:fz-i0.7 p-0 m-0 my-3 text-center font-bold font-[Roboto]"
+				>легче чем PowerPoint <br /> в пять раз</p>
 			</InfoBlock>
 
 			<InfoBlock 
 				color="black" 
-				class="flex-center xl:icols-4-6 xl:irows-1-3 md:icols-1-4 md:irows-3-4 "
+				class="flex-col-center xl:icols-4-6 xl:irows-1-3 md:icols-1-4 md:irows-3-4 "
 			> 
-				<h1 class="font-[Roboto] text-center fz-i2.5 xl:fz-i2">Не думайо о дизайне</h1>
+				<div class="flex-center flex-col md:flex-row xl:flex-col">
+					<h1 
+						class="font-[Roboto] m-x-i3 p-0 fz-i1.5 text-center md:fz-i1 xl:fz-i1.2"
+					> С HTML структура слайда может быть любой </h1>
+					<h1 
+						class="font-[Roboto] m-x-i3 p-0 fz-i1.5 text-center md:fz-i1 xl:fz-i1.2"
+					> С AlpineJS слайды могут быть динамическими</h1>                      
+					<h1 
+						class="font-[Roboto] m-x-i3 p-0 fz-i1.5 text-center md:fz-i1 xl:fz-i1.2"
+					> C UnoCSS Слайды могут выглядеть как вам захочется </h1>
+				</div>
 			</InfoBlock>
 
 			<InfoBlock 
@@ -70,22 +82,32 @@ export const App: Component = () => {
 
 			<InfoBlock 
 				color="white" 
-				class="flex-col-center xl:icols-4-6 xl:irows-3-5 md:icols-1-4 md:irows-6-8 "
+				class="flex-col-center p-i1 gap-1 md:gap-3 xl:icols-4-6 xl:irows-3-5 md:icols-1-4 md:irows-6-8 "
 			> 
-				<h2 class="font-[Roboto] fz-i1.5">Будущие функции</h2>
-				<ul
-					class="
-						fz-i0.8 font-[Roboto] font-light
-						flex flex-col gap-y-5
-					"
-					style={{
-						"list-style-type": "none",
-					}}
-				>
-					<li>Управление презентацией с телефона</li>
-					<li>Облочное хранение ваших презентаций и доступ по её номеру</li>
-					<li>Другие функции можете предложить вы в нашем телергам канале @idinahui</li>
-				</ul>
+				<div class="bg-neutral-900 p-y-i0.4 p-x-i0.7 rounded-lg">
+					<Link 
+						to={documentationRoute}
+						class="text-white font-extrabold fz-i1.5 no-underline"
+					>
+						Документация
+					</Link>
+				</div>
+				<div class="bg-neutral-900 p-y-i0.4 p-x-i0.7 rounded-lg">
+					<Link 
+						to={documentationRoute}
+						class="text-white font-extrabold fz-i1.5 no-underline"
+					>
+						Документация
+					</Link>
+				</div>
+				<div class="bg-neutral-900 p-y-i0.4 p-x-i0.7 rounded-lg">
+					<Link 
+						to={documentationRoute}
+						class="text-white font-extrabold fz-i1.5 no-underline"
+					>
+						Документация
+					</Link>
+				</div>
 			</InfoBlock>
 
 			<InfoBlock 

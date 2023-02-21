@@ -1,13 +1,11 @@
 import { sample } from "effector";
 import { hotkey } from "effector-hotkey";
 import { useUnit } from "effector-solid";
-import { Component, createEffect, For, onMount } from "solid-js";
+import { Component, For, onCleanup, onMount } from "solid-js";
 
 import { Row } from "@molecules/sliderRow";
 
 import { createEventListener } from "@solid-primitives/event-listener";
-
-import "./slider.scss";
 
 import {
 	$background,
@@ -19,23 +17,15 @@ import {
 	prevRow,
 	rightSlide,
 } from "./store";
-// import { $slidesFactory, getSlideFactory } from "./genSlide";
 
 export const Slider: Component = () => {
 	const background = useUnit($background);
 	const transform = useUnit($transform);
-	// const revelerFactory = useUnit($slidesFactory);
 	const reveler = useUnit($reveler);
 
 	onMount(() => getWindowSize());
-	// onMount(() => getSlideFactory());
-	onMount(() => {
-		console.log("---------");
-	}); 
-
-	// createEffect(() => {
-	// 	console.log(revelerFactory());
-	// });
+	onMount(() => { document.body.style.overflow = "hidden"; });
+	onCleanup(() => { document.body.style.overflow = "auto"; });
 
 	sample({
 		clock: [ hotkey("о"), hotkey("j"), hotkey("ArrowDown") ],

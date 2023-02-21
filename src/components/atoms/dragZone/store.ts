@@ -2,7 +2,6 @@ import { $currentSlide, openReveler } from "@organisms/slider/store";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import { redirect } from "atomic-router";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { string } from "fp-ts";
 import { delay } from "patronum";
 
 type DragType = DragEvent & {
