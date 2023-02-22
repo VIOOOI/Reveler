@@ -62,7 +62,7 @@ impl Element {
 
 	fn reactive(parent: &mut Element, react: &Pair<Rule>) {
 		for reactiv in react.clone().into_inner() {
-			if let Rule::reactive_value = reactiv.as_rule() {
+			if let Rule::js_text = reactiv.as_rule() {
 				let text = format!("{{ {} }}", reactiv.as_str().to_string());
 				Attrebute::add_attribute(parent, "x-data".to_string(), text);
 			}

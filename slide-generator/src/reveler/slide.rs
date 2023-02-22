@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 pub struct Slide {
   id: String,
   atributes: Vec<Attrebute>,
+	script: String,
   content: String,
 }
 
@@ -23,6 +24,9 @@ impl Slide {
       }
       if let Rule::children = element.as_rule() {
         Self::generate_content(&mut default_slide, &element)
+      }
+      if let Rule::script = element.as_rule() {
+				Self::generate_script(&mut default_slide, &element);
       }
     }
     default_slide
@@ -41,10 +45,21 @@ impl Slide {
     slide.content = res.to_string();
   }
 
+  fn generate_script(slide: &mut Slide, pair: &Pair<Rule>) {
+		for text in pair.clone().into_inner() {
+			if let Rule::js_text = text.as_rule() {
+				let regexp = Regex::new(r"([ ]{2,}|\n|[\t]{1,})").unwrap();
+				let res = regexp.replace_all(text.as_str(), "");
+				slide.script = res.to_string();
+			}
+		}
+	}
+
   fn default() -> Slide {
     Slide {
       id: utils::generation_id(),
       atributes: vec![],
+			script: String::default(),
       content: String::default(),
     }
   }
