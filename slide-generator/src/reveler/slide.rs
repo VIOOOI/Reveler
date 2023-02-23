@@ -40,8 +40,10 @@ impl Slide {
       content = format!("{}{}", content, elem);
     });
 
+    let regexp_newline = Regex::new(r"\n").unwrap();
+		let str_no_newline = regexp_newline.replace_all(&content, " ");
     let regexp = Regex::new(r"([ ]{2,}|\n|[\t]{1,})").unwrap();
-    let res = regexp.replace_all(&content, "");
+    let res = regexp.replace_all(&str_no_newline, "");
     slide.content = res.to_string();
   }
 
