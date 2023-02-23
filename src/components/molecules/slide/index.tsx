@@ -1,6 +1,5 @@
 import { onMount, splitProps, VoidComponent } from "solid-js";
 import Alpine from "alpinejs";
-import { nextRow } from "@organisms/slider/store";
 
 import { Reveler } from "./revelerScript";
 
@@ -16,9 +15,6 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 				window["Alpine"] = Alpine;
 				Alpine.start();
 			}
-		}
-		if (!window["Reveler"]){
-			window["Reveler"] = Reveler;
 		}
 		eval(slide.script);
 	});

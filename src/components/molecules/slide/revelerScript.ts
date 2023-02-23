@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable effector/no-getState */
 import { nextRow, prevRow, leftSlide, rightSlide } from "@organisms/slider/store";
 
 export const Reveler = {
@@ -8,3 +10,4 @@ export const Reveler = {
 		right: () => rightSlide(),
 	},
 };
+

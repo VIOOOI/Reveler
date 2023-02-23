@@ -2,12 +2,13 @@ import { sample } from "effector";
 import { hotkey } from "effector-hotkey";
 import { useUnit } from "effector-solid";
 import { Component, createEffect, For, onMount } from "solid-js";
+import Alpine from "alpinejs";
 
 import { Row } from "@molecules/sliderRow";
 
 import { createEventListener } from "@solid-primitives/event-listener";
 
-import "./slider.scss";
+import { Reveler } from "@molecules/slide/revelerScript";
 
 import {
 	$background,
@@ -19,23 +20,17 @@ import {
 	prevRow,
 	rightSlide,
 } from "./store";
-// import { $slidesFactory, getSlideFactory } from "./genSlide";
 
 export const Slider: Component = () => {
 	const background = useUnit($background);
 	const transform = useUnit($transform);
-	// const revelerFactory = useUnit($slidesFactory);
 	const reveler = useUnit($reveler);
 
 	onMount(() => getWindowSize());
-	// onMount(() => getSlideFactory());
 	onMount(() => {
-		console.log("---------");
-	}); 
-
-	// createEffect(() => {
-	// 	console.log(revelerFactory());
-	// });
+		window["Reveler"] = Reveler;
+		// window["Alpine"] = Alpine;
+	});
 
 	sample({
 		clock: [ hotkey("о"), hotkey("j"), hotkey("ArrowDown") ],
