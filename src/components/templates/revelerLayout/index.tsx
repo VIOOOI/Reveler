@@ -5,25 +5,27 @@ import { ParentComponent } from "solid-js";
 
 import HomeIcon from "../../../public/layouts/home.svg?raw";
 
-import { exitFullScreenFx, redirectToHome, setFullScreenFx } from "./store";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { closeFullScrean, openFullScrean, redirectToHome } from "./store";
 
 export const RevelerLayout: ParentComponent = ({ children }) => {
 	let reveler: HTMLDivElement;
 
 	sample({
 		clock: [ hotkey("а"), hotkey("f") ],
-		filter: () => !document.fullscreenElement,
-		fn: () => reveler,
-		target: setFullScreenFx,
+		filter: () => {
+			const isFullScrean = document.fullscreenElement; 
+			const isElementFocuses = document.activeElement?.tagName != "BODY";
+			return !isFullScrean && !isElementFocuses;
+		},
+		target: openFullScrean,
 	});
 
 	sample({
 		clock: [ hotkey("а"), hotkey("f") ],
-		filter: () => document.fullscreenElement,
-		target: exitFullScreenFx,
+		filter: () => document.fullscreenElement?.id == "slider",
+		target: closeFullScrean,
 	});
-
-
 
 	return (
 		<div
@@ -31,7 +33,7 @@ export const RevelerLayout: ParentComponent = ({ children }) => {
 			ref={reveler}
 		> 
 			<div
-				class="fill-white fixed b-i0.5 l-i0.5"
+				class="fill-white z-100 fixed b-i0.5 l-i0.5"
 				innerHTML={HomeIcon}
 				onClick={() => redirectToHome()}
 			>

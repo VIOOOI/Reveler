@@ -1,5 +1,8 @@
-import { onMount, splitProps, VoidComponent } from "solid-js";
+import { createSignal, onMount, Show, splitProps, VoidComponent } from "solid-js";
 import Alpine from "alpinejs";
+// import evaljs from "evaljs";
+
+import { TemplateSlide } from "@templates/templateSlide";
 
 import { Reveler } from "./revelerScript";
 
@@ -9,14 +12,12 @@ type SlideProps = {
 
 export const Slide: VoidComponent<SlideProps> = (props) => {
 	const [ { slide } ] = splitProps(props, [ "slide" ]);
+	const [ isDone, setIsDone ] = createSignal(false);
 	onMount(() => {
-		if (slide.content.includes("x-data")) {
-			if (!window["Alpine"]){
-				window["Alpine"] = Alpine;
-				Alpine.start();
-			}
-		}
 		eval(slide.script);
+		// setTimeout(() => {
+		setIsDone(true);
+		// }, 1000);
 	});
 
 	const findAttribute = (name: string): string => {
@@ -27,15 +28,20 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 		return result ? result.value : null;
 	};
 	return ( 
-		<div
-			class={`${findAttribute("class") || ""} min-w-screen h-screen p-0`} 
-			id="slide"
-			style={{
-				background: findAttribute("bg_color") || "rgb(23, 23, 23)",
-				color: findAttribute("text_color") || "#ffffff",
-			}}
-			innerHTML={slide.content}
+		<Show
+			when={isDone}
+			fallback={<TemplateSlide />}
 		>
-		</div>
+			<div
+				class={`${findAttribute("class") || ""} min-w-screen h-screen p-0`} 
+				id="slide"
+				style={{
+					background: findAttribute("bg_color") || "rgb(23, 23, 23)",
+					color: findAttribute("text_color") || "#ffffff",
+				}}
+				innerHTML={slide.content}
+			>
+			</div>
+		</Show>
 	);
 };

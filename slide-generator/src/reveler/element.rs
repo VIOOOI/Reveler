@@ -1,6 +1,7 @@
 use crate::Rule;
 use core::fmt::{self, Display};
 use pest::iterators::Pair;
+use regex::Regex;
 
 use super::attribute::Attrebute;
 use serde::{Deserialize, Serialize};
@@ -63,7 +64,9 @@ impl Element {
 	fn reactive(parent: &mut Element, react: &Pair<Rule>) {
 		for reactiv in react.clone().into_inner() {
 			if let Rule::js_text = reactiv.as_rule() {
-				let text = format!("{{ {} }}", reactiv.as_str().to_string());
+				let regexp_quote = Regex::new("\"").unwrap();
+				let new_reactive = regexp_quote.replace_all(&reactiv.as_str(), "'");
+				let text = format!("{{ {} }}", new_reactive.to_string());
 				Attrebute::add_attribute(parent, "x-data".to_string(), text);
 			}
 		}

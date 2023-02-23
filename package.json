@@ -8,7 +8,7 @@
     "serve": "vite preview",
     "lint": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx --fix .",
-		"wasm": "wasm-pack build ./slide-generator --target web"
+    "wasm": "wasm-pack build ./slide-generator --target web"
   },
   "license": "MIT",
   "devDependencies": {

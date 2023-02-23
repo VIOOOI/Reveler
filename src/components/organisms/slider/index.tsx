@@ -1,7 +1,7 @@
 import { sample } from "effector";
 import { hotkey } from "effector-hotkey";
 import { useUnit } from "effector-solid";
-import { Component, createEffect, For, onMount } from "solid-js";
+import { Component, createEffect, For, onCleanup, onMount } from "solid-js";
 import Alpine from "alpinejs";
 
 import { Row } from "@molecules/sliderRow";
@@ -29,7 +29,13 @@ export const Slider: Component = () => {
 	onMount(() => getWindowSize());
 	onMount(() => {
 		window["Reveler"] = Reveler;
-		// window["Alpine"] = Alpine;
+		window["Alpine"] = Alpine;
+		Alpine.start();
+	});
+
+	onCleanup(() => {
+		window["Reveler"] = null;
+		window["Alpine"] = null;
 	});
 
 	sample({
