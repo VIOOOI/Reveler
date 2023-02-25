@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineConfig } from "@unocss/vite";
 import { presetMini } from "@unocss/preset-mini";
 import transformerDirectives from "@unocss/transformer-directives";
@@ -46,6 +47,14 @@ export default defineConfig({
 			});
 			return arr;
 		}),
+		...[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ].flatMap(num => {
+			const arr: string[] = [];
+			arr.push(`leading-${num}`);
+			[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach( i => {
+				arr.push(`leading-${num + i}`);
+			});
+			return arr;
+		}),
 		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
 			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
 			const arr: string[] = [];
@@ -64,11 +73,14 @@ export default defineConfig({
 		}),
 	],
 	rules: [
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[ /^wh-(\d+)$/, ([ , size ]) => ({ 
+		[ /^wh-(\d+)$/, ([ , size ]: [_: any, size: number]) => ({ 
 			"width": `${size / 4}rem`,
 			"height": `${size / 4}rem`,
 		}) ],
+		[ /^leading-(.+)$/, ([ , size ]: [_: any, size: number]) => ({
+			"line-height": `${size}rem`,
+		}),
+		],
 
 		[ /^i(.*)-(\d+?\.?\d+)$/, ([ , d, x ]) => {
 			const style = {};
@@ -95,7 +107,6 @@ export default defineConfig({
 					break;
 				}
 			}
-			// console.log(style);
 			return style;
 		} ],
 

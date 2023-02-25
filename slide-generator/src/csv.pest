@@ -6,10 +6,10 @@ russ_symbol = _{(
   "А"|"Б"|"В"|"Г"|"Д"|"Е"|"Ё"|"Ж"|"З"|"И"|"Й"|"К"|"Л"|"М"|"Н"|"О"|"П"
   |"Р"|"С"|"Т"|"У"|"Ф"|"Ч"|"Ц"|"Ш"|"Щ"|"Ъ"|"Ь"|"Э"|"Ю"|"Я"
 )}
+js_text = {( ASCII_ALPHANUMERIC|NEWLINE|text_symbol|endl|quote|russ_symbol|"="|">"|"<" )+}
 quote = _{("\"" | "\'")}
-
-
 endl = _{(" " | "\n" | "\t")}
+space = _{""?}
 
 // Html Atributes ------- start
 
@@ -22,17 +22,17 @@ attributes = {attr*}
 
 // Html Tags ------- start
 name_tag = {ASCII_ALPHANUMERIC*}
-open_tag = _{endl* ~ "<" ~ name_tag ~ endl? ~ attributes? ~ ">" ~ endl*}
-close_tag = _{endl* ~ "</" ~ ASCII_ALPHANUMERIC* ~ ">" ~ endl*}
-tag_children = _{( style | children)}
-tag = { open_tag ~ reactive? ~ tag_children* ~ close_tag }
+open_tag = _{endl* ~"<" ~name_tag ~endl? ~attributes? ~">" ~endl*}
+close_tag = _{endl* ~"</" ~ASCII_ALPHANUMERIC* ~">" ~endl*}
+tag_children = _{( style |children)}
+tag = { open_tag ~reactive? ~tag_children* ~close_tag }
+ones_tag = {endl*~"<"~ name_tag ~endl ~attributes~"/>"~endl*}
 
-js_text = {( ASCII_ALPHANUMERIC|NEWLINE|text_symbol|endl|quote|russ_symbol|"="|">"|"<" )+}
 reactive = {
   endl*
-  ~ "reactive" ~ " "? ~ "{{*" ~ endl*
-  ~ js_text*
-  ~ "*}}" ~ endl*
+  ~"reactive" ~" "? ~"{{*" ~endl*
+  ~js_text*
+  ~"*}}" ~endl*
 }
 
 rule_name = {( ASCII_ALPHANUMERIC | endl | "-" )+}
@@ -64,12 +64,7 @@ script = {
   ~ "*}}" ~ endl*
 }
 
-ones_tag = {
-	endl* ~ "<" 
-      ~ name_tag
-      ~ attributes?
-    ~ "/>" ~ endl*
-}
+
 children = {( text | tag | ones_tag )}
 
 // Html Tags ------- end
@@ -79,7 +74,7 @@ children = {( text | tag | ones_tag )}
 slider = { 
   endl*? 
   ~ "<slider" ~ attributes? ~ ">" ~ endl*
-  ~ row*
+  ~ (row |slide)*
   ~ "</slider>" ~ endl*
 }
 row = { 

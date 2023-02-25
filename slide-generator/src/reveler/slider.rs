@@ -13,18 +13,6 @@ pub struct Slider {
 }
 
 impl Slider {
-  pub fn create(pairs: Pair<Rule>) -> Slider {
-    let mut slider = Slider::default();
-
-    for rows in pairs.into_inner() {
-      if let Rule::row = rows.as_rule() {
-        Self::add_row(&mut slider, &rows);
-      }
-    }
-
-    slider
-  }
-
   pub fn default() -> Slider {
     Slider {
       id: utils::generation_id(),
@@ -33,8 +21,26 @@ impl Slider {
     }
   }
 
+  pub fn create(pairs: Pair<Rule>) -> Slider {
+    let mut slider = Slider::default();
+
+    for rows in pairs.into_inner() {
+      if let Rule::row = rows.as_rule() {
+        Self::add_row(&mut slider, &rows);
+      }
+      if let Rule::slide = rows.as_rule() {
+        Self::add_slide(&mut slider, &rows);
+      }
+    }
+
+    slider
+  }
+
+
   fn add_row(slider: &mut Slider, row: &Pair<Rule>) {
-    let r = Row::create(&row);
-    slider.rows.push(r);
+    slider.rows.push(Row::create(&row));
+  }
+  fn add_slide(slider: &mut Slider, row: &Pair<Rule>) {
+    slider.rows.push(Row::create_one_slide(&row));
   }
 }

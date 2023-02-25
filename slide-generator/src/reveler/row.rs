@@ -21,6 +21,12 @@ impl Row {
     row
   }
 
+  pub fn create_one_slide(slide: &Pair<Rule>) -> Row {
+    let mut row = Row::default();
+		row.slide.push(Slide::create(slide));
+    row
+  }
+
   fn default() -> Row {
     Row {
       id: utils::generation_id(),
