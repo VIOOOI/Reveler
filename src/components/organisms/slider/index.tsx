@@ -1,4 +1,3 @@
-import { sample } from "effector";
 import { useUnit } from "effector-solid";
 import { Component, For, onCleanup, onMount } from "solid-js";
 import Alpine from "alpinejs";
@@ -15,10 +14,6 @@ import {
 	$transform,
 	clearReveler,
 	getWindowSize,
-	leftSlide,
-	nextRow,
-	prevRow,
-	rightSlide,
 } from "./store";
 
 export const Slider: Component = () => {
@@ -27,6 +22,7 @@ export const Slider: Component = () => {
 	const reveler = useUnit($reveler);
 
 	onMount(() => {
+		// document.title = "Просмотр презентации";
 		getWindowSize();
 		document.body.style.overflow = "hidden";
 		window["Reveler"] = Reveler;

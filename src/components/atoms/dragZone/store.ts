@@ -25,6 +25,7 @@ const uploadFileFx = createEffect<File>(file => {
 	reader.onload = () => {
 		// const f = JSON.parse(reader.result as string);
 		// console.log(reader.result);
+		document.title = file.name.split(".")[0];
 		openReveler(reader.result as string);
 	};
 });

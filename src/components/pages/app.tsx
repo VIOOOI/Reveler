@@ -3,6 +3,8 @@ import { InfoBlock } from "@atoms/infoBlock";
 import { createRoute } from "atomic-router";
 import { Link } from "atomic-router-solid";
 
+import { Component, onMount } from "solid-js";
+
 import Iphone from "../../public/homePage/iphone-icon.svg?raw";
 import Imac from "../../public/homePage/imac-icon.svg?raw";
 import Ipad from "../../public/homePage/ipad-icon.svg?raw";
@@ -12,11 +14,14 @@ import { openRevelerRoute } from "./openReveler";
 
 import { documentationRoute } from "./documentation";
 
-import type { Component } from "solid-js";
 
 export const appRoute = createRoute();
 
 export const App: Component = () => {
+	onMount(() => {
+		document.title = "Reveler";
+	}); 
+
 	return (
 		<div 
 			class="
