@@ -1,63 +1,77 @@
-import { useUnit } from "effector-solid";
-import { Match, Switch } from "solid-js";
+import { createSignal, Show } from "solid-js";
 
-import { $drag, $isValid, dragLeave, dragOver, dropHandler } from "./store";
+import arrow from "@public/arrow-bottom-large.svg?raw";
+
+import { dropHandler } from "./store";
 
 // import "./style.scss";
 
 export const DragZone = () => {
-	const drag = useUnit($drag);
-	const isValid = useUnit($isValid);
+	const [ isHover, setIsHover ] = createSignal(false);
+	const [ isWarning, setIsWarning ] = createSignal(false);
+
+	const warnning = () => {
+		setIsWarning(true); 
+		setTimeout(() => setIsWarning(false), 2000);
+	}; 
+
 	return ( 
 		<div
 			class="
 				draggble relative
-				w-60vw h-60vh 
-				border-5 border-dashed
-				flex-col-center rounded-3rem
+				w-full h-full 
+				flex-col-center
 				z-2
 				"
-			classList={{
-				"shadow-lg": drag(),
-				"text-neutral-900": !drag(),
-				"text-white": !isValid(),
+			onDragOver={event => event.preventDefault()}
+			onDrop={event => {
+				event.preventDefault(); 
+				const file: File = event.dataTransfer.files[0];
+				const type = file.name.split(".")[1];
+				const isTrue = type == "vptx" || type == "html";
+
+				if (isTrue)	dropHandler(file);
+				else warnning();
 			}}
-			onDragOver={dragOver}
-			onDragLeave={dragLeave}
-			onDrop={dropHandler}
 		>
-			<Switch fallback={<></>}>
-				<Match when={drag() && isValid()} >
-					<h2 
-						class="z-5 fz-i1 font-bold"
-					>Отпустите для того чтобы открыть файл</h2>
-				</Match>
-				<Match when={!drag() && isValid()} >
-					<h2 
-						class="z-5 fz-i1 font-light"
-					>Пертащите для просмотра презентации</h2>
-				</Match>
-				<Match when={!isValid()} >
-					<h2 
-						class="z-5 fz-i1 font-light"
-					>Вы выбрали не правильный файл</h2>
-				</Match>
-			</Switch>
-			<div
-				class="
-					w-99% h-98% flex-center
-					absolute top-50% left-50% rounded-2.2rem
-					z-3
-					"
-				classList={{
-					"bg-blue-300 opacity-50": drag(),
-					"bg-neutral-300 opacity-80": !drag(),
-					"bg-red-400 opacity-80": !isValid(),
-				}}
-				style={{
-					transform: "translate(-50%, -50%)",
-				}}
-			>
+			<Show when={isWarning()} fallback={<></>}>
+				<div 
+					class="absolute z-100 top-10 left-50% p-5 bg-red-300 rounded-lg"
+					style={{ transform: "translateX(-50%)" }}
+				>
+					<span class="text-white font-light">
+						Тип файла должен быть .VPTX
+					</span>
+				</div>
+			</Show>
+			<div class="relative h-full w-full bg-#202020 flex-col-center" >
+				<label
+					for="file"
+					class="cursor-pointer hover:bg-#3963CE bg-#4376F6 z-10 w-i17 h-i4 rounded-2xl flex-center"
+					style={{ transition: "background 0.6s cubic-bezier(.33, 1, .68, 1)" }}
+					onMouseOver={() => setIsHover(true)}
+					onMouseOut={() => setIsHover(false)}
+				>
+					<h1 class="text-white uppercase fz-i1">открыть презентацию</h1>
+				</label>
+				<input
+					class="w-0 h-0"
+					type="file" accept=".vptx,.html"
+					onChange={event => {
+						const file = event.target.files[0];
+						dropHandler(file);
+					}}
+					name="file" id="file"
+				/>
+				<div
+					style={{ transition: "bottom 0.6s cubic-bezier(.33, 1, .68, 1)" }}
+					class="absolute w-i20"
+					classList={{
+						"bottom-30%": !isHover(),
+						"bottom-23%": isHover(),
+					}}
+					innerHTML={arrow}
+				></div>
 			</div>
 		</div>
 	);

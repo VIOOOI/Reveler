@@ -2,7 +2,6 @@ import { $currentSlide, openReveler } from "@organisms/slider/store";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import { redirect } from "atomic-router";
 import { createEffect, createEvent, createStore, sample } from "effector";
-import { delay } from "patronum";
 
 type DragType = DragEvent & {
 	currentTarget: HTMLHeadingElement,
@@ -11,9 +10,8 @@ type DragType = DragEvent & {
 
 export const dragOver = createEvent<DragType>();
 export const dragLeave = createEvent<DragType>();
-export const dropHandler = createEvent<DragType>();
+export const dropHandler = createEvent<File>();
 
-const thisInvalid = createEvent();
 
 export const $drag = createStore(false);
 export const $isValid = createStore(true);
@@ -31,10 +29,6 @@ const uploadFileFx = createEffect<File>(file => {
 	};
 });
 
-const isInvalidFx = createEffect<DragType>(event => {
-	event.preventDefault();
-
-});
 
 
 redirect({
@@ -43,42 +37,7 @@ redirect({
 });
 
 sample({
-	clock: dragOver,
-	fn: event => {
-		event.preventDefault();
-		return true;
-	},
-	target: $drag,
-});
-
-sample({
-	clock: dragLeave,
-	fn: event => {
-		event.preventDefault();
-		return false;
-	},
-	target: $drag,
-});
-
-sample({
-	clock: thisInvalid,
-	source: $isValid,
-	fn: source => !source, 
-	target: $isValid,
-});
-
-sample({
 	clock: dropHandler,
-	filter: event => {
-		const file = event.dataTransfer.files[0];
-		const type = file.name.split(".")[1];
-		return type == "vptx" || type == "html";
-	},
-	fn: event => {
-		event.preventDefault();
-		const file: File = event.dataTransfer.files[0];
-		return file;
-	},
 	target: uploadFileFx,
 });
 
@@ -86,34 +45,4 @@ sample({
 	clock: uploadFileFx,
 	fn: () => 0,
 	target: $currentSlide,
-});
-
-sample({
-	clock: uploadFileFx,
-	fn: () => false,
-	target: $drag,
-});
-
-sample({
-	clock: dropHandler,
-	filter: event => {
-		const file = event.dataTransfer.files[0];
-		const type = file.name.split(".")[1];
-		const ret = type != "vptx";
-		const retTwo = type != "vptx";
-		return ret || retTwo;
-	},
-	target: [ isInvalidFx, thisInvalid ],
-});
-
-delay({
-	source: isInvalidFx,
-	timeout: 2000,
-	target: thisInvalid,
-});
-
-sample({
-	clock: isInvalidFx,
-	fn: () => false,
-	target: $drag,
 });
