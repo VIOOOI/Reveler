@@ -4,27 +4,69 @@ import { presetMini } from "@unocss/preset-mini";
 import transformerDirectives from "@unocss/transformer-directives";
 import transformerVariantGroup from "@unocss/transformer-variant-group";
 
-const cssRules = {
-	p: "padding",
-	m: "margin",
-	fz: "font-size",
-	fw: "font-weight",
-	w: "width",
-	h: "height",
-	t: "top",
-	l: "left",
-	r: "right",
-	b: "bottom",
-	bw: "border-width",
-	cg: "column-gap",
-	rg: "row-gap",
-	gap: "gap",
-};
+
+type Rule = {
+    rule: string,
+    isSides: boolean,
+    css: string,
+}
+
+const cssTSRules: Array<Rule> = [
+	{ rule: "p", isSides: true, css: "padding" },
+	{ rule: "m", isSides: true, css: "margin" },
+	{ rule: "fz", isSides: false, css: "font-size" },
+	{ rule: "fw", isSides: false, css: "font-width" },
+	{ rule: "w", isSides: false, css: "width" },
+	{ rule: "h", isSides: false, css: "height" },
+	{ rule: "t", isSides: false, css: "top" },
+	{ rule: "b", isSides: false, css: "bottom" },
+	{ rule: "l", isSides: false, css: "left" },
+	{ rule: "r", isSides: false, css: "right" },
+	{ rule: "bw", isSides: true, css: "border-width" },
+	{ rule: "cg", isSides: false, css: "column-gap" },
+	{ rule: "rg", isSides: false, css: "row-gap" },
+	{ rule: "gap", isSides: false, css: "gap" },
+	{ rule: "leading", isSides: false, css: "line-height" },
+];
+
 const cssPos = {
 	t: "top",
 	l: "left",
 	r: "right",
 	b: "bottom",
+};
+
+const getCSS = (): string[] => {
+	const arr: string[] = [];
+	cssTSRules.forEach(rule => {
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+			.forEach(num => {
+				arr.push(`${rule.rule}-i${num}`);
+				if(rule.isSides) {
+					arr.push(`${rule.rule}-t-i${num}`);
+					arr.push(`${rule.rule}-b-i${num}`);
+					arr.push(`${rule.rule}-l-i${num}`);
+					arr.push(`${rule.rule}-r-i${num}`);
+				}
+				[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach( i => {
+					arr.push(`${rule.rule}-i${num + i}`);
+					if(rule.isSides) {
+						arr.push(`${rule.rule}-t-i${num + i}`);
+						arr.push(`${rule.rule}-b-i${num + i}`);
+						arr.push(`${rule.rule}-l-i${num + i}`);
+						arr.push(`${rule.rule}-r-i${num + i}`);
+					}
+				});
+			});
+
+	});
+	return arr;
+};
+const getCSSRule = (name: string): string => {
+	const filter = cssTSRules.filter( rule => {
+		return rule.rule == name;
+	});
+	return filter[0].css;
 };
 
 export default defineConfig({
@@ -39,38 +81,7 @@ export default defineConfig({
 		transformerVariantGroup(),
 	],
 	safelist: [
-		...[ 0, 1, 2, 3, 4, 5 ].flatMap(num => {
-			const arr: string[] = [];
-			arr.push(`fz-i${num}`);
-			[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach( i => {
-				arr.push(`fz-i${num + i}`);
-			});
-			return arr;
-		}),
-		...[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ].flatMap(num => {
-			const arr: string[] = [];
-			arr.push(`leading-${num}`);
-			[ .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach( i => {
-				arr.push(`leading-${num + i}`);
-			});
-			return arr;
-		}),
-		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
-			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
-			const arr: string[] = [];
-			[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
-				t.forEach( x => arr.push(`m${x}-i${num + i}`));
-			});
-			return arr;
-		}),
-		...[ 0, 1, 2, 3, 4 ].flatMap(num => {
-			const t = [ "", "-t", "-b", "-l", "-r", "-x", "-y" ];
-			const arr: string[] = [];
-			[ 0, .1, .2, .3, .4, .5, .6, .7, .8, .9 ].forEach(i => {
-				t.forEach( x => arr.push(`p${x}-i${num + i}`));
-			});
-			return arr;
-		}),
+		...getCSS(),
 	],
 	rules: [
 		[ /^wh-(\d+)$/, ([ , size ]: [_: any, size: number]) => ({ 
@@ -91,19 +102,19 @@ export default defineConfig({
 		[ /^([a-zA-Z]*)-?([xylrtb])?-i([0-9]*?[.]?[0-9]*?)$/, ([ , rule, side, size ]) => {
 			const style = {};
 			if( side == undefined ) {
-				style[`${cssRules[rule]}`] = `calc(var(--index) * ${size})`;
+				style[`${getCSSRule(rule)}`] = `calc(var(--index) * ${size})`;
 			} else {
 				switch (side) {
 				case "x":
-					style[`${cssRules[rule]}-left`] = `calc(var(--index) * ${size})`;
-					style[`${cssRules[rule]}-right`] = `calc(var(--index) * ${size})`;
+					style[`${getCSSRule(rule)}-left`] = `calc(var(--index) * ${size})`;
+					style[`${getCSSRule(rule)}-right`] = `calc(var(--index) * ${size})`;
 					break;
 				case "y":
-					style[`${cssRules[rule]}-top`] = `calc(var(--index) * ${size})`;
-					style[`${cssRules[rule]}-bottom`] = `calc(var(--index) * ${size})`;
+					style[`${getCSSRule(rule)}-top`] = `calc(var(--index) * ${size})`;
+					style[`${getCSSRule(rule)}-bottom`] = `calc(var(--index) * ${size})`;
 					break;
 				default:
-					style[`${cssRules[rule]}-${cssPos[side]}`] = `calc(var(--index) * ${size})`;
+					style[`${getCSSRule(rule)}-${cssPos[side]}`] = `calc(var(--index) * ${size})`;
 					break;
 				}
 			}
