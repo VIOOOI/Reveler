@@ -1,5 +1,6 @@
 // import { mokaReveler } from "@store/mokaReveler";
 import { createEffect, createEvent, createStore, sample } from "effector";
+import { hotkey } from "effector-hotkey";
 
 import init, { gen_slider } from "@root/slide-generator/pkg/slide_generator";
 
@@ -11,6 +12,7 @@ const defaultReveler: Reveler = {
 
 // export const openReveler = createEvent<Reveler>();
 export const openReveler = createEvent<string>();
+export const clearReveler = createEvent();
 
 export const nextRow = createEvent();
 export const prevRow = createEvent();
@@ -19,6 +21,7 @@ export const rightSlide = createEvent();
 
 export const getWindowSize = createEvent();
 
+const $isOpen = createStore(false);
 export const $reveler = createStore<Reveler>(defaultReveler);
 export const $currentSlide = createStore(0);
 const $currentRowSlide = createStore(0);
@@ -27,9 +30,14 @@ export const $transform = createStore({ x: 0, y: 0 });
 export const $windowSize = createStore({ width: 0, height: 0 });
 export const $background = createStore("#171717");
 
-// $reveler.watch(source => console.log(source));
-// $currentRowSlide.watch(source => console.log(source));
-// $transformY.watch( source => console.log(source));
+$transform.reset(clearReveler); 
+$currentSlide.reset(clearReveler); 
+$currentRowSlide.reset(clearReveler); 
+$background.reset(clearReveler); 
+$reveler.reset(clearReveler);
+$windowSize.reset(clearReveler);
+$background.reset(clearReveler);
+$isOpen.reset(clearReveler);
 
 const getSliderFx = createEffect(async (text: string) => {
 	await init();
@@ -38,14 +46,40 @@ const getSliderFx = createEffect(async (text: string) => {
 	return genSlider;
 });
 
+sample({
+	clock: [ hotkey("о"), hotkey("j"), hotkey("ArrowDown") ],
+	source: $isOpen,
+	filter: source => source,
+	target: nextRow,
+});
+sample({
+	clock: [ hotkey("л"), hotkey("k"), hotkey("ArrowUp") ],
+	source: $isOpen,
+	filter: source => source,
+	target: prevRow,
+});
+sample({
+	clock: [ hotkey("д"), hotkey("l"), hotkey("ArrowRight") ],
+	source: $isOpen,
+	filter: source => source,
+	target: rightSlide,
+});
+sample({
+	clock: [ hotkey("р"), hotkey("h"), hotkey("ArrowLeft") ],
+	source: $isOpen,
+	filter: source => source,
+	target: leftSlide,
+});
 
-// sample({
-// 	clock: openReveler,
-// 	target: $reveler,
-// });
 sample({
 	clock: openReveler,
 	target: getSliderFx,
+});
+
+sample({
+	clock: openReveler,
+	fn: () => true,
+	target: $isOpen,
 });
 
 sample({

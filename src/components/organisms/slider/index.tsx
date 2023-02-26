@@ -1,5 +1,4 @@
 import { sample } from "effector";
-import { hotkey } from "effector-hotkey";
 import { useUnit } from "effector-solid";
 import { Component, For, onCleanup, onMount } from "solid-js";
 import Alpine from "alpinejs";
@@ -14,6 +13,7 @@ import {
 	$background,
 	$reveler,
 	$transform,
+	clearReveler,
 	getWindowSize,
 	leftSlide,
 	nextRow,
@@ -38,40 +38,9 @@ export const Slider: Component = () => {
 		document.body.style.overflow = "auto";
 		window["Reveler"] = null;
 		window["Alpine"] = null;
+		clearReveler();
 	});
 
-	sample({
-		clock: [ hotkey("о"), hotkey("j"), hotkey("ArrowDown") ],
-		filter: () => {
-			if (document.activeElement.localName == "input") return false; 
-			else return true;
-		},
-		target: nextRow,
-	});
-	sample({
-		clock: [ hotkey("л"), hotkey("k"), hotkey("ArrowUp") ],
-		filter: () => {
-			if (document.activeElement.localName == "input") return false; 
-			else return true;
-		},
-		target: prevRow,
-	});
-	sample({
-		clock: [ hotkey("д"), hotkey("l"), hotkey("ArrowRight") ],
-		filter: () => {
-			if (document.activeElement.localName == "input") return false; 
-			else return true;
-		},
-		target: rightSlide,
-	});
-	sample({
-		clock: [ hotkey("р"), hotkey("h"), hotkey("ArrowLeft") ],
-		filter: () => {
-			if (document.activeElement.localName == "input") return false; 
-			else return true;
-		},
-		target: leftSlide,
-	});
 
 	createEventListener(
 		window,

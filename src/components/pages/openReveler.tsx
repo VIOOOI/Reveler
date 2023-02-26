@@ -1,6 +1,5 @@
 import { DragZone } from "@atoms/dragZone";
 import { createRoute } from "atomic-router";
-import { useUnit } from "effector-solid";
 
 import type { Component } from "solid-js";
 
