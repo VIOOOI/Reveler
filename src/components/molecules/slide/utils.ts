@@ -10,6 +10,8 @@ export const setAnimation = (
 	currentRow: Accessor<number>,
 	currentSlide: Accessor<number>,
 	props: Pick<VoidProps<SlideProps>, "slide" | "rowCount" | "slideCount">,
+	isOnes: Accessor<boolean>,
+	setIsOnes: Accessor<boolean>,
 ) => {
 	const animation = slide.querySelectorAll("*[animate]"); 
 	if(currentRow() == props.rowCount && currentSlide() == props.slideCount) {
@@ -18,7 +20,8 @@ export const setAnimation = (
 				const animName = elem.attributes.getNamedItem("animate").nodeValue;
 				elem.classList.add(`animate__${animName}`);
 			});
-		}, 850);
+			setIsOnes(true);
+		}, isOnes()? 850 :0);
 	} else {
 		animation.forEach(elem => {
 			const animName = elem.attributes.getNamedItem("animate").nodeValue;

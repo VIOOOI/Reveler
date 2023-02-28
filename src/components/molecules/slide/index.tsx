@@ -19,6 +19,7 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 
 	const [ isRScript, setIsRScript ] = createSignal<Array<boolean>>([]);
 	const [ isRAnim, setIsRAnim ] = createSignal<Array<boolean>>([]);
+	const [ isOnes, setIsOnes ] = createSignal(false);
 
 	let slideRef: HTMLDivElement;
 
@@ -28,7 +29,7 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 	});
 
 	createEffect(() => { setAnimationOnes(slideRef, cRow, cSlide, slide, isRAnim, setIsRAnim); });
-	createEffect(() => { setAnimation(slideRef, cRow, cSlide, slide); });
+	createEffect(() => { setAnimation(slideRef, cRow, cSlide, slide, isOnes, setIsOnes); });
 	createEffect(() => { runScript(cRow, cSlide, slide, isRScript, setIsRScript); });
 
 	return ( 
