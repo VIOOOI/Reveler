@@ -19,6 +19,8 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 	const [ isRunin, setIsRunin ] = createSignal<Array<boolean>>([]);
 	const [ currentRow, currentSlide ] = useUnit([ $currentSlide, $currentRowSlide ]);
 
+	let slideRef: HTMLDivElement;
+
 	onMount(() => {
 		slide.slide.script.forEach(s => {
 			if(s.isGlobal) {
@@ -29,6 +31,31 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 		});
 		setIsDone(true);
 	});
+
+	onMount(() => {
+		const anim = slideRef.querySelectorAll("*[animate]"); 
+		anim.forEach(elem => { elem.classList.add("animate__animated"); });
+	}); 
+
+	createEffect(() => {
+		const anim = slideRef.querySelectorAll("*[animate]"); 
+		if(currentRow() == slide.rowCount && currentSlide() == slide.slideCount) {
+			setTimeout(() => {
+				anim.forEach(elem => {
+					const animName = elem.attributes["animate"].nodeValue;
+					elem.classList.add(`animate__${animName}`);
+				});
+			}, 850);
+		} else {
+			anim.forEach(elem => {
+				const animName = elem.attributes["animate"].nodeValue;
+				if (elem.classList.contains(`animate__${animName}`)) {
+					elem.classList.remove(`animate__${animName}`);
+				}
+			});
+		}
+	});
+
 	createEffect(() => {
 		if(currentRow() == slide.rowCount && currentSlide() == slide.slideCount) {
 			slide.slide.script.forEach((s, index) => {
@@ -62,9 +89,10 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 			<div
 				class={`${findAttribute("class") || ""} min-w-screen h-screen p-0`} 
 				id="slide"
+				ref={slideRef}
 				style={{
-					background: findAttribute("bg_color") || "rgb(23, 23, 23)",
-					color: findAttribute("text_color") || "#ffffff",
+					background: findAttribute("background") || "rgb(23, 23, 23)",
+					color: findAttribute("text") || "#ffffff",
 				}}
 				innerHTML={slide.slide.content}
 			>
