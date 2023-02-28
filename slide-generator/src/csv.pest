@@ -82,7 +82,7 @@ group = {
 }
 slide = {
   open_delimiter ~"slide" ~(attr)* ~close_delimiter
-  ~script?
+  ~script*
   ~children
   ~open_delimiter ~"/" ~space? ~"slide" ~close_delimiter
 }

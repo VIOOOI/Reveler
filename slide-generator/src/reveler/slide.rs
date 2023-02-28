@@ -48,6 +48,7 @@ impl Slide {
 				_ => (),
 			}
     }
+		// debug(&default_slide);
     default_slide
   }
 

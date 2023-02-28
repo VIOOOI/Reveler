@@ -7,8 +7,6 @@ import { TemplateSlide } from "@templates/templateSlide";
 import { useUnit } from "effector-solid";
 import { $currentRowSlide, $currentSlide } from "@organisms/slider/store";
 
-import { Reveler } from "./revelerScript";
-
 type SlideProps = {
 	slide: RSlide,
 	rowCount: number,
@@ -18,26 +16,32 @@ type SlideProps = {
 export const Slide: VoidComponent<SlideProps> = (props) => {
 	const [ slide ] = splitProps(props, [ "slide", "rowCount", "slideCount" ]);
 	const [ isDone, setIsDone ] = createSignal(false);
-	const [ isRunin, setIsRunin ] = createSignal(false);
+	const [ isRunin, setIsRunin ] = createSignal<Array<boolean>>([]);
 	const [ currentRow, currentSlide ] = useUnit([ $currentSlide, $currentRowSlide ]);
 
 	onMount(() => {
 		slide.slide.script.forEach(s => {
 			if(s.isGlobal) {
 				eval(s.script);
+			} else {
+				setIsRunin([ ...isRunin(), false ]);
 			}
 		});
 		setIsDone(true);
 	});
 	createEffect(() => {
 		if(currentRow() == slide.rowCount && currentSlide() == slide.slideCount) {
-			slide.slide.script.forEach(s => {
+			slide.slide.script.forEach((s, index) => {
 				setTimeout(() => {
 					if(!s.isGlobal) {
-						if (s.isOnes && isRunin()) { return; }
+						if (s.isOnes && isRunin()[index]) { return; }
 						else eval(s.script);
 					}
-					setIsRunin(true);
+					const ns = isRunin().map((item, i) => {
+						if(i == index) return true; 
+						return item;
+					});
+					setIsRunin(ns);
 				}, 850);
 			});
 		}
