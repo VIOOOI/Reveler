@@ -21,8 +21,8 @@ pub(crate) struct Slide {
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Scripts {
-	#[serde(rename(serialize = "isSlide"))]
-	is_slide: bool,
+	#[serde(rename(serialize = "isGlobal"))]
+	is_global: bool,
 	#[serde(rename(serialize = "isOnes"))]
 	is_ones: bool,
 	script: String,
@@ -52,11 +52,11 @@ impl Slide {
   }
 
   fn generate_script(slide: &mut Slide, pair: &Pair<Rule>) {
-		let mut is_slide = false;
+		let mut is_global = false;
 		let mut is_ones = false;
 		for text in pair.clone().into_inner() {
 			match text.as_rule() {
-				Rule::is_slide => is_slide = true,
+				Rule::is_global => is_global = true,
 				Rule::is_ones => is_ones = true,
 				Rule::javascript => {
 
@@ -64,7 +64,7 @@ impl Slide {
 					let script = regexp.replace_all(text.as_str(), ">").to_string();
 					let regexp = Regex::new(r"\\<").unwrap();
 					let script = regexp.replace_all(&script, "<").to_string();
-					slide.script.push(Scripts { is_slide, is_ones, script });
+					slide.script.push(Scripts { is_global, is_ones, script });
 
 				},
 				_ => (),

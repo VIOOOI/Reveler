@@ -60,10 +60,10 @@ reactive = {
   ~javascript?
   ~open_delimiter ~"/" ~space? ~"reactive" ~close_delimiter
 }
-is_slide={space ~("slide")}
+is_global={space ~("global")}
 is_ones={space ~("ones")}
 script = {
-  open_delimiter ~"script" ~ (is_slide| is_ones)* ~close_delimiter
+  open_delimiter ~"script" ~ (is_global| is_ones)* ~close_delimiter
   ~javascript?
   ~open_delimiter ~"/" ~space? ~"script" ~close_delimiter
 }

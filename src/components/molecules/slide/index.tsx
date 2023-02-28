@@ -23,7 +23,7 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 
 	onMount(() => {
 		slide.slide.script.forEach(s => {
-			if(!s.isSlide) {
+			if(s.isGlobal) {
 				eval(s.script);
 			}
 		});
@@ -33,7 +33,7 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 		if(currentRow() == slide.rowCount && currentSlide() == slide.slideCount) {
 			slide.slide.script.forEach(s => {
 				setTimeout(() => {
-					if(s.isSlide) {
+					if(!s.isGlobal) {
 						if (s.isOnes && isRunin()) { return; }
 						else eval(s.script);
 					}

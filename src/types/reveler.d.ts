@@ -18,7 +18,7 @@ declare type RSlide = {
 }
 
 type Scripts = {
-	isSlide: boolean,
+	isGlobal: boolean,
 	isOnes: boolean,
 	script: string,
 }
