@@ -60,8 +60,11 @@ export const Slider: Component = () => {
 					background: background() || "#171717",
 				}}
 			>
-				<For each={reveler().rows} >{ (row) => 
-					<Row rows={row} />
+				<For each={reveler().rows} >{ (row, index) => 
+					<Row 
+						rows={row} 
+						rowCount={index()}
+					/>
 				}</For>
 			</div>
 		</div>

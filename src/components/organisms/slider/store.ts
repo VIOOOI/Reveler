@@ -24,7 +24,7 @@ export const getWindowSize = createEvent();
 const $isOpen = createStore(false);
 export const $reveler = createStore<Reveler>(defaultReveler);
 export const $currentSlide = createStore(0);
-const $currentRowSlide = createStore(0);
+export const $currentRowSlide = createStore(0);
 
 export const $transform = createStore({ x: 0, y: 0 });
 export const $windowSize = createStore({ width: 0, height: 0 });

@@ -60,16 +60,18 @@ reactive = {
   ~javascript?
   ~open_delimiter ~"/" ~space? ~"reactive" ~close_delimiter
 }
-is_slide={"slide"}
+is_slide={space ~("slide")}
+is_ones={space ~("ones")}
 script = {
-  open_delimiter ~"script" ~space? ~is_slide? ~close_delimiter
+  open_delimiter ~"script" ~ (is_slide| is_ones)* ~close_delimiter
   ~javascript?
   ~open_delimiter ~"/" ~space? ~"script" ~close_delimiter
 }
 
 
 presentation = {
-  endl* ~open_delimiter ~"presentation" ~close_delimiter
+  endl* ~open_delimiter ~"presentation" ~close_delimiter ~endl*
+  ~script?
   ~(group |slide)*
   ~open_delimiter ~"/" ~space? ~"presentation" ~close_delimiter ~endl*
 }

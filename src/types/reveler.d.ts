@@ -13,11 +13,17 @@ declare type RevelerRow = {
 declare type RSlide = {
 	id: string,
 	atributes: Array<Attribute>,
-	script: string,
+	script: Array<Scripts>,
 	content: string,
 }
 
-declare type Attribute = {
+type Scripts = {
+	isSlide: boolean,
+	isOnes: boolean,
+	script: string,
+}
+
+type Attribute = {
 	name: string,
 	value: string,
 }

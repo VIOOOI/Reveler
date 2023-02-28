@@ -1,6 +1,7 @@
 
 use crate::Rule;
 use crate::utils;
+use crate::utils::debug;
 use pest::iterators::Pair;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -14,8 +15,17 @@ use super::{
 pub(crate) struct Slide {
   id: String,
   atributes: Vec<Attrebute>,
-	script: String,
+  script: Vec<Scripts>,
   content: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Scripts {
+	#[serde(rename(serialize = "isSlide"))]
+	is_slide: bool,
+	#[serde(rename(serialize = "isOnes"))]
+	is_ones: bool,
+	script: String,
 }
 
 impl Slide {
@@ -23,7 +33,7 @@ impl Slide {
     Slide {
       id: utils::generation_id(),
       atributes: vec![],
-			script: String::default(),
+			script: vec![],
       content: String::default(),
     }
   }
@@ -42,13 +52,22 @@ impl Slide {
   }
 
   fn generate_script(slide: &mut Slide, pair: &Pair<Rule>) {
+		let mut is_slide = false;
+		let mut is_ones = false;
 		for text in pair.clone().into_inner() {
-			if let Rule::javascript = text.as_rule() {
-				let regexp = Regex::new(r"\\>").unwrap();
-				let res = regexp.replace_all(text.as_str(), ">").to_string();
-				let regexp = Regex::new(r"\\<").unwrap();
-				let res = regexp.replace_all(&res, "<").to_string();
-				slide.script = res;
+			match text.as_rule() {
+				Rule::is_slide => is_slide = true,
+				Rule::is_ones => is_ones = true,
+				Rule::javascript => {
+
+					let regexp = Regex::new(r"\\>").unwrap();
+					let script = regexp.replace_all(text.as_str(), ">").to_string();
+					let regexp = Regex::new(r"\\<").unwrap();
+					let script = regexp.replace_all(&script, "<").to_string();
+					slide.script.push(Scripts { is_slide, is_ones, script });
+
+				},
+				_ => (),
 			}
 		}
 	}
