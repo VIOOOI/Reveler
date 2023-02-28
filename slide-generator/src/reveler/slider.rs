@@ -1,5 +1,4 @@
-// use crate::utils;
-use crate::{Rule, utils::{self, debug}};
+use crate::{Rule, utils};
 use chrono::Utc;
 use pest::iterators::Pair;
 use serde::{Deserialize, Serialize};
@@ -31,8 +30,6 @@ impl Slider {
 				_ => (),
 			}
     }
-
-		// debug(&slider);
     slider
   }
 

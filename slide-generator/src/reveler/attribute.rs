@@ -12,7 +12,7 @@ pub struct Attrebute {
 }
 
 impl Attrebute {
-  fn default() -> Attrebute {
+  pub(super) fn default() -> Attrebute {
     Attrebute {
       name: String::default(),
       value: String::default(),

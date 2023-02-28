@@ -1,12 +1,14 @@
 
-use crate::{utils::{self, debug}, Rule};
+use crate::Rule;
+use crate::utils;
 use pest::iterators::Pair;
 use regex::Regex;
-
-// use super::{attribute::Attrebute, element::Element};
 use serde::{Deserialize, Serialize};
 
-use super::{element::{ElementChildren, Element}, attribute::Attrebute};
+use super::{
+	element::Element,
+	attribute::Attrebute
+};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct Slide {
@@ -36,7 +38,6 @@ impl Slide {
 				_ => (),
 			}
     }
-		// debug(format!("Slide - {:#?}", &default_slide));
     default_slide
   }
 
@@ -47,7 +48,6 @@ impl Slide {
 				let res = regexp.replace_all(text.as_str(), ">").to_string();
 				let regexp = Regex::new(r"\\<").unwrap();
 				let res = regexp.replace_all(&res, "<").to_string();
-				// debug(&res);
 				slide.script = res;
 			}
 		}

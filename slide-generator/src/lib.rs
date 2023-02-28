@@ -5,7 +5,7 @@ extern crate pest;
 use pest::Parser;
 use reveler::slider::Slider;
 use serde_wasm_bindgen;
-use utils::debug;
+use utils::{debug, console_print};
 use wasm_bindgen::prelude::*;
 
 mod reveler;
@@ -31,7 +31,7 @@ pub fn presentation(text: &str) -> JsValue {
 		},
     Err(error) => {
 		 debug("Парсинг не удался"); 
-		 debug(error);
+		 console_print(error.line());
 		},
 	}
   return_value
