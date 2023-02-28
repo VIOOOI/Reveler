@@ -17,7 +17,6 @@ export const routes: RouteType = [
 	{ path: "/", route: appRoute },
 	{ path: "/view", route: revelerViewerRoute },
 	{ path: "/open", route: openRevelerRoute },
-	{ path: "/docs", route: documentationRoute },
 ];
 
 export const history = createBrowserHistory();

@@ -90,28 +90,31 @@ export const App: Component = () => {
 				class="flex-col-center p-i1 gap-1 md:gap-3 xl:icols-4-6 xl:irows-3-5 md:icols-1-4 md:irows-6-8 "
 			> 
 				<div class="bg-neutral-900 p-y-i0.4 p-x-i0.7 rounded-lg">
-					<Link 
-						to={documentationRoute}
+					<a 
+						href="https://leather-diagram-138.notion.site/Reveler-458f6c9d1052486d8979471b2cf81789"
 						class="text-white font-extrabold fz-i1.5 no-underline"
+						target="blank"
 					>
 						Документация
-					</Link>
+					</a>
 				</div>
 				<div class="bg-neutral-900 p-y-i0.4 p-x-i0.7 rounded-lg">
-					<Link 
-						to={documentationRoute}
+					<a 
+						href="https://leather-diagram-138.notion.site/Reveler-458f6c9d1052486d8979471b2cf81789"
 						class="text-white font-extrabold fz-i1.5 no-underline"
+						target="blank"
 					>
 						Документация
-					</Link>
+					</a>
 				</div>
 				<div class="bg-neutral-900 p-y-i0.4 p-x-i0.7 rounded-lg">
-					<Link 
-						to={documentationRoute}
+					<a 
+						href="https://leather-diagram-138.notion.site/Reveler-458f6c9d1052486d8979471b2cf81789"
 						class="text-white font-extrabold fz-i1.5 no-underline"
+						target="blank"
 					>
 						Документация
-					</Link>
+					</a>
 				</div>
 			</InfoBlock>
 
