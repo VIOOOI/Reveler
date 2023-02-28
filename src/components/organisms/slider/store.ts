@@ -2,7 +2,7 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { hotkey } from "effector-hotkey";
 
-import init, { gen_slider } from "@root/slide-generator/pkg/slide_generator";
+import init, { presentation } from "../../../../slide-generator/pkg/slide_generator";
 
 const defaultReveler: Reveler = {
 	id: "default",
@@ -41,7 +41,7 @@ $isOpen.reset(clearReveler);
 
 const getSliderFx = createEffect(async (text: string) => {
 	await init();
-	const genSlider = gen_slider(text);
+	const genSlider = presentation(text);
 	console.log(genSlider);
 	return genSlider;
 });

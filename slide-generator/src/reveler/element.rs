@@ -1,24 +1,29 @@
-use crate::Rule;
+use crate::{Rule, utils::debug};
 use core::fmt::{self, Display};
+use std::fmt::{Error, Formatter};
 use pest::iterators::Pair;
 use regex::Regex;
 
-use super::attribute::Attrebute;
+// use super::attribute::Attrebute;
 use serde::{Deserialize, Serialize};
+
+use super::attribute::Attrebute;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Element {
   name: String,
   is_one_tag: bool,
   pub(super) attribute: Vec<Attrebute>,
-  children: Vec<EC>,
+  children: Vec<ElementChildren>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-enum EC {
+pub enum ElementChildren {
   Text(String),
   Element(Element),
 }
+
+pub struct ElementChildrens (Vec<ElementChildren>);
 
 impl Element {
   fn default() -> Element {
@@ -29,63 +34,79 @@ impl Element {
       is_one_tag: false,
     }
   }
-  pub fn create(element: &Pair<Rule>) -> Vec<Element> {
-    let mut element_default = vec![];
+  pub fn create(element: &Pair<Rule>) -> String {
+    let mut element_default = ElementChildrens(vec![]);
     for tag in element.clone().into_inner() {
-      if let Rule::tag = tag.as_rule() {
-        element_default.push(Self::generate_tag(&tag, false));
-      }
-      if let Rule::ones_tag = tag.as_rule() {
-        element_default.push(Self::generate_tag(&tag, true));
-      }
+			match tag.as_rule() {
+				Rule::tag => {
+					element_default.0.push(ElementChildren::Element(Self::tag(&tag)));
+				},
+				Rule::onetag => {
+					element_default.0.push(ElementChildren::Element(Self::onetag(&tag)));
+				},
+				Rule::text => {
+					element_default.0.push(ElementChildren::Text(tag.as_str().to_string()));
+				},
+				_ => {},
+			}
     }
-    element_default
-  }
-
-  fn generate_tag(tag: &Pair<Rule>, is_one: bool) -> Element {
-    let mut elem = Element::default();
-    if is_one { elem.is_one_tag = true; }
-
-    for attr in tag.clone().into_inner() {
-      match attr.as_rule() {
-        Rule::name_tag => elem.name = attr.as_str().to_string(),
-        Rule::attributes => elem
-          .attribute
-          .append(&mut Attrebute::generate_attributes(&attr)),
-        Rule::children => Self::generate_children(&mut elem, &attr),
-        Rule::reactive => Self::reactive(&mut elem, &attr),
-        _ => (),
-      }
-    }
-    elem
+		// debug(&element_default.0);
+		format!("{}", element_default)
   }
 
 
-	fn reactive(parent: &mut Element, react: &Pair<Rule>) {
-		for reactiv in react.clone().into_inner() {
-			if let Rule::js_text = reactiv.as_rule() {
-				let regexp_quote = Regex::new("\"").unwrap();
-				let new_reactive = regexp_quote.replace_all(&reactiv.as_str(), "'");
-				let text = format!("{{ {} }}", new_reactive.to_string());
-				Attrebute::add_attribute(parent, "x-data".to_string(), text);
+	fn tag(tag: &Pair<Rule>) -> Element {
+		// debug(&tag);
+		let mut element = Element::default();
+		for s in tag.clone().into_inner() {
+			match s.as_rule() {
+				Rule::name_tag => {
+					element.name = s.as_str().to_string();
+					// debug(s.as_str().to_string());
+				},
+				Rule::attr => { element.attribute.push(Attrebute::attr(&s))},
+				Rule::children => { 
+					for ch in s.into_inner() {
+						match ch.as_rule() {
+							Rule::tag => {
+								element.children.push(ElementChildren::Element(Self::tag(&ch)));
+							},
+							Rule::onetag => {
+								element.children.push(ElementChildren::Element(Self::onetag(&ch)));
+							},
+							Rule::text => {
+								element.children.push(ElementChildren::Text(ch.as_str().to_string()));
+							},
+							_ => {},
+						}
+					}
+				},
+				_ => {},
 			}
 		}
+		// debug(&element.to_string());
+		element
 	}
 
-  fn generate_children(parent: &mut Element, children: &Pair<Rule>) {
-    for ch in children.clone().into_inner() {
-      match ch.as_rule() {
-        Rule::tag => parent
-          .children
-          .push(EC::Element(Self::generate_tag(&ch, false))),
-        Rule::ones_tag => parent
-          .children
-          .push(EC::Element(Self::generate_tag(&ch, true))),
-        Rule::text => parent.children.push(EC::Text(ch.as_str().to_string())),
-        _ => (),
-      }
-    }
-  }
+	fn onetag(tag: &Pair<Rule>) -> Element {
+		// debug(&tag);
+		let mut element = Element::default();
+		element.is_one_tag = true;
+
+		for s in tag.clone().into_inner() {
+			match s.as_rule() {
+				Rule::name_tag => {
+					element.name = s.as_str().to_string();
+					// debug(s.as_str().to_string());
+				},
+				Rule::attr => { element.attribute.push(Attrebute::attr(&s))},
+				_ => {},
+			}
+		}
+		// debug(&element.to_string());
+		element
+	}
+
 }
 impl Display for Element {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -112,11 +133,23 @@ impl Display for Element {
     }
   }
 }
-impl Display for EC {
+impl Display for ElementChildren {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match &*self {
-      EC::Text(text) => write!(f, "{}", text),
-      EC::Element(elem) => write!(f, "{}", elem),
+      ElementChildren::Text(text) => write!(f, "{}", text),
+      ElementChildren::Element(elem) => write!(f, "{}", elem),
     }
   }
+}
+impl Display for ElementChildrens {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        let mut comma_separated = String::default();
+
+				&self.0.iter().for_each(|item| {
+					comma_separated.push_str(&format!("{} ", item.to_string()))
+				});
+
+        // comma_separated.push_str(&self.0[self.0.len() - 1].to_string());
+        write!(f, "{}", comma_separated)
+    }
 }

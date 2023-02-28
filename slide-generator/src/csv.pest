@@ -1,101 +1,86 @@
-text = { ( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | russ_symbol  )+ }
-text_symbol = _{(" "|"_"|"-"|"."|","|"/"|":"|";"|"("|")"|"["|"]"|"{"|"}"|"#"|"?"|"!"|"%")}
+// <reactive>(.*?)<\/reactive>
+text = { ( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |endl |russ_symbol )+ }
+javascript = {(
+  ASCII_ALPHANUMERIC |NEWLINE |text_symbol |endl |quote |russ_symbol 
+  |"=" |"\\<" |"\\>" |"*" |"\\" |"@" |"$" |"&" |"^" |"+"
+)+}
+
 russ_symbol = _{(
   "а"|"б"|"в"|"г"|"д"|"е"|"ё"|"ж"|"з"|"и"|"й"|"к"|"л"|"м"|"н"|"о"|"п"
   |"р"|"с"|"т"|"у"|"ф"|"ч"|"ц"|"ш"|"щ"|"ъ"|"ь"|"э"|"ю"|"я"|
   "А"|"Б"|"В"|"Г"|"Д"|"Е"|"Ё"|"Ж"|"З"|"И"|"Й"|"К"|"Л"|"М"|"Н"|"О"|"П"
   |"Р"|"С"|"Т"|"У"|"Ф"|"Ч"|"Ц"|"Ш"|"Щ"|"Ъ"|"Ь"|"Э"|"Ю"|"Я"
 )}
-js_text = {( ASCII_ALPHANUMERIC|NEWLINE|text_symbol|endl|quote|russ_symbol|"="|">"|"<" )+}
+text_symbol = _{(" "|"_"|"-"|"."|","|"/"|":"|";"|"("|")"|"["|"]"|"{"|"}"|"#"|"?"|"!"|"%")}
 quote = _{("\"" | "\'")}
 endl = _{(" " | "\n" | "\t")}
-space = _{""?}
+delimiter=_{("<" |">")}
+open_delimiter=_{endl* ~delimiter ~space?}
+close_delimiter=_{space? ~delimiter ~endl*}
+space=_{" "}
 
-// Html Atributes ------- start
 
-name_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | "@" )+}
-value_attr = {( ASCII_ALPHANUMERIC | NEWLINE | text_symbol | russ_symbol | endl | "=" )+}
-attr = {endl* ~ name_attr ~ "=" ~ quote ~ value_attr ~ quote ~ endl* }
-attributes = {attr*}
+name_attr = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |"@" )+}
+value_attr = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |russ_symbol |endl |"=" )+}
+attr = {endl* ~name_attr ~"=" ~quote ~value_attr ~quote ~endl* }
 
-// Html Atributes ------- end
-
-// Html Tags ------- start
-name_tag = {ASCII_ALPHANUMERIC*}
-open_tag = _{endl* ~"<" ~name_tag ~endl? ~attributes? ~">" ~endl*}
-close_tag = _{endl* ~"</" ~ASCII_ALPHANUMERIC* ~">" ~endl*}
-tag_children = _{( style |children)}
-tag = { open_tag ~reactive? ~tag_children* ~close_tag }
-ones_tag = {endl*~"<"~ name_tag ~endl ~attributes~"/>"~endl*}
-
+name_tag = {(
+"address" |"abbr" |"area" |"article" |"aside" |"audio" |"a" 
+|"bdi" |"bdo" |"blockquote" |"body" |"br" |"button" |"b"
+|"caption" |"cite" |"code" |"col" |"colgroup" |"datalist"
+|"details" |"data" |"dd" |"del" |"dfn" |"dialog" 
+|"dir" |"div" |"dl" |"dt" |"embed" |"em" |"fieldset" 
+|"figcaption" |"figure" |"footer" |"form" |"frameset"  
+|"frame" |"h1" |"h2" |"h3" |"h4" |"h5" |"h6" |"header" 
+|"head" |"hr" |"img" |"iframe" |"input" 
+|"ins" |"i" |"kbd" |"keygen" |"label" |"legend" |"link" |"li" 
+|"main" |"map" |"mark" |"menu" |"menuitem" |"meta" |"meter" 
+|"nav" |"noscript" |"object" |"ol" |"optgroup" |"option" 
+|"output" |"p" |"param" |"picture" |"pre" |"progress" |"q" 
+|"rp" |"rt" |"ruby" |"samp" |"section" |"select" 
+|"small" |"source" |"span" |"strong" |"sub" |"summary" 
+|"sup" |"s" |"table" |"tbody" |"td" |"textarea" |"tfoot" 
+|"thead" |"th" |"time" |"title" |"track" |"tr" |"ul" 
+|"u" |"var" |"video" |"wbr"
+)}
+children = {( text |tag |onetag  )*}
+tag = {
+  endl* ~open_delimiter ~space? ~PUSH(name_tag) ~space? ~endl* ~(attr)* ~close_delimiter ~endl*
+  ~reactive?
+  ~children
+  ~endl* ~open_delimiter ~"/" ~POP ~close_delimiter ~endl*
+}
+onetag = {
+  endl* ~open_delimiter ~space? ~name_tag ~endl*
+  ~(attr)*
+  ~space? ~"/" ~space? ~close_delimiter ~endl*
+}
 reactive = {
-  endl*
-  ~"reactive" ~" "? ~"{{*" ~endl*
-  ~js_text*
-  ~"*}}" ~endl*
+  open_delimiter ~"reactive" ~close_delimiter
+  ~javascript?
+  ~open_delimiter ~"/" ~space? ~"reactive" ~close_delimiter
 }
-
-rule_name = {( ASCII_ALPHANUMERIC | endl | "-" )+}
-rule_value = {( ASCII_ALPHANUMERIC | text_symbol | quote | "-" )+}
-css_rule = {endl* ~ rule_name ~ ":" ~ " "? ~ rule_value ~ endl*}
-selector = {("#"|".")? ~ ( ASCII_ALPHANUMERIC | "-" | ">" | " " )*}
-css_selector = {
-  endl* ~ selector ~ " "? ~ "{" ~ endl*
-  ~ css_rule*
-  ~ endl * ~ "}" ~ endl*
-}
-style = {
-  endl*
-  ~ "<style>" ~ endl*
-  ~ css_rule*
-  ~ "</style>" ~ endl*
-}
-global_style = {
-  endl*
-  ~ "<style>" ~ endl*
-  ~ css_selector*
-  ~ "</style>" ~ endl*
-}
-
+is_slide={"slide"}
 script = {
-  endl*
-  ~ "script{{*" ~ endl*
-  ~ js_text*
-  ~ "*}}" ~ endl*
+  open_delimiter ~"script" ~space? ~is_slide? ~close_delimiter
+  ~javascript?
+  ~open_delimiter ~"/" ~space? ~"script" ~close_delimiter
 }
 
 
-children = {( text | tag | ones_tag )}
-
-// Html Tags ------- end
-
-
-// Slider Construction ------- start
-slider = { 
-  endl*? 
-  ~ "<slider" ~ attributes? ~ ">" ~ endl*
-  ~ (row |slide)*
-  ~ "</slider>" ~ endl*
+presentation = {
+  endl* ~open_delimiter ~"presentation" ~close_delimiter
+  ~(group |slide)*
+  ~open_delimiter ~"/" ~space? ~"presentation" ~close_delimiter ~endl*
 }
-row = { 
-	"<row" ~ attributes? ~ ">" ~ endl*
-    ~ slide*
-    ~ "</row>" ~ endl*
+group = {
+  open_delimiter ~"group" ~close_delimiter
+  ~slide*
+  ~open_delimiter ~"/" ~space? ~"group" ~close_delimiter
 }
-
-bg_color = { "bg_color=" ~ quote ~ text ~ quote ~ endl* }
-text_color = { "text_color=" ~ quote ~ text ~ quote ~ endl* }
-
-slide_attr = {( bg_color | text_color | attributes )}
-
 slide = {
-  "<slide" 
-    ~ endl* ~ attributes ~ endl*
-  ~ ">" ~ endl*
-  ~ script?
-  ~ global_style*
-  ~ children*
-  ~ "</slide>" ~ endl*
+  open_delimiter ~"slide" ~(attr)* ~close_delimiter
+  ~script?
+  ~children
+  ~open_delimiter ~"/" ~space? ~"slide" ~close_delimiter
 }
-
-// Slider Construction ------- end

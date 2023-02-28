@@ -1,5 +1,7 @@
-pub mod attribute;
-pub mod element;
-pub mod row;
+
+
+mod group;
+mod slider;
+mod attribute;
 pub mod slide;
-pub mod slider;
+mod element;

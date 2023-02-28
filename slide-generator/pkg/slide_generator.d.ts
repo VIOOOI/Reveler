@@ -4,13 +4,13 @@
 * @param {string} text
 * @returns {any}
 */
-export function gen_slider(text: string): any;
+export function presentation(text: string): any;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly gen_slider: (a: number, b: number) => number;
+  readonly presentation: (a: number, b: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

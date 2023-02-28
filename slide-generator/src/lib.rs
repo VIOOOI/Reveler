@@ -5,6 +5,7 @@ extern crate pest;
 use pest::Parser;
 use reveler::slider::Slider;
 use serde_wasm_bindgen;
+use utils::debug;
 use wasm_bindgen::prelude::*;
 
 mod reveler;
@@ -16,15 +17,23 @@ pub struct CSVParser;
 
 
 #[wasm_bindgen]
-pub fn gen_slider(text: &str) -> JsValue {
+pub fn presentation(text: &str) -> JsValue {
+	let mini = utils::minimizing(text.to_string());
+	let descript = utils::rescript(mini, "script");
+	let dereactive = utils::rescript(descript, "reactive");
   let mut return_value = JsValue::default();
-  let parser = CSVParser::parse(Rule::slider, &text);
-  if let Ok(parser_result) = &parser {
-    if let Some(pair) = parser_result.clone().next() {
-      let slider = Slider::create(pair);
-      return_value = serde_wasm_bindgen::to_value(&slider).unwrap();
-    }
-  }
+  match CSVParser::parse(Rule::presentation, &dereactive) {
+    Ok(parser) => {
+			if let Some(pair) = parser.clone().next() {
+				let slider = Slider::create(pair);
+				return_value = serde_wasm_bindgen::to_value(&slider).unwrap();
+			}
+		},
+    Err(error) => {
+		 debug("Парсинг не удался"); 
+		 debug(error);
+		},
+	}
   return_value
 }
 

@@ -178,10 +178,10 @@ function getInt32Memory0() {
 * @param {string} text
 * @returns {any}
 */
-export function gen_slider(text) {
+export function presentation(text) {
     const ptr0 = passStringToWasm0(text, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
-    const ret = wasm.gen_slider(ptr0, len0);
+    const ret = wasm.presentation(ptr0, len0);
     return takeObject(ret);
 }
 
@@ -231,6 +231,9 @@ async function load(module, imports) {
 function getImports() {
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbg_log_ee9b4ecbe672975c = function(arg0, arg1) {
+        console.log(getStringFromWasm0(arg0, arg1));
+    };
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
     };
