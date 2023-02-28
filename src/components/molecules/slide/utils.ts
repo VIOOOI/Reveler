@@ -15,31 +15,65 @@ export const setAnimation = (
 	if(currentRow() == props.rowCount && currentSlide() == props.slideCount) {
 		setTimeout(() => {
 			animation.forEach(elem => {
-				const animName = elem.attributes["animate"].nodeValue;
+				const animName = elem.attributes.getNamedItem("animate").nodeValue;
 				elem.classList.add(`animate__${animName}`);
 			});
 		}, 850);
 	} else {
 		animation.forEach(elem => {
-			const animName = elem.attributes["animate"].nodeValue;
+			const animName = elem.attributes.getNamedItem("animate").nodeValue;
 			if (elem.classList.contains(`animate__${animName}`)) {
 				elem.classList.remove(`animate__${animName}`);
 			}
 		});
 	}
-
 };
 
-export const addedAnimationClass = (slide: HTMLDivElement) => {
-	const anim = slide.querySelectorAll("*[animate]"); 
-	anim.forEach(elem => { elem.classList.add("animate__animated"); });
+export const setAnimationOnes = (
+	slide: HTMLDivElement,
+	currentRow: Accessor<number>,
+	currentSlide: Accessor<number>,
+	props: Pick<VoidProps<SlideProps>, "slide" | "rowCount" | "slideCount">,
+	isRuningAnim: Accessor<Array<boolean>>,
+	setIsRuningAnim: Setter<Array<boolean>>,
+) => {
+	if(currentRow() == props.rowCount && currentSlide() == props.slideCount) {
+		const anim = slide.querySelectorAll("*[animate\\.on]"); 
+		anim.forEach((elem, index) => {
+			if (!isRuningAnim()[index]) {
+				setTimeout(() => {
+					const attr = elem.attributes.getNamedItem("animate.on").nodeValue;
+					elem.classList.add(`animate__${attr}`);
+				}, (currentRow() == 0 && currentSlide() == 0)? 0 : 850);
+				const ns = isRuningAnim().map((item, i) => {
+					if(i == index) return true; 
+					return item;
+				});
+				setIsRuningAnim(ns);
+			}
+		});
+	}
+};
+
+export const addedAnimationClass = (
+	slide: HTMLDivElement,
+	isRuningAnim: Accessor<Array<boolean>>,
+	setIsRuningAnim: Setter<Array<boolean>>,
+	attr: string[],
+) => {
+	attr.forEach(a => {
+		const anim = slide.querySelectorAll(`*[${a}]`); 
+		anim.forEach(elem => { elem.classList.add("animate__animated"); });
+		slide.querySelectorAll("*[animate\\.on]").forEach(() => {
+			setIsRuningAnim([ ...isRuningAnim(), false ]);
+		});
+	});
 };
 
 export const startScript = (
 	props: Pick<VoidProps<SlideProps>, "slide" | "rowCount" | "slideCount">,
 	isRuning: Accessor<Array<boolean>>,
 	setIsRuning: Setter<Array<boolean>>,
-	setIsDone: Setter<boolean>,
 ) => {
 	props.slide.script.forEach(s => {
 		if(s.isGlobal) {
@@ -48,7 +82,6 @@ export const startScript = (
 			setIsRuning([ ...isRuning(), false ]);
 		}
 	});
-	setIsDone(true);
 };
 
 export const runScript = (

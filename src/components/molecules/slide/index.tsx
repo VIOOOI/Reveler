@@ -5,7 +5,7 @@ import { TemplateSlide } from "@templates/templateSlide";
 import { useUnit } from "effector-solid";
 import { $currentRowSlide, $currentSlide } from "@organisms/slider/store";
 
-import { addedAnimationClass, findAttribute, setAnimation, runScript, startScript } from "./utils";
+import { addedAnimationClass, findAttribute, setAnimation, runScript, startScript, setAnimationOnes } from "./utils";
 
 export type SlideProps = {
 	slide: RSlide,
@@ -17,18 +17,19 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 	const [ slide ] = splitProps(props, [ "slide", "rowCount", "slideCount" ]);
 	const [ cRow, cSlide ] = useUnit([ $currentSlide, $currentRowSlide ]);
 
-	const [ isDoneScript, setIsDoneScript ] = createSignal(false);
-	const [ isRuningScript, setIsRuningScript ] = createSignal<Array<boolean>>([]);
+	const [ isRScript, setIsRScript ] = createSignal<Array<boolean>>([]);
+	const [ isRAnim, setIsRAnim ] = createSignal<Array<boolean>>([]);
 
 	let slideRef: HTMLDivElement;
 
 	onMount(() => {
-		startScript(slide, isRuningScript, setIsRuningScript, setIsDoneScript);
-		addedAnimationClass(slideRef);
+		startScript(slide, isRScript, setIsRScript);
+		addedAnimationClass(slideRef, isRAnim, setIsRAnim, [ "animate", "animate\\.on" ]);
 	});
 
+	createEffect(() => { setAnimationOnes(slideRef, cRow, cSlide, slide, isRAnim, setIsRAnim); });
 	createEffect(() => { setAnimation(slideRef, cRow, cSlide, slide); });
-	createEffect(() => { runScript(cRow, cSlide, slide, isRuningScript, setIsRuningScript); });
+	createEffect(() => { runScript(cRow, cSlide, slide, isRScript, setIsRScript); });
 
 	return ( 
 		<div
