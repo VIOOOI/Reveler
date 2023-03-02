@@ -1,9 +1,8 @@
 use crate::utils;
-use crate::Rule;
+use super::{Rule, slide::Slide};
 use pest::iterators::Pair;
 use serde::{Deserialize, Serialize};
 
-use super::slide::Slide;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Group {

@@ -1,4 +1,5 @@
-use crate::{Rule, utils};
+use crate::utils;
+use super::Rule;
 use chrono::Utc;
 use pest::iterators::Pair;
 use serde::{Deserialize, Serialize};

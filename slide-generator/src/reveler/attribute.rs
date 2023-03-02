@@ -1,7 +1,7 @@
 
 use core::fmt;
 
-use crate::Rule;
+use super::Rule;
 use pest::iterators::Pair;
 use serde::{Deserialize, Serialize};
 

@@ -175,6 +175,15 @@ function getInt32Memory0() {
     return cachedInt32Memory0;
 }
 /**
+* @param {string} color
+*/
+export function darken_color(color) {
+    const ptr0 = passStringToWasm0(color, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    wasm.darken_color(ptr0, len0);
+}
+
+/**
 * @param {string} text
 * @returns {any}
 */
