@@ -1,9 +1,8 @@
 import { createEffect, createSignal, onMount, splitProps, VoidComponent } from "solid-js";
-
-import { TemplateSlide } from "@templates/templateSlide";
-
 import { useUnit } from "effector-solid";
+
 import { $currentRowSlide, $currentSlide } from "@organisms/slider/store";
+import { $optBackground, $optTextColor } from "@organisms/slider/options";
 
 import { addedAnimationClass, findAttribute, setAnimation, runScript, startScript, setAnimationOnes } from "./utils";
 
@@ -16,6 +15,10 @@ export type SlideProps = {
 export const Slide: VoidComponent<SlideProps> = (props) => {
 	const [ slide ] = splitProps(props, [ "slide", "rowCount", "slideCount" ]);
 	const [ cRow, cSlide ] = useUnit([ $currentSlide, $currentRowSlide ]);
+	const options = useUnit({ 
+		background: $optBackground,
+		text: $optTextColor,
+	});
 
 	const [ isRScript, setIsRScript ] = createSignal<Array<boolean>>([]);
 	const [ isRAnim, setIsRAnim ] = createSignal<Array<boolean>>([]);
@@ -38,8 +41,8 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 			id="slide"
 			ref={slideRef}
 			style={{
-				background: findAttribute("background", slide.slide) || "rgb(23, 23, 23)",
-				color: findAttribute("text", slide.slide) || "#ffffff",
+				background: findAttribute("background", slide.slide) || options.background(),
+				color: findAttribute("text", slide.slide) || options.text(),
 			}}
 			innerHTML={slide.slide.content}
 		>

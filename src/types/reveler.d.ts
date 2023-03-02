@@ -2,7 +2,13 @@
 declare type Reveler = {
 	id: string,
 	creationData: string,
+	options: Array<Option>,
 	rows: Array<RevelerRow>,
+}
+
+type Option = {
+	name: string,
+	value: string,
 }
 
 declare type RevelerRow = {
