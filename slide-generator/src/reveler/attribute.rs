@@ -33,6 +33,6 @@ impl Attrebute {
 
 impl fmt::Display for Attrebute {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "{}=\"{}\"", self.name, self.value)
+    write!(f, " {}=\"{}\" ", self.name, self.value)
   }
 }

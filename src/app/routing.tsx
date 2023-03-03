@@ -1,6 +1,5 @@
 
 import { appRoute } from "@pages/app";
-import { documentationRoute } from "@pages/documentation";
 import { notFoundRoute } from "@pages/notFound";
 import { openRevelerRoute } from "@pages/openReveler";
 import { revelerViewerRoute } from "@pages/revelerViewer";

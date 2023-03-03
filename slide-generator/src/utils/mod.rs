@@ -40,11 +40,9 @@ pub(crate) fn rescript(text: String, tag: &str) -> String {
 	if regexp.is_match(&text) {
 		let mut new_text = String::default();
 		regexp.find_iter(&text).for_each(|item| {
-			debug(format!("{} - {}", tag, &item.as_str()));
 			let mut str = item.as_str().to_string();
 			str.replace_range(0..tag.len() + 2, "");
 			str.replace_range(str.len() - tag.len() - 3..str.len(), "");
-			console_print(&str);
 			new_text = text.replace(&str, &delimiter(&str));
 		});
 		new_text

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { boolean } from "fp-ts";
 import { Accessor, Setter, VoidProps } from "solid-js";
 
 import { SlideProps } from ".";
@@ -99,16 +98,24 @@ export const runScript = (
 			setTimeout(() => {
 				if(!s.isGlobal) {
 					if (s.isOnes && isRuning()[index]) { return; }
-					else eval(s.script);
+					else eval(`
+						${getPrivatVariebles(props.slide.id)}\n
+						${s.script}
+					`);
 				}
 				const ns = isRuning().map((item, i) => {
 					if(i == index) return true; 
 					return item;
 				});
 				setIsRuning(ns);
+				
 			}, 850);
 		});
 	}
+};
+
+const getPrivatVariebles = (id: string) => {
+	return `const _id = ${id};`;
 };
 
 export const findAttribute = (name: string, slide: RSlide): string => {
@@ -117,4 +124,15 @@ export const findAttribute = (name: string, slide: RSlide): string => {
 	});
 
 	return result ? result.value : null;
+};
+
+
+export const slideIncrement = (
+	currentRow: Accessor<number>,
+	currentSlide: Accessor<number>,
+	props: Pick<VoidProps<SlideProps>, "slide" | "rowCount" | "slideCount">,
+) => {
+	if(currentRow() == props.rowCount && currentSlide() == props.slideCount) {
+		window.Reveler._service.slideInc(props.slide.id);
+	}
 };

@@ -1,21 +1,21 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {string} color
-*/
-export function darken_color(color: string): void;
-/**
 * @param {string} text
 * @returns {any}
 */
 export function presentation(text: string): any;
+/**
+* @param {string} color
+*/
+export function darken_color(color: string): void;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly darken_color: (a: number, b: number) => void;
   readonly presentation: (a: number, b: number) => number;
+  readonly darken_color: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;

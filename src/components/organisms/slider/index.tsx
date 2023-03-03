@@ -6,7 +6,7 @@ import { Row } from "@molecules/sliderRow";
 
 import { createEventListener } from "@solid-primitives/event-listener";
 
-import { Reveler } from "@molecules/slide/revelerScript";
+import { Reveler } from "./revelerScript";
 
 import {
 	$background,

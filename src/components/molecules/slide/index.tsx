@@ -5,7 +5,7 @@ import { TemplateSlide } from "@templates/templateSlide";
 import { useUnit } from "effector-solid";
 import { $currentRowSlide, $currentSlide } from "@organisms/slider/store";
 
-import { addedAnimationClass, findAttribute, setAnimation, runScript, startScript, setAnimationOnes } from "./utils";
+import { addedAnimationClass, findAttribute, setAnimation, runScript, startScript, setAnimationOnes, slideIncrement } from "./utils";
 
 export type SlideProps = {
 	slide: RSlide,
@@ -23,19 +23,20 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 
 	let slideRef: HTMLDivElement;
 
-	onMount(() => {
+	onMount(async () => {
+		window.Reveler._service.addSlide(slide.slide.id);
 		startScript(slide, isRScript, setIsRScript);
 		addedAnimationClass(slideRef, isRAnim, setIsRAnim, [ "animate", "animate\\.on" ]);
 	});
 
+	createEffect(() => { runScript(cRow, cSlide, slide, isRScript, setIsRScript); });
+	createEffect(() => slideIncrement(cRow, cSlide, slide));
 	createEffect(() => { setAnimationOnes(slideRef, cRow, cSlide, slide, isRAnim, setIsRAnim); });
 	createEffect(() => { setAnimation(slideRef, cRow, cSlide, slide, isOnes, setIsOnes); });
-	createEffect(() => { runScript(cRow, cSlide, slide, isRScript, setIsRScript); });
 
 	return ( 
 		<div
 			class={`${findAttribute("class", slide.slide) || ""} min-w-screen h-screen p-0`} 
-			id="slide"
 			ref={slideRef}
 			style={{
 				background: findAttribute("background", slide.slide) || "rgb(23, 23, 23)",
