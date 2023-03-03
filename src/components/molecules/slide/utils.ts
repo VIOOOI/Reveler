@@ -106,7 +106,7 @@ export const runScript = (
 					return item;
 				});
 				setIsRuning(ns);
-			}, 850);
+			}, (currentRow() == 0 && currentSlide() == 0)? 0 : 800);
 		});
 	}
 };
