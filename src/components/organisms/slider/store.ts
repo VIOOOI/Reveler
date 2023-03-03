@@ -7,6 +7,7 @@ import init, { presentation } from "../../../../slide-generator/pkg/slide_genera
 const defaultReveler: Reveler = {
 	id: "default",
 	creationData: "1674984584",
+	options: [],
 	rows: [],
 };
 

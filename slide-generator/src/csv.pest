@@ -25,7 +25,7 @@ value_attr = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |russ_symbol |endl |"="
 attr = {endl* ~name_attr ~"=" ~quote ~value_attr ~quote ~endl* }
 
 name_tag = {(
-"address" |"abbr" |"area" |"article" |"aside" |"audio" |"a" 
+"address" |"abbr" |"area" |"article" |"aside" |"audio" |"animate" |"a" 
 |"bdi" |"bdo" |"blockquote" |"body" |"br" |"button" |"b"
 |"caption" |"cite" |"code" |"col" |"colgroup" |"datalist"
 |"details" |"data" |"dd" |"del" |"dfn" |"dialog" 
@@ -69,8 +69,12 @@ script = {
 }
 
 
+name_option = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |"@" )+}
+value_option = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |russ_symbol |endl |"=" )+}
+option = {endl* ~name_attr ~"=" ~quote ~value_attr ~quote ~endl* }
+options= {option*}
 presentation = {
-  endl* ~open_delimiter ~"presentation" ~close_delimiter ~endl*
+  endl* ~open_delimiter ~"presentation" ~endl* ~options ~close_delimiter ~endl*
   ~script?
   ~(group |slide)*
   ~open_delimiter ~"/" ~space? ~"presentation" ~close_delimiter ~endl*
