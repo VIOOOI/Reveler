@@ -18,7 +18,7 @@ declare type RevelerRow = {
 
 declare type RSlide = {
 	id: string,
-	atributes: Array<Attribute>,
+	attributes: Array<Attribute>,
 	script: Array<Scripts>,
 	content: string,
 }

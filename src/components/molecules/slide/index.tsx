@@ -39,7 +39,7 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 
 	return ( 
 		<div
-			class={`${findAttribute("class", slide.slide) || ""} min-w-screen h-screen p-0`} 
+			class={`${findAttribute("class", slide.slide) || ""} relative box-border min-w-screen h-screen flex-center p-0`} 
 			ref={slideRef}
 			style={{
 				background: findAttribute("background", slide.slide) || options.background(),

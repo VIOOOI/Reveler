@@ -1,92 +1,56 @@
 // <reactive>(.*?)<\/reactive>
-text = { ( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |endl |russ_symbol )+ }
-javascript = {(
-  ASCII_ALPHANUMERIC |NEWLINE |text_symbol |endl |quote |russ_symbol 
-  |"=" |"\\<" |"\\>" |"*" |"\\" |"@" |"$" |"&" |"^" |"+"
-)+}
-
-russ_symbol = _{(
-  "а"|"б"|"в"|"г"|"д"|"е"|"ё"|"ж"|"з"|"и"|"й"|"к"|"л"|"м"|"н"|"о"|"п"
-  |"р"|"с"|"т"|"у"|"ф"|"x"|"ч"|"ц"|"ш"|"щ"|"ъ"|"ь"|"э"|"ю"|"я"|
-  "А"|"Б"|"В"|"Г"|"Д"|"Е"|"Ё"|"Ж"|"З"|"И"|"Й"|"К"|"Л"|"М"|"Н"|"О"|"П"
-  |"Р"|"С"|"Т"|"У"|"Ф"|"X"|"Ч"|"Ц"|"Ш"|"Щ"|"Ъ"|"Ь"|"Э"|"Ю"|"Я"
-)}
-text_symbol = _{(" "|"_"|"-"|"."|","|"/"|":"|";"|"("|")"|"["|"]"|"{"|"}"|"#"|"?"|"!"|"%")}
-quote = _{("\"" | "\'")}
-endl = _{(" " | "\n" | "\t")}
-delimiter=_{("<" |">")}
-open_delimiter=_{endl* ~delimiter ~space?}
-close_delimiter=_{space? ~delimiter ~endl*}
-space=_{" "}
-
-
-name_attr = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |"@" )+}
-value_attr = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |russ_symbol |endl |"=" )+}
-attr = {endl* ~name_attr ~"=" ~quote ~value_attr ~quote ~endl* }
-
-name_tag = {(
-"address" |"abbr" |"area" |"article" |"aside" |"audio" |"animate" |"a" 
-|"bdi" |"bdo" |"blockquote" |"body" |"br" |"button" |"b"
-|"caption" |"cite" |"code" |"col" |"colgroup" |"datalist"
-|"details" |"data" |"dd" |"del" |"dfn" |"dialog" 
-|"dir" |"div" |"dl" |"dt" |"embed" |"em" |"fieldset" 
-|"figcaption" |"figure" |"footer" |"form" |"frameset"  
-|"frame" |"h1" |"h2" |"h3" |"h4" |"h5" |"h6" |"header" 
-|"head" |"hr" |"img" |"iframe" |"input" 
-|"ins" |"i" |"kbd" |"keygen" |"label" |"legend" |"link" |"li" 
-|"main" |"map" |"mark" |"menu" |"menuitem" |"meta" |"meter" 
-|"nav" |"noscript" |"object" |"ol" |"optgroup" |"option" 
-|"output" |"p" |"param" |"picture" |"pre" |"progress" |"q" 
-|"rp" |"rt" |"ruby" |"samp" |"section" |"select" 
-|"small" |"source" |"span" |"strong" |"sub" |"summary" 
-|"sup" |"s" |"table" |"tbody" |"td" |"textarea" |"tfoot" 
-|"thead" |"th" |"time" |"title" |"track" |"tr" |"ul" 
-|"u" |"var" |"video" |"wbr"
-)}
-children = {( text |tag |onetag  )*}
-tag = {
-  endl* ~open_delimiter ~space? ~PUSH(name_tag) ~space? ~endl* ~(attr)* ~close_delimiter ~endl*
-  ~reactive?
-  ~children
-  ~endl* ~open_delimiter ~"/" ~POP ~close_delimiter ~endl*
-}
-onetag = {
-  endl* ~open_delimiter ~space? ~name_tag ~endl*
-  ~(attr)*
-  ~space? ~"/" ~space? ~close_delimiter ~endl*
-}
-reactive = {
-  open_delimiter ~"reactive" ~close_delimiter
-  ~javascript?
-  ~open_delimiter ~"/" ~space? ~"reactive" ~close_delimiter
-}
-is_global={space ~("global")}
-is_ones={space ~("ones")}
-script = {
-  open_delimiter ~"script" ~ (is_global| is_ones)* ~close_delimiter
-  ~javascript?
-  ~open_delimiter ~"/" ~space? ~"script" ~close_delimiter
+text       = { (ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | russ_symbol)+ }
+javascript = {
+    (ASCII_ALPHANUMERIC | NEWLINE | text_symbol | endl | quote | russ_symbol | "=" | "\\<" | "\\>" | "*" | "\\" | "@" | "$" | "&" | "^" | "+")+
 }
 
+russ_symbol     = _{
+    ("а" | "б" | "в" | "г" | "д" | "е" | "ё" | "ж" | "з" | "и" | "й" | "к" | "л" | "м" | "н" | "о" | "п" | "р" | "с" | "т" | "у" | "ф" | "х" | "ч" | "ц" | "ш" | "щ" | "ъ" |"Ы" |"ы" |"ь" | "э" | "ю" | "я" | "А" | "Б" | "В" | "Г" | "Д" | "Е" | "Ё" | "Ж" | "З" | "И" | "Й" | "К" | "Л" | "М" | "Н" | "О" | "П" | "Р" | "С" | "Т" | "У" | "Ф" | "X" | "Ч" | "Ц" | "Ш" | "Щ" | "Ъ" | "Ь" | "Э" | "Ю" | "Я")
+}
+text_symbol     = _{ (" " | "_" | "-" | "." | "," | "/" | ":" | ";" | "(" | ")" | "[" | "]" | "{" | "}" | "#" | "?" | "!" | "%") }
+quote           = _{ ("\"" | "\'") }
+endl            = _{ (" " | "\n" | "\t") }
+delimiter       = _{ ("<" | ">") }
+open_delimiter  = _{ endl* ~ delimiter ~ space? }
+close_delimiter = _{ space? ~ delimiter ~ endl* }
+space           = _{ " " }
 
-name_option = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |"@" )+}
-value_option = {( ASCII_ALPHANUMERIC |NEWLINE |text_symbol |russ_symbol |endl |"=" )+}
-option = {endl* ~name_attr ~"=" ~quote ~value_attr ~quote ~endl* }
-options= {option*}
+name_attr  = { (ASCII_ALPHANUMERIC | NEWLINE | text_symbol | "@")+ }
+value_attr = { (ASCII_ALPHANUMERIC | NEWLINE | text_symbol | russ_symbol | endl | "=")+ }
+attr       = { endl* ~ name_attr ~ "=" ~ quote ~ value_attr ~ quote ~ endl* }
+
+name_tag  = {
+    ("address" | "abbr" | "area" | "article" | "aside" | "audio" | "animate" | "a" | "bdi" | "bdo" | "blockquote" | "body" | "br" | "button" | "b" | "caption" | "cite" | "code" | "col" | "colgroup" | "datalist" | "details" | "data" | "dd" | "del" | "dfn" | "dialog" | "dir" | "div" | "dl" | "dt" | "embed" | "em" | "fieldset" | "figcaption" | "figure" | "footer" | "form" | "frameset" | "frame" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "header" | "head" | "hr" | "img" | "iframe" | "input" | "ins" | "i" | "kbd" | "keygen" | "label" | "legend" | "link" | "li" | "main" | "map" | "mark" | "menu" | "menuitem" | "meta" | "meter" | "nav" | "noscript" | "object" | "ol" | "optgroup" | "option" | "output"  | "param" | "picture" | "pre" | "progress" | "p" | "q" | "rp" | "rt" | "ruby" | "samp" | "section" | "select" | "small" | "source" | "span" | "strong" | "sub" | "summary" | "sup" | "s" | "table" | "tbody" | "td" | "textarea" | "tfoot" | "thead" | "th" | "time" | "title" | "track" | "tr" | "ul" | "u" | "var" | "video" | "wbr")
+}
+children  = { (text | tag | onetag |code)* }
+tag       = {
+    endl* ~ open_delimiter ~ space? ~ PUSH(name_tag) ~ space? ~ endl* ~ (attr)* ~ close_delimiter ~ endl* ~ reactive? ~ children ~ endl* ~ open_delimiter ~ "/" ~ POP ~ close_delimiter ~ endl*
+}
+onetag    = {
+    endl* ~ open_delimiter ~ space? ~ name_tag ~ endl* ~ (attr)* ~ space? ~ "/" ~ space? ~ close_delimiter ~ endl*
+}
+reactive  = {
+    open_delimiter ~ "reactive" ~ close_delimiter ~ javascript? ~ open_delimiter ~ "/" ~ space? ~ "reactive" ~ close_delimiter
+}
+code  = {
+    open_delimiter ~ "code" ~ close_delimiter ~ javascript? ~ open_delimiter ~ "/" ~ space? ~ "code" ~ close_delimiter
+}
+is_global = { space ~ ("global") }
+is_ones   = { space ~ ("ones") }
+script    = {
+    open_delimiter ~ "script" ~ (is_global | is_ones)* ~ close_delimiter ~ javascript? ~ open_delimiter ~ "/" ~ space? ~ "script" ~ close_delimiter
+}
+
+name_option  = { (ASCII_ALPHANUMERIC | NEWLINE | text_symbol | "@")+ }
+value_option = { (ASCII_ALPHANUMERIC | NEWLINE | text_symbol | russ_symbol | endl | "=")+ }
+option       = { endl* ~ name_attr ~ "=" ~ quote ~ value_attr ~ quote ~ endl* }
+options      = { option* }
 presentation = {
-  endl* ~open_delimiter ~"presentation" ~endl* ~options ~close_delimiter ~endl*
-  ~script?
-  ~(group |slide)*
-  ~open_delimiter ~"/" ~space? ~"presentation" ~close_delimiter ~endl*
+    endl* ~ open_delimiter ~ "presentation" ~ endl* ~ options ~ close_delimiter ~ endl* ~ script? ~ (group | slide)* ~ open_delimiter ~ "/" ~ space? ~ "presentation" ~ close_delimiter ~ endl*
 }
-group = {
-  open_delimiter ~"group" ~close_delimiter
-  ~slide*
-  ~open_delimiter ~"/" ~space? ~"group" ~close_delimiter
+group        = {
+    open_delimiter ~ "group" ~ close_delimiter ~ slide* ~ open_delimiter ~ "/" ~ space? ~ "group" ~ close_delimiter
 }
-slide = {
-  open_delimiter ~"slide" ~(attr)* ~close_delimiter
-  ~script*
-  ~children
-  ~open_delimiter ~"/" ~space? ~"slide" ~close_delimiter
+slide        = {
+    open_delimiter ~ "slide" ~ (attr)* ~ close_delimiter ~ script* ~ children ~ open_delimiter ~ "/" ~ space? ~ "slide" ~ close_delimiter
 }

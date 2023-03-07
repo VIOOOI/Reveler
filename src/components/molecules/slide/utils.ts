@@ -118,7 +118,7 @@ const getPrivatVariebles = (id: string) => {
 };
 
 export const findAttribute = (name: string, slide: RSlide): string => {
-	const result = slide.atributes.find(attr => {
+	const result = slide.attributes.find(attr => {
 		if ( attr.name == name ) return attr;
 	});
 

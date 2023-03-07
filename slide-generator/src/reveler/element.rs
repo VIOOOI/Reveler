@@ -1,100 +1,127 @@
-use super::Rule;
+use crate::utils::debug;
+
 use core::fmt::{self, Display};
-use std::fmt::{Error, Formatter};
-use pest::iterators::Pair;
+use std::{fmt::{Error, Formatter}, collections::HashMap};
 
 use serde::{Deserialize, Serialize};
-use super::attribute::Attrebute;
+use super::{attribute::Attrebute, slide::Slide};
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Element {
+use html_parser::{Element, Node};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Elem {
   name: String,
   is_one_tag: bool,
   pub(super) attribute: Vec<Attrebute>,
   children: Vec<ElementChildren>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum ElementChildren {
   Text(String),
-  Element(Element),
+  Element(Elem),
 }
 
 pub struct ElementChildrens (Vec<ElementChildren>);
 
-impl Element {
-  fn default() -> Element {
-    Element {
+impl Elem {
+  fn default() -> Elem {
+    Elem {
       name: String::default(),
       attribute: vec![],
       children: vec![],
       is_one_tag: false,
     }
   }
-  pub fn create(element: &Pair<Rule>) -> String {
-    let mut default = ElementChildrens(vec![]);
-    for tag in element.clone().into_inner() {
-			match tag.as_rule() {
-				Rule::tag => { default.0.push(ElementChildren::Element(Self::tag(&tag))); },
-				Rule::onetag => { default.0.push(ElementChildren::Element(Self::onetag(&tag))); },
-				Rule::text => { default.0.push(ElementChildren::Text(tag.as_str().to_string())); },
-				_ => {},
-			}
-    }
-		default.to_string()
+
+  pub(super) fn new(elem: Element, slide: &mut Slide) -> Elem {
+		Elem::default()
+			.set_name(elem.name)
+			.id(elem.id)
+			.classes(elem.classes)
+			.add_attrinbute(elem.attributes)
+			.children(slide, elem.children)
+			.render()
   }
 
-	fn tag(tag: &Pair<Rule>) -> Element {
-		// debug(&tag);
-		let mut element = Element::default();
-		for elem in tag.clone().into_inner() {
-			match elem.as_rule() {
-				Rule::name_tag => { element.name = elem.as_str().to_string(); },
-				Rule::attr => { element.attribute.push(Attrebute::attr(&elem))},
-				Rule::reactive => { element.attribute.push(Self::reactive(&elem)) },
-				Rule::children => { 
-					for ch in elem.into_inner() {
-						match ch.as_rule() {
-							Rule::tag => { element.children.push(ElementChildren::Element(Self::tag(&ch))); },
-							Rule::onetag => { element.children.push(ElementChildren::Element(Self::onetag(&ch))); },
-							Rule::text => { element.children.push(ElementChildren::Text(ch.as_str().to_string())); },
-							_ => {},
+	fn children(&mut self, slide: &mut Slide, children: Vec<Node>) -> &mut Self {
+		children.into_iter().for_each(|child| {
+			match child {
+				Node::Text(text) => self.children.push(ElementChildren::Text(text)),
+				Node::Element(e) => { 
+
+					// debug(&e.name);
+					match e.name.as_str() {
+						"reactive" => {
+							Attrebute::added(
+								self, "x-data".to_string(),
+								format!("{{ {} }}", &e.children.first().unwrap().text().unwrap())
+							);
+						},
+						// "script" => {
+						// 	debug(&e.name);
+						// 	// slide.script.push()
+						// },
+						_ => {
+							self.children.push(
+								ElementChildren::Element(Elem::new(e, slide))
+							) 
 						}
-					}
+					};
+
 				},
-				_ => {},
+				_ => (),
 			}
+		});
+		self
+	}
+
+	fn add_attrinbute(
+		&mut self, attributes: HashMap<String, Option<String>>
+	) -> &mut Self {
+		attributes.iter().for_each(|(name, value)| {
+			self.attribute.push(Attrebute{
+				name: name.to_string(),
+				value: value.clone().unwrap_or("".to_string()),
+			})
+		});
+
+		self
+	}
+	fn id(&mut self, id: Option<String>) -> &mut Self {
+		if let Some(id) = id {
+			self.attribute.push(Attrebute{
+				name: "id".to_string(),
+				value: id.clone(),
+			})
 		}
-		element
+		self
 	}
-
-	fn reactive(reactive: &Pair<Rule>) -> Attrebute {
-		let mut attr = Attrebute::default();
-		attr.name = "x-data".to_string();
-		for js in reactive.clone().into_inner() {
-			if let Rule::javascript = js.as_rule() {
-				attr.value = format!("{{ {} }}", js.as_span().as_str().to_string());
-			}
-		};
-		attr
-	}
-
-	fn onetag(tag: &Pair<Rule>) -> Element {
-		let mut element = Element::default();
-		element.is_one_tag = true;
-
-		for s in tag.clone().into_inner() {
-			match s.as_rule() {
-				Rule::name_tag => { element.name = s.as_str().to_string(); },
-				Rule::attr => { element.attribute.push(Attrebute::attr(&s))},
-				_ => {},
-			}
+	fn classes(&mut self, class: Vec<String>) -> &mut Self {
+		let mut cl = String::default();
+		if !class.is_empty() {
+			class.iter().for_each(|c| {
+				cl.push_str(c.as_str());
+				cl.push(' ');
+			});
+			// debug(&cl);
+			self.attribute.push(Attrebute{
+				name: "class".to_string(),
+				value: cl,
+			});
 		}
-		element
+		self
 	}
-
+	fn set_name(&mut self, name: String) -> &mut Self {
+		self.name = name;
+		self
+	}
+	fn render(&mut self) -> Self {
+		self.clone()
+	}
 }
-impl Display for Element {
+
+impl Display for Elem {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     let mut str_attr = String::default();
     self.attribute.iter().for_each(|attr| {

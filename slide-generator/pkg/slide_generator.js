@@ -175,6 +175,15 @@ function getInt32Memory0() {
     return cachedInt32Memory0;
 }
 /**
+* @param {string} color
+*/
+export function darken_color(color) {
+    const ptr0 = passStringToWasm0(color, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    wasm.darken_color(ptr0, len0);
+}
+
+/**
 * @param {string} text
 * @returns {any}
 */
@@ -183,15 +192,6 @@ export function presentation(text) {
     const len0 = WASM_VECTOR_LEN;
     const ret = wasm.presentation(ptr0, len0);
     return takeObject(ret);
-}
-
-/**
-* @param {string} color
-*/
-export function darken_color(color) {
-    const ptr0 = passStringToWasm0(color, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    const len0 = WASM_VECTOR_LEN;
-    wasm.darken_color(ptr0, len0);
 }
 
 function handleError(f, args) {
@@ -240,11 +240,15 @@ async function load(module, imports) {
 function getImports() {
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbg_log_ee9b4ecbe672975c = function(arg0, arg1) {
+        console.log(getStringFromWasm0(arg0, arg1));
+    };
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
     };
-    imports.wbg.__wbg_log_ee9b4ecbe672975c = function(arg0, arg1) {
-        console.log(getStringFromWasm0(arg0, arg1));
+    imports.wbg.__wbindgen_number_new = function(arg0) {
+        const ret = arg0;
+        return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
         const ret = getObject(arg0);
@@ -343,14 +347,6 @@ function getImports() {
         const ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
         return addHeapObject(ret);
     }, arguments) };
-    imports.wbg.__wbg_getTime_7c59072d1651a3cf = function(arg0) {
-        const ret = getObject(arg0).getTime();
-        return ret;
-    };
-    imports.wbg.__wbg_new0_25059e40b1c02766 = function() {
-        const ret = new Date();
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbg_buffer_cf65c07de34b9a08 = function(arg0) {
         const ret = getObject(arg0).buffer;
         return addHeapObject(ret);
