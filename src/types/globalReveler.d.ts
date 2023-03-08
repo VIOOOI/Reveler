@@ -33,5 +33,7 @@ export type GlobalReveler = {
 declare global {
 	interface Window {
 		Reveler: GlobalReveler,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		Prism: any,
 	}
 }

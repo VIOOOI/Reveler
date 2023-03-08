@@ -30,6 +30,13 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 		window.Reveler._service.addSlide(slide.slide.id);
 		startScript(slide, isRScript, setIsRScript);
 		addedAnimationClass(slideRef, isRAnim, setIsRAnim, [ "animate", "animate\\.on" ]);
+		const isCode = document.querySelector(`#slide-${slide.slide.id} code`);
+		console.log(isCode);
+		if (isCode) {
+			await import("../../../utils/prism/prism.js");
+			await import("../../../utils/prism/prism.css");
+			// window["Prism"].plugins.autoloader.languages_path = "../../../utils/prism/grammars/";
+		}
 	});
 
 	createEffect(() => { runScript(cRow, cSlide, slide, isRScript, setIsRScript); });
@@ -41,6 +48,7 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 		<div
 			class={`${findAttribute("class", slide.slide) || ""} relative box-border min-w-screen h-screen flex-center p-0`} 
 			ref={slideRef}
+			id={`slide-${slide.slide.id}`}
 			style={{
 				background: findAttribute("background", slide.slide) || options.background(),
 				color: findAttribute("text", slide.slide) || options.text(),
