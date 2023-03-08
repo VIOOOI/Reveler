@@ -25,6 +25,8 @@ export type GlobalReveler = {
 	info: SlideInfoFunction,
 	gsap: typeof gsap;
 
+	setting: AnyFunction,
+
 	_slides: Array<SlideShowInfo>,
 	_service: { [key: string]: AnyFunction },
 	

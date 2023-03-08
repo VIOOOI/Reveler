@@ -13,6 +13,7 @@
 		"paths": {
 			"@/*": [ "./src" ],
 			"@root/*": [ "./" ],
+			"@public/*": [ "./src/public/*" ],
 			"@atoms/*": [ "./src/components/atoms/*" ],
 			"@molecules/*": [ "./src/components/molecules/*" ],
 			"@organisms/*": [ "./src/components/organisms/*" ],
@@ -23,7 +24,7 @@
 			"@tests/*": [ "./src/tests/*" ],
 			"@utils/*": [ "./src/utils/*" ],
 			"@types/*": [ "./src/types/*" ],
-			"@public/*": [ "./src/public/*" ]
+			"@plugins/*": [ "./src/utils/plugins/*" ]
 		}
 	}
 }

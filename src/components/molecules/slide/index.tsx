@@ -30,13 +30,6 @@ export const Slide: VoidComponent<SlideProps> = (props) => {
 		window.Reveler._service.addSlide(slide.slide.id);
 		startScript(slide, isRScript, setIsRScript);
 		addedAnimationClass(slideRef, isRAnim, setIsRAnim, [ "animate", "animate\\.on" ]);
-		const isCode = document.querySelector(`#slide-${slide.slide.id} code`);
-		console.log(isCode);
-		if (isCode) {
-			await import("../../../utils/prism/prism.js");
-			await import("../../../utils/prism/prism.css");
-			// window["Prism"].plugins.autoloader.languages_path = "../../../utils/prism/grammars/";
-		}
 	});
 
 	createEffect(() => { runScript(cRow, cSlide, slide, isRScript, setIsRScript); });

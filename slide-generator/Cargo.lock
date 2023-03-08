@@ -475,6 +475,7 @@ dependencies = [
  "chrono",
  "getrandom",
  "html_parser",
+ "js-sys",
  "pest_derive",
  "rand",
  "regex",

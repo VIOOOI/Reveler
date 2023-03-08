@@ -48,6 +48,11 @@ impl Slider {
 				match elem.name.as_str() {
 					"slide" => Group::new_slide(self, elem),
 					"group" => Group::new_group(self, elem.children),
+					"settings" => { 
+						let sett = elem.children.first().unwrap().text().unwrap();
+						let rev_sett = format!("Reveler.setting({{ {} }})", sett);
+						js_sys::eval(rev_sett.as_str()).unwrap(); 
+					},
 					_ => (),
 				}
 			}

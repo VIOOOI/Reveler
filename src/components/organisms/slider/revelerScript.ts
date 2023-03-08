@@ -32,6 +32,14 @@ export const Reveler: GlobalReveler = {
 
 
 
+	setting: async ({ plugins }: {
+		plugins: Array<string>
+	}) => {
+		plugins.forEach(plugin => {
+			const pl = `../../../utils/plugins/${plugin}`;
+			import(pl);
+		});
+	},
 
 
 
