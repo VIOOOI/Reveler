@@ -1,4 +1,7 @@
 import { Event } from "effector";
+import { string } from "fp-ts";
+
+import { SettingFunction } from "./revelerSettings";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: any[]) => void;
@@ -25,7 +28,7 @@ export type GlobalReveler = {
 	info: SlideInfoFunction,
 	gsap: typeof gsap;
 
-	setting: AnyFunction,
+	setting: SettingFunction,
 
 	_slides: Array<SlideShowInfo>,
 	_service: { [key: string]: AnyFunction },
@@ -35,7 +38,5 @@ export type GlobalReveler = {
 declare global {
 	interface Window {
 		Reveler: GlobalReveler,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		Prism: any,
 	}
 }

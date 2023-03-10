@@ -24,7 +24,7 @@
 			"@tests/*": [ "./src/tests/*" ],
 			"@utils/*": [ "./src/utils/*" ],
 			"@types/*": [ "./src/types/*" ],
-			"@plugins/*": [ "./src/utils/plugins/*" ]
+			"@plugins/*": [ "./src/plugins/*" ]
 		}
 	}
 }

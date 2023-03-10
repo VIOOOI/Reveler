@@ -4,6 +4,8 @@ import { nextRow, prevRow, leftSlide, rightSlide, $currentSlide, $currentRowSlid
 
 import gsap from "gsap";
 
+import { newBackground, newControl, newText } from "./options";
+
 import type { GlobalReveler, SlideShowInfo } from "@types/globalReveler";
 
 export const Reveler: GlobalReveler = {
@@ -32,13 +34,14 @@ export const Reveler: GlobalReveler = {
 
 
 
-	setting: async ({ plugins }: {
-		plugins: Array<string>
-	}) => {
-		plugins.forEach(plugin => {
-			const pl = `../../../utils/plugins/${plugin}`;
-			import(pl);
-		});
+	setting: async (options) => {
+		console.log(options);
+		if (options.control) newControl(options.control);
+		if (options.view) {
+			if (options.view.bg) newBackground(options.view.bg);
+			if (options.view.text) newText(options.view.text);
+		}
+
 	},
 
 
