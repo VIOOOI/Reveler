@@ -20,6 +20,9 @@ export const prevRow = createEvent();
 export const leftSlide = createEvent();
 export const rightSlide = createEvent();
 
+export const setRow = createEvent<number>(); 
+export const setSlide = createEvent<number>();
+
 export const getWindowSize = createEvent();
 
 const $isOpen = createStore(false);
@@ -102,6 +105,7 @@ sample({
 	fn: source => source.current + 1,
 	target: $currentSlide,
 });
+
 
 /**
  * Переход на следующий слайд в группе если он не последний

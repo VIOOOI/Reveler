@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable effector/no-getState */
-import { nextRow, prevRow, leftSlide, rightSlide, $currentSlide, $currentRowSlide } from "@organisms/slider/store";
+import { nextRow, prevRow, leftSlide, rightSlide, $currentSlide, $currentRowSlide, setRow, setSlide } from "@organisms/slider/store";
 
 import gsap from "gsap";
 
@@ -31,6 +31,13 @@ export const Reveler: GlobalReveler = {
 	},
 	gsap: gsap,
 
+
+	slide: {
+		on: (id, event, fn) => {
+			document.querySelector(`Slide-${id}`)
+				.addEventListener(event, fn);
+		},
+	},
 
 
 

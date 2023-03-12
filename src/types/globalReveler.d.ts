@@ -28,6 +28,11 @@ export type GlobalReveler = {
 	info: SlideInfoFunction,
 	gsap: typeof gsap;
 
+	slide: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		on: (id: string, event: string, fn: (...args: any) => any ) => any,
+	},
+
 	setting: SettingFunction,
 
 	_slides: Array<SlideShowInfo>,
