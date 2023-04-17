@@ -11,6 +11,7 @@ import Ipad from "../../public/homePage/ipad-icon.svg?raw";
 import Vptx from "../../public/homePage/vptx-icon.svg?raw";
 
 import { openRevelerRoute } from "./openReveler";
+import { revelerViewerRoute } from "./revelerViewer";
 
 import { documentationRoute } from "./documentation";
 
@@ -120,13 +121,19 @@ export const App: Component = () => {
 
 			<InfoBlock 
 				color="white" 
-				class=" xl:icols-1-4 xl:irows-5-6 md:icols-1-4 md:irows-8-9 "
+				class=" xl:icols-1-4 xl:irows-5-6 md:icols-1-4 md:irows-8-9 justify-around"
 			> 
 				<Link
 					to={openRevelerRoute}
-					class="text-black no-underline"
+					class="text-black no-underline flex-center text-center"
 				>
-					<h1 class="font-[Roboto] fz-i2">Открыть презентацию</h1>
+					<h1 class="font-[Roboto] fz-i1.5">Открыть<br/>презентацию</h1>
+				</Link>
+				<Link
+					to={revelerViewerRoute}
+					class="text-black no-underline flex-center text-center"
+				>
+					<h1 class="font-[Roboto] fz-i1.5">Создать<br/>презентацию</h1>
 				</Link>
 			</InfoBlock>
 		</div>

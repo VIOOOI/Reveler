@@ -2,6 +2,8 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { hotkey } from "effector-hotkey";
 
+import replaceHtmlEntities from "@utils/replaceHtmlEntities";
+
 import init, { presentation } from "../../../../slide-generator/pkg/slide_generator";
 
 const defaultReveler: Reveler = {
@@ -13,6 +15,7 @@ const defaultReveler: Reveler = {
 
 // export const openReveler = createEvent<Reveler>();
 export const openReveler = createEvent<string>();
+export const updateReveler = createEvent<string>();
 export const clearReveler = createEvent();
 
 export const nextRow = createEvent();
@@ -46,7 +49,15 @@ $isOpen.reset(clearReveler);
 const getSliderFx = createEffect(async (text: string) => {
 	await init();
 	const genSlider = presentation(text);
-	console.log(genSlider);
+	// console.log(genSlider);
+	return genSlider;
+});
+
+export const updateSliderFx = createEffect(async (text: string) => {
+	// await init();
+	// console.log(replaceText);
+	const genSlider = presentation(text);
+	// console.log(genSlider);
 	return genSlider;
 });
 
@@ -79,6 +90,10 @@ sample({
 	clock: openReveler,
 	target: getSliderFx,
 });
+sample({
+	clock: updateReveler,
+	target: updateSliderFx,
+});
 
 sample({
 	clock: openReveler,
@@ -88,6 +103,10 @@ sample({
 
 sample({
 	clock: getSliderFx.doneData,
+	target: $reveler,
+});
+sample({
+	clock: updateSliderFx.doneData,
 	target: $reveler,
 });
 
