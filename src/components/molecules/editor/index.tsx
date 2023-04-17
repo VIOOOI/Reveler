@@ -7,6 +7,7 @@ import closeEditorIcon from "@public/closeEditor.svg?raw";
 import downloadIcon from "@public/download.svg?raw";
 import { useUnit } from "effector-solid";
 import saveTextToFile from "@utils/saveTextToFile";
+import debounce from "@utils/debounce";
 
 import { createEventListener } from "@solid-primitives/event-listener";
 
@@ -39,9 +40,12 @@ export const Editor: Component<Props> = ({ isOpen, setIsOpen }) => {
 				});
 				document.querySelector(".iblize-dark").style.background = "#171717";
 				window["editor"].setValue(revelerCode()); 
-				window["editor"].onUpdate((value) => {
-					setReveler(value);
-				});
+
+				const updateFunction = (message: string): void => {
+					setReveler(message);
+				};
+				const debounceUpdateFunction = debounce(updateFunction);
+				window["editor"].onUpdate(debounceUpdateFunction);
 			}
 		}
 	}) );
