@@ -1,3 +1,4 @@
+import insertTextAtCursor from "@utils/insertTextAtCursor";
 import { Accessor, Setter, onCleanup } from "solid-js";
 
 type Props = {
@@ -31,3 +32,45 @@ export const handleMouseDown = ({ event, editorWidth, setEditorWidth }: Props) =
 		document.removeEventListener("mouseup", handleMouseUp);
 	});
 };
+
+export const defaultCodeReveler = 
+`<presentation>
+
+  <slide>
+    <div class="wh-screen flex-center">
+      <h1>Hello world</h1>
+    </div>
+  </slide>
+
+</presentation>`;
+
+export const menuItems = [
+	{
+		label: "Вставить слайд",
+		onClick: () => {
+			insertTextAtCursor( "<slide>\n\n</slide>");
+		},
+	},
+	{
+		label: "Вставить пустую группу",
+		onClick: () => {
+			insertTextAtCursor( "<group>\n  \n</group>");
+		},
+	},
+	{
+		label: "Вставить группу",
+		onClick: () => {
+			insertTextAtCursor( 
+				"<group>\n  <slide>\n    \n  </slide>\n</group>",
+			);
+		},
+	},
+	{
+		label: "Вставить шаблон презентации",
+		onClick: () => {
+			insertTextAtCursor( 
+				"<presentation>\n  <slide>\n    <h1>Hello world</h1>\n  </slide>\n</presentation>",
+			);
+		},
+	},
+];
