@@ -1,9 +1,12 @@
+import { MenuItem } from "@atoms/menuItem";
 import { createEventListener } from "@solid-primitives/event-listener";
 import { Accessor, Component, createEffect, createSignal, For, onCleanup, Show } from "solid-js";
 
-type ContextMenuItem = {
+export type ContextMenuItem = {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
+	children?: ContextMenuItem[];
+	icon?: string;
 }
 
 type ContextMenuProps = {
@@ -34,10 +37,7 @@ export const ContextMenu: Component<ContextMenuProps> = ({ items, position, onCl
 				style={`top: ${position().y}px; left: ${position().x}px; z-index: 999;`}
 			>
 				<For each={items}>{item => 
-					<div
-						class="cursor-pointer text-white font-bold text-Roboto px-12 py-4 rounded-lg hover:bg-neutral-800"
-						onClick={() => handleClick(item)}
-					> { item.label } </div>
+					<MenuItem item={item} onClose={onClose} />
 				}</For>
 			</div>
 		</Show>

@@ -11,7 +11,8 @@ import debounce from "@utils/debounce";
 
 import { createEventListener } from "@solid-primitives/event-listener";
 
-import { defaultCodeReveler, handleMouseDown, menuItems } from "./function";
+import { defaultCodeReveler, handleMouseDown } from "./function";
+import menuItems from "./menu";
 
 type Props = {
 	isOpen: Accessor<boolean>,
@@ -67,6 +68,13 @@ export const Editor: Component<Props> = ({ isOpen, setIsOpen }) => {
 	createEffect(() => {
 		const handleContextMenu = (event: MouseEvent) => {
 			event.preventDefault();
+			const targetElement = event.target as HTMLElement; 
+
+			if (!targetElement.closest(".iblize")) {
+				setMenuVisible(false); 
+				return null;
+			}
+
 			setMenuPosition({ x: event.clientX, y: event.clientY });
 			setMenuVisible(true);
 		};
