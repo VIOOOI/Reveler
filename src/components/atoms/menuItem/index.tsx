@@ -1,7 +1,7 @@
 import { ContextMenuItem } from "@molecules/contextMenu";
 import { Component, createSignal, For, Show } from "solid-js";
 
-import menuItemIcon from "@public/menu/menuitem.svg?raw";
+import menuItemIcon from "../../../public/menu/menuItem.svg?raw";
 
 interface MenuItemProps {
   item: ContextMenuItem;
