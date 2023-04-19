@@ -11,7 +11,7 @@ import editorIcon from "@public/editor.svg?raw";
 import closeEditorIcon from "@public/closeEditor.svg?raw";
 import downloadIcon from "@public/download.svg?raw";
 import saveTextToFile from "@utils/saveTextToFile";
-import { Editor } from "@molecules/editor";
+import { Editor } from "@molecules/editor/editor";
 
 export const revelerViewerRoute = createRoute();
 
@@ -19,8 +19,6 @@ export const RevelerViewer: Component = () => {
 	const [ isEditor, setIsEditor ] = createSignal(false);
 	const revelerCode = useUnit($textReveler);
 	const setReveler = useUnit(setTextReveler);
-
-
 
 	return ( 
 		<>
