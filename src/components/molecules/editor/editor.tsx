@@ -6,7 +6,7 @@ import saveTextToFile from "@utils/saveTextToFile";
 import { useUnit } from "effector-solid";
 import { $textReveler } from "@atoms/dragZone/store";
 
-import menuItems from "./Editor.menu";
+import menuItems from "./Editor.menu.ts";
 import { useEditorInitialization } from "./useEditorInitialization";
 import { useEditorResize } from "./useEditorResize";
 import { useEditorContextMenu } from "./useEditorContextMenu";
