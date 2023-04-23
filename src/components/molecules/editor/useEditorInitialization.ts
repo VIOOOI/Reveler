@@ -10,6 +10,7 @@ import { defaultCodeReveler } from "./Editor.utils";
 export const useEditorInitialization = (
 	isOpen: () => boolean,
 	onClose: Setter<boolean>,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	editorRef: HTMLDivElement,
 ) => {
 	const revelerCode = useUnit($textReveler);

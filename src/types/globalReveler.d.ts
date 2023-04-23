@@ -1,5 +1,3 @@
-import { Event } from "effector";
-import { string } from "fp-ts";
 
 import { SettingFunction } from "./revelerSettings";
 

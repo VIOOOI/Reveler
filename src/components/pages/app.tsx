@@ -13,8 +13,6 @@ import Vptx from "../../public/homePage/vptx-icon.svg?raw";
 import { openRevelerRoute } from "./openReveler";
 import { revelerViewerRoute } from "./revelerViewer";
 
-import { documentationRoute } from "./documentation";
-
 
 export const appRoute = createRoute();
 

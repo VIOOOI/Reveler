@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore, sample } from "effector";
+import { createEvent, createStore, sample } from "effector";
 
 type addToStoreType = {
 	key: string,

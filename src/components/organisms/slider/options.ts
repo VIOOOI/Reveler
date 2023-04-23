@@ -1,7 +1,5 @@
 import { createEvent, createStore, sample } from "effector";
 
-import { $reveler } from "./store";
-
 export const newBackground = createEvent<string>();
 export const newText = createEvent<string>();
 export const newControl = createEvent<boolean>();

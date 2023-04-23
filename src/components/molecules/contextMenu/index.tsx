@@ -1,6 +1,6 @@
 import { MenuItem } from "@atoms/menuItem";
 import { createEventListener } from "@solid-primitives/event-listener";
-import { Accessor, Component, createEffect, createSignal, For, onCleanup, Show } from "solid-js";
+import { Accessor, Component, createEffect, For, Show } from "solid-js";
 
 export type ContextMenuItem = {
   label: string;
@@ -17,10 +17,6 @@ type ContextMenuProps = {
 }
 
 export const ContextMenu: Component<ContextMenuProps> = ({ items, position, onClose, visible }) => {
-	const handleClick = (item: ContextMenuItem) => {
-		item.onClick();
-		onClose();
-	};
 
 	createEffect(() => {
 		if (visible())

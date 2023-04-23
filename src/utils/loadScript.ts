@@ -1,4 +1,4 @@
-type ScriptLoadCallback = () => void;
+// type ScriptLoadCallback = () => void;
 
 type loadProps = {
 	url: string,

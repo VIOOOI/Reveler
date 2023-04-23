@@ -2,8 +2,6 @@
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { hotkey } from "effector-hotkey";
 
-import replaceHtmlEntities from "@utils/replaceHtmlEntities";
-
 import init, { presentation } from "../../../../slide-generator/pkg/slide_generator";
 
 const defaultReveler: Reveler = {

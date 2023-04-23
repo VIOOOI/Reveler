@@ -1,4 +1,4 @@
-import { $currentSlide, openReveler, updateSliderFx } from "@organisms/slider/store";
+import { $currentSlide, openReveler } from "@organisms/slider/store";
 import { revelerViewerRoute } from "@pages/revelerViewer";
 import replaceHtmlEntities from "@utils/replaceHtmlEntities";
 import { redirect } from "atomic-router";

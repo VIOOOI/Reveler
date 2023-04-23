@@ -1,5 +1,3 @@
-import { ContextMenuItem } from "@molecules/contextMenu";
-import insertTextAtCursor from "@utils/insertTextAtCursor";
 import { Accessor, Setter, onCleanup } from "solid-js";
 
 type Props = {

@@ -6,6 +6,7 @@ import { App, appRoute } from "@pages/app";
 import { NotFound } from "@pages/notFound";
 import { RevelerViewer, revelerViewerRoute } from "@pages/revelerViewer";
 import { OpenReveler, openRevelerRoute } from "@pages/openReveler";
+import { inject } from "@vercel/analytics";
 
 import { RevelerLayout } from "@templates/revelerLayout";
 
@@ -22,6 +23,7 @@ const RouterView = createRoutesView({
 	otherwise: NotFound,
 });
 
+inject();
 
 render(() => (
 	<RouterProvider router={router} >
