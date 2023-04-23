@@ -1,12 +1,13 @@
 import { Accessor, Component, Setter, Show, createSignal } from "solid-js";
-import { ContextMenu } from "@molecules/contextMenu";
+import { ContextMenu, ContextMenuItem } from "@molecules/contextMenu";
 import closeEditorIcon from "@public/closeEditor.svg?raw";
 import downloadIcon from "@public/download.svg?raw";
 import saveTextToFile from "@utils/saveTextToFile";
 import { useUnit } from "effector-solid";
 import { $textReveler } from "@atoms/dragZone/store";
 
-import menuItems from "./Editor.menu.ts";
+import insertTextAtCursor from "@utils/insertTextAtCursor";
+
 import { useEditorInitialization } from "./useEditorInitialization";
 import { useEditorResize } from "./useEditorResize";
 import { useEditorContextMenu } from "./useEditorContextMenu";
@@ -15,6 +16,36 @@ type Props = {
   isOpen: Accessor<boolean>;
   setIsOpen: Setter<boolean>;
 };
+const menuItems = [
+	{
+		label: "Вставить слайд",
+		onClick: () => {
+			insertTextAtCursor( "<slide>\n\n</slide>");
+		},
+	},
+	{
+		label: "Вставить пустую группу",
+		onClick: () => {
+			insertTextAtCursor( "<group>\n  \n</group>");
+		},
+	},
+	{
+		label: "Вставить группу",
+		onClick: () => {
+			insertTextAtCursor( 
+				"<group>\n  <slide>\n    \n  </slide>\n</group>",
+			);
+		},
+	},
+	{
+		label: "Вставить шаблон презентации",
+		onClick: () => {
+			insertTextAtCursor( 
+				"<presentation>\n  <slide>\n    <h1>Hello world</h1>\n  </slide>\n</presentation>",
+			);
+		},
+	},
+] as Array<ContextMenuItem>;
 
 export const Editor: Component<Props> = ({ isOpen, setIsOpen }) => {
 	const [ editorWidth, setEditorWidth ] = createSignal(
