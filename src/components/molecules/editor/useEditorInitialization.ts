@@ -5,7 +5,16 @@ import debounce from "@utils/debounce";
 
 import { createEventListener } from "@solid-primitives/event-listener";
 
-import { defaultCodeReveler } from "./Editor.utils";
+const defaultCodeReveler = 
+`<presentation>
+
+  <slide>
+    <div class="wh-screen flex-center">
+      <h1>Hello world</h1>
+    </div>
+  </slide>
+
+</presentation>`;
 
 export const useEditorInitialization = (
 	isOpen: () => boolean,

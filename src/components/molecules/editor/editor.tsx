@@ -16,7 +16,8 @@ type Props = {
   isOpen: Accessor<boolean>;
   setIsOpen: Setter<boolean>;
 };
-const menuItems = [
+
+export const menuItems = [
 	{
 		label: "Вставить слайд",
 		onClick: () => {

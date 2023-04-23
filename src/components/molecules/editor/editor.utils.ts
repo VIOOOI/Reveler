@@ -32,13 +32,3 @@ export const handleMouseDown = ({ event, editorWidth, setEditorWidth }: Props) =
 	});
 };
 
-export const defaultCodeReveler = 
-`<presentation>
-
-  <slide>
-    <div class="wh-screen flex-center">
-      <h1>Hello world</h1>
-    </div>
-  </slide>
-
-</presentation>`;
